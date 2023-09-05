@@ -37,6 +37,7 @@ const ShopLeft = () => {
   const countries = ["USA", "Canada", "Mexico", "Brazil", "Japan"];
 
   const [isopen, setisopen] = useState(true);
+  const [isTable2Visible, setIsTable2Visible] = useState(false); 
 
   const {
     setCs,
@@ -70,14 +71,13 @@ const ShopLeft = () => {
     setValue([0, 80]);
     setlowtemp(0);
     sethightemp(80);
-    setShouldClearCheckboxes(false); // Set the flag to uncheck checkboxes
-    setselectedmaterial([]); // Clear the selected materials
+    setShouldClearCheckboxes(false); 
+    setselectedmaterial([]); 
     setselectedbrand([]);
     setselectedhardness([]);
     setselectedcolor([]);
     setCheckboxStates(!checkboxStates);
 
-    // Additional code to reset other filter-related states if necessary
   };
 
   const handleCountryChange = (event) => {
@@ -187,7 +187,7 @@ const ShopLeft = () => {
               <AiFillCaretUp
                 style={{ marginLeft: "-1rem" }}
                 onClick={() => {
-                  setisopen(!isopen);
+                  setIsTable2Visible(!isTable2Visible); 
                 }}
               />
               <input
@@ -260,7 +260,7 @@ const ShopLeft = () => {
                 }}
               />
             </div>
-                        <Table2 />
+            {isTable2Visible && <Table2 />} 
 
           </>
         )}
