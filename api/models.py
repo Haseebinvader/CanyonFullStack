@@ -30,9 +30,9 @@ class Product(models.Model):
 
     Color = models.CharField(max_length=50, blank=True, null=True)
 
-    LowTemperature = models.CharField(max_length=50, blank=True, null=True)
+    LowTemperature = models.IntegerField( blank=True, null=True)
 
-    HighTemperature = models.CharField(max_length=50, blank=True, null=True)
+    HighTemperature = models.FloatField(blank=True, null=True)
 
     FDACompliant = models.CharField(max_length=50, blank=True, null=True)
 

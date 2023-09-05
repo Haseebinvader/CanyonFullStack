@@ -65,7 +65,7 @@ const ShopLeft = () => {
   } = useContext(UserContext);
 
   const clearAllFilters = () => {
-        setUrl(`http://127.0.0.1:8000/api/products/?limit=${page_size}`)
+        setUrl(`http://127.0.0.1:8000/api/products/?Online=Online&limit=${page_size}`)
 
     setValue([0, 80]);
     setlowtemp(0);
@@ -131,7 +131,7 @@ const ShopLeft = () => {
             type="text"
             placeholder="Search Here"
             className="searchinput"
-            onChange={(e) => setUrl( `http://127.0.0.1:8000/api/products/?limit=${page_size}&search=${e.target.value}`)}
+            onChange={(e) => setUrl( `http://127.0.0.1:8000/api/products/?Online=Online&limit=${page_size}&search=${e.target.value}`)}
           />
         </div>
       </div>
@@ -202,8 +202,15 @@ const ShopLeft = () => {
                 placeholder="Size"
                 min={0}
                 onChange={(e) => {
-                  setsize(e.target.value);
-                   setUrl(url + `&SizeStandard=${e.target.value}`);
+                  if(e.target.value!==''){
+
+                    setsize(e.target.value);
+                     setUrl(url + `&SizeStandard=${e.target.value}`);
+                  }
+                  else{
+                    let newUrl = url.replace(/(\?|&)SizeStandard=[^&]*/g, '');
+                    setUrl( newUrl)
+                  }
                 }}
               />
               <input
@@ -217,8 +224,18 @@ const ShopLeft = () => {
                 placeholder="CS"
                 min={0}
                 onChange={(e) => {
-                  setCs(e.target.value);
-                   setUrl(url + `&CrossSectionalDiameter=${e.target.value}`);
+                  if(e.target.value){
+
+                    setCs(e.target.value);
+                     setUrl(url + `&CrossSectionalDiameter=${e.target.value}`);
+                  }
+                  else{
+                  
+                    let newUrl = url.replace(/(\?|&)CrossSectionalDiameter=[^&]*/g, '');
+                    setUrl( newUrl)
+                  }
+                  
+                   
                 }}
               />
               <input
@@ -232,8 +249,14 @@ const ShopLeft = () => {
                 placeholder="ID"
                 min={0}
                 onChange={(e) => {
-                  setid(e.target.value);
+                  if(e.target.value!==''){
+                  //  setid(e.target.value)
                    setUrl(url + `&InsideDiameter=${e.target.value}`);
+                  }
+                  else{
+                    let newUrl = url.replace(/(\?|&)InsideDiameter=[^&]*/g, '');
+                    setUrl( newUrl)
+                  }
                 }}
               />
             </div>

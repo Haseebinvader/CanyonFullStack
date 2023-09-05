@@ -70,6 +70,7 @@ const Color = () => {
             onChange={handleCheckboxChange}
             onClick={(e)=>{
               if(e.target.checked){ 
+<<<<<<< HEAD
                 if(Arr.length===0){
                   setUrl(url+`&Color=${e.target.value}`)
                 Arr.push(e.target.value)
@@ -85,6 +86,14 @@ const Color = () => {
                   setUrl( `http://127.0.0.1:8000/api/products/?limit=${page_size}`)
                   Arr.pop(e.target.value)
                 }
+=======
+              setUrl(url+`&Color=${e.target.value}`)
+              }
+              else if(!e.target.checked){
+                let newUrl = url.replace(/(\?|&)Color=[^&]*/g, '');
+                setUrl( newUrl)
+              }
+>>>>>>> ea3aca761c34eb1b18121be23304d78adb720310
               // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
               //   setrow([])
               //   console.log(res.data);

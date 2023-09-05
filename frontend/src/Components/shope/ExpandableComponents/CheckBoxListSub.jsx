@@ -61,26 +61,16 @@ const CheckboxeListSub = () => {
             if(e.target.checked){ 
               if(Arr.length===0){
                 setUrl(url+`&MaterialSubtype=${e.target.value}`)
-              Arr.push(e.target.value)
-              }
-              else{
-                Arr.map((i)=>{
-                  return setUrl(url+','+`${i+1}`)
-                })
-              }
-              
-              }
-              else if(!e.target.checked){
-                setUrl( `http://127.0.0.1:8000/api/products/?limit=${page_size}`)
-                Arr.pop(e.target.value)
-              }
-            // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
-            //   setrow([])
-            //   console.log(res.data);
-            //   setrow(res.data)
-            // })
-          }}
-          />
+                }
+                else if(!e.target.checked){
+                  setUrl( `http://127.0.0.1:8000/api/products/?Online=Online&limit=${page_size}`)
+                }
+              // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
+              //   setrow([])
+              //   console.log(res.data);
+              //   setrow(res.data)
+              // })
+            }}} />
           <label>{item}</label>
         </div>
       ))}

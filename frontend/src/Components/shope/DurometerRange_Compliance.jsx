@@ -17,7 +17,8 @@ const DurometerRange_Compliance = () => {
       setUrl(url+`&DurometerRange=${event.target.value}`)
       }
       else if(!event.target.checked){
-        setUrl( `http://127.0.0.1:8000/api/products/?limit=${page_size}`)
+        let newUrl = url.replace(/(\?|&)DurometerRange=[^&]*/g, '');
+        setUrl( newUrl)
       }
     const itemId = event.target.value;
     const newCheckboxStates = { ...checkboxStates };

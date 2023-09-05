@@ -17,7 +17,8 @@ const Brand = () => {
       setUrl(url+`&Brand=${event.target.value}`)
       }
       else if(!event.target.checked){
-        setUrl( `http://127.0.0.1:8000/api/products/?limit=${page_size}`)
+        let newUrl = url.replace(/(\?|&)Brand=[^&]*/g, '');
+        setUrl( newUrl)
       }
     const itemId = event.target.value;
     const newCheckboxStates = { ...checkboxStates };
