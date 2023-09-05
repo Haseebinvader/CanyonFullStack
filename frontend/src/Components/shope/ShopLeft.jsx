@@ -66,7 +66,7 @@ const ShopLeft = () => {
   } = useContext(UserContext);
 
   const clearAllFilters = () => {
-        setUrl(`http://127.0.0.1:8000/api/products/?Online=Online&limit=${page_size}`)
+        setUrl(`http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}`)
 
     setValue([0, 80]);
     setlowtemp(0);
@@ -131,7 +131,7 @@ const ShopLeft = () => {
             type="text"
             placeholder="Search Here"
             className="searchinput"
-            onChange={(e) => setUrl( `http://127.0.0.1:8000/api/products/?Online=Online&limit=${page_size}&search=${e.target.value}`)}
+            onChange={(e) => setUrl( `http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}&search=${e.target.value}`)}
           />
         </div>
       </div>

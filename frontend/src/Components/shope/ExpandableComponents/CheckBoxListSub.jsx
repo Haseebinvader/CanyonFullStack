@@ -63,7 +63,7 @@ const CheckboxeListSub = () => {
                 setUrl(url+`&MaterialSubtype=${e.target.value}`)
                 }
                 else if(!e.target.checked){
-                  setUrl( `http://127.0.0.1:8000/api/products/?Online=Online&limit=${page_size}`)
+                  setUrl( `http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}`)
                 }
               // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
               //   setrow([])
