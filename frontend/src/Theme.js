@@ -9,7 +9,7 @@ const Theme = createTheme({
     MuiDataGrid: {
       styleOverrides: {
         root: {
-          border: "1px solid #182E49",
+          border: "1px solid #fff",
           borderRadius: "6px",
           overflow:"none",
           whiteSpace:'nowrap'

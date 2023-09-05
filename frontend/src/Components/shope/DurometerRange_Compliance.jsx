@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../UserContext";
+let Arr = [];
 
 const DurometerRange_Compliance = () => {
   const {
@@ -13,7 +14,7 @@ const DurometerRange_Compliance = () => {
 
   const handleCheckboxChange = (event) => {
     if(event.target.checked){ 
-      setUrl(url+`&DurometerRange=${e.target.value}`)
+      setUrl(url+`&DurometerRange=${event.target.value}`)
       }
       else if(!event.target.checked){
         setUrl( `http://127.0.0.1:8000/api/products/?limit=${page_size}`)
@@ -63,6 +64,29 @@ const DurometerRange_Compliance = () => {
             type="checkbox"
             value={item}
             onChange={handleCheckboxChange}
+            onClick={(e)=>{
+              if(e.target.checked){ 
+                if(Arr.length===0){
+                  setUrl(url+`&DurometerRange=${e.target.value}`)
+                Arr.push(e.target.value)
+                }
+                else{
+                  Arr.map((i)=>{
+                    return setUrl(url+','+`${i+1}`)
+                  })
+                }
+                
+                }
+                else if(!e.target.checked){
+                  setUrl( `http://127.0.0.1:8000/api/products/?limit=${page_size}`)
+                  Arr.pop(e.target.value)
+                }
+              // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
+              //   setrow([])
+              //   console.log(res.data);
+              //   setrow(res.data)
+              // })
+            }}
             checked={checkboxStates[item] || false}
           />
           <label>{item}</label>

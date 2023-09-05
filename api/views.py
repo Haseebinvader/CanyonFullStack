@@ -359,36 +359,127 @@ class DataFetchView(View):
         }
 
 class CustomFilterBackend(DjangoFilterBackend):
-    def filter_queryset(self, request, queryset, view):
-        # Get the filter parameters from the request
-        filterset = self.get_filterset(request, queryset, view)
-        
-        # Apply custom filtering logic for each field
-        for field_name, value in request.GET.items():
-            if field_name in filterset.filters:
-                # Split values by comma to allow multiple values
-                values = value.split(',')
-                
-                # Handle less than and greater than queries for temperature fields
-                if 'lt:' in values[0]:
-                    operator = '__lt'
-                    value = float(values[0][3:])
-                elif 'lte:' in values[0]:
-                    operator = '__lte'
-                    value = float(values[0][4:])
-                elif 'gt:' in values[0]:
-                    operator = '__gt'
-                    value = float(values[0][3:])
-                elif 'gte:' in values[0]:
-                    operator = '__gte'
-                    value = float(values[0][4:])
-                else:
-                    operator = ''
-                    value = values[0]
 
-                # Apply the filter to the queryset
-                queryset = queryset.filter(Q(**{f"{field_name}{operator}": value}))
-        
+    def filter_queryset(self, request, queryset, view):
+
+        # Get the filter parameters from the request
+
+        filterset = self.get_filterset(request, queryset, view)
+
+       
+
+        # Apply custom filtering logic for each field
+
+        for field_name, value in request.GET.items():
+
+            if field_name in filterset.filters:
+
+                # Split values by comma to allow multiple values
+
+                values = value.split(',')
+
+               
+
+                # Handle less than and greater than queries for temperature fields
+
+                if field_name == 'LowTemperature':
+
+                    if 'lt:' in values[0]:
+
+                        operator = '__lt'
+
+                        value = float(values[0][3:])
+
+                    elif 'lte:' in values[0]:
+
+                        operator = '__lte'
+
+                        value = float(values[0][4:])
+
+                    else:
+
+                        operator = ''
+
+                        value = float(values[0])
+
+                        
+
+ 
+
+                    # Apply the filter to the queryset
+
+                    queryset = queryset.filter(Q(**{f"{field_name}{operator}": value}))
+
+                if field_name == 'HighTemperature':
+
+                    if 'gt:' in values[0]:
+
+                        operator = '__gt'
+
+                        value = float(values[0][3:])
+
+                    elif 'gte:' in values[0]:
+
+                        operator = '__gte'
+
+                        value = float(values[0][4:])
+
+                    else:
+
+                        operator = ''
+
+                        value = float(values[0])
+
+ 
+
+                    # Apply the filter to the queryset
+
+                    queryset = queryset.filter(Q(**{f"{field_name}{operator}": value}))
+
+                else:
+
+                    # For other fields, apply the filter as before
+
+                    # Create a Q object to OR filter for multiple values
+
+                    q_objects = Q()
+
+                    for val in values:
+
+                        q_objects |= Q(**{field_name: val})
+
+                   
+
+                    # Apply the filter to the queryset
+
+                    queryset = queryset.filter(q_objects)
+
+ 
+
+        # Extract the search query parameter
+
+        search_query = request.GET.get('search', '')
+
+ 
+
+        if search_query:
+
+            # Create a Q object to search across all specified fields
+
+            q_objects = Q()
+
+            for field_name in view.filterset_fields:
+
+                q_objects |= Q(**{f"{field_name}__icontains": search_query})
+
+           
+
+            # Apply the search filter to the queryset
+
+            queryset = queryset.filter(q_objects)
+
+       
+
         return queryset
 
         

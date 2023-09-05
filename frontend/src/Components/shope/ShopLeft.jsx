@@ -12,6 +12,9 @@ import CartPopup from "../CartPage/CartPopup";
 import zIndex from "@mui/material/styles/zIndex";
 import CheckboxeListSub from "./ExpandableComponents/CheckBoxListSub";
 import { Button } from "@mui/material";
+import Table from './StandardTable'
+import Table2 from './SizeTable'
+
 
 const ShopLeft = () => {
   const [isCartopen, setisCartopen] = useState(null);
@@ -128,7 +131,7 @@ const ShopLeft = () => {
             type="text"
             placeholder="Search Here"
             className="searchinput"
-            onChange={(e) => setsearch(e.target.value)}
+            onChange={(e) => setUrl( `http://127.0.0.1:8000/api/products/?limit=${page_size}&search=${e.target.value}`)}
           />
         </div>
       </div>
@@ -234,6 +237,8 @@ const ShopLeft = () => {
                 }}
               />
             </div>
+                        <Table2 />
+
           </>
         )}
 

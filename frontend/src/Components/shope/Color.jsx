@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../UserContext";
+let Arr = [];
 
 const Color = () => {
   const {
@@ -68,13 +69,22 @@ const Color = () => {
             value={item}
             onChange={handleCheckboxChange}
             onClick={(e)=>{
-              console.log(e.target.value);
               if(e.target.checked){ 
-              setUrl(url+`&Color=${e.target.value}`)
-              }
-              else if(!e.target.checked){
-                setUrl( `http://127.0.0.1:8000/api/products/?limit=${page_size}`)
-              }
+                if(Arr.length===0){
+                  setUrl(url+`&Color=${e.target.value}`)
+                Arr.push(e.target.value)
+                }
+                else{
+                  Arr.map((i)=>{
+                    return setUrl(url+','+`${i+1}`)
+                  })
+                }
+                
+                }
+                else if(!e.target.checked){
+                  setUrl( `http://127.0.0.1:8000/api/products/?limit=${page_size}`)
+                  Arr.pop(e.target.value)
+                }
               // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
               //   setrow([])
               //   console.log(res.data);

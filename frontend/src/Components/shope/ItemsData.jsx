@@ -6,262 +6,15 @@ import { useEffect } from "react";
 import "./css/ItemsData.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { products } from "../../Data/API";
 
-//   {
-//     id: 1,
-//     SearchDescription: 1123,
-//     price: "$210",
-//     qnty: 20,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 2,
-//     SearchDescription: 1234,
-//     price: 0,
-//     qnty: 0,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 3,
-//     SearchDescription: 1434,
-//     price: "$240",
-//     qnty: 20,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 4,
-//     SearchDescription: 1654,
-//     price: "$500",
-//     qnty: 20,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 5,
-//     SearchDescription: 1543,
-//     price: "$100",
-//     qnty: 20,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 6,
-//     SearchDescription: 1457,
-//     price: "$300",
-//     qnty: 20,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 7,
-//     SearchDescription: 1753,
-//     price: "$200",
-//     qnty: 20,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 8,
-//     SearchDescription: 1876,
-//     price: 0,
-//     qnty: 0,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 9,
-//     SearchDescription: 1654,
-//     price: "$200",
-//     qnty: 20,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 10,
-//     SearchDescription: 1346,
-//     price: "$200",
-//     qnty: 20,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 11,
-//     SearchDescription: 1654,
-//     price: "$200",
-//     qnty: 20,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 12,
-//     SearchDescription: 1345,
-//     price: 0,
-//     qnty: 0,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 13,
-//     SearchDescription: 1441,
-//     price: "$200",
-//     qnty: 20,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-//   {
-//     id: 14,
-//     SearchDescription: 1654,
-//     price: "$200",
-//     qnty: 20,
-//     Material: "FFKM (Kalrez®, CanRez™, Perfluoroelastomer)",
-//     Color: "Red",
-//     Durometer: 75,
-//     DurometerScale: "Shore A",
-//     CrossSectionalGeometry: "O-Ring",
-//     SizeStandard: 34,
-//     CrossSectionalDiameter: 1.23,
-//     InsideDiameter: 2.12,
-//     Description: "Kalrez, KP4079, FFKM, Black, 75A",
-//     HighTemperature: 216,
-//     LowTemperature: 13,
-//   },
-// ];
-
-// rows.forEach((row) => {
-//   row.qnty = row.qnty === 0 ? "Check Stock" : "In Stock";
-//   row.qntyBgColorClass = row.qnty === "In Stock" ? "inStockBg" : "checkStockBg";
-// });
-
-// rows.forEach((row) => {
-//   row.price = row.price === 0 ? "Check Pricing" : row.price;
-// });
 
 export default function DataTable() {
   const navigate = useNavigate();
 
-  const { color, setColor, row, setrow } = useContext(UserContext);
+  const { color, setColor, row, setrow,  isChanged, isFlipped } = useContext(UserContext);
+
+
   const [id, setId] = useState("");
   const [ItemNo, setItemNo] = useState("");
   const [qnty, setQnty] = useState("");
@@ -314,7 +67,6 @@ export default function DataTable() {
     getData(url);
   }, [url]);
 
-  const { isChanged, isFlipped } = useContext(UserContext);
 
   const [columns, setColumns] = useState([
     {
@@ -332,7 +84,6 @@ export default function DataTable() {
       headerName: "Starting Price",
       maxWidth: 100,
       cellClassName: "borderRightCell",
-      resizable: true,
       renderCell: (params) => {
         const price = params.value;
         let cellText = "";
@@ -361,7 +112,6 @@ export default function DataTable() {
       id: "ItemNo",
       field: "qnty",
       headerName: "Stock",
-      resizable: true,
       cellClassName: "borderRightCell stock",
       width: 70,
       renderCell: (params) => {
@@ -400,7 +150,6 @@ export default function DataTable() {
       id: "ItemNo",
       field: "Material",
       headerName: "Material",
-      resizable: true,
       minWidth: 175,
       headerClassName: "headerleftColumn",
       cellClassName: "borderRightCell",
@@ -459,20 +208,35 @@ export default function DataTable() {
       id: "ItemNo",
       field: "SizeStandard",
       headerName: "Size",
-      flex: true,
+      width: 90,
       resizable: true, // Allow resizing for this column
-
       cellClassName: "borderRightCell",
+      valueGetter: (params) => {
+        const { row } = params;
+        // Check if row.SizeStandard is not null before splitting
+        if (row.SizeStandard) {
+          return row.SizeStandard.split(" ")[0].concat(row.SizeAS568);
+        } else {
+          return ""; // Or handle the case where SizeStandard is null as needed
+        }
+      },
     },
     {
       id: "ItemNo",
       field: "CrossSectionalDiameter",
-      headerName: isChanged ? "CS (in)" : "CS (mm)",
+      headerName: `${isChanged ? "CS (in)" : "CS (mm)"}`,
       flex: true,
-      resizable: true, // Allow resizing for this column
-
       cellClassName: "borderRightCell",
+      // valueGetter: (params) => {
+      //   const { row } = params;
+      //   if (isChanged) {
+      //     return (row.CrossSectionalDiameter / 25.4).toFixed(3);
+      //   } else {
+      //     return row.CrossSectionalDiameter;
+      //   }
+      // },
     },
+    
     {
       id: "ItemNo",
       field: "InsideDiameter",
@@ -509,7 +273,7 @@ export default function DataTable() {
       field: "LowTemperature",
       resizable: true, // Allow resizing for this column
       headerName: isFlipped ? "Low Tmp(°F)" : "Low Tmp(°C)",
-      flex: true,
+      width: 100,
       cellClassName: "borderRightCell",
     },
     {
@@ -517,7 +281,7 @@ export default function DataTable() {
       field: "HighTemperature",
       resizable: true, // Allow resizing for this column
       headerName: isFlipped ? "High Tmp(°F)" : "High Tmp(°C)",
-      flex: true,
+      width: 90,
       cellClassName: "borderRightCell",
     },
   ]);

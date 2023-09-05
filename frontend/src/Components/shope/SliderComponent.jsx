@@ -46,8 +46,8 @@ export default function RangeSlider() {
               display: "flex",
               justifyContent: "space-between",
               position: "relative",
-              top: "20px",
-              gap: "1rem",
+              top: "-5px",
+              gap: "1.2rem",
               left: 0,
             }}
           >
