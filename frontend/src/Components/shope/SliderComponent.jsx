@@ -1,59 +1,43 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import Typography from "@material-ui/core/Typography";
-import { useContext } from "react";
 import { UserContext } from "../../UserContext";
 import { useState } from "react";
 import { Button } from "@mui/material";
-
 
 function valuetext(value) {
   return `${value}°C`;
 }
 
 export default function RangeSlider() {
-  // const [value, setValue] = React.useState([0, 80]);
-  const { sethightemp,lowtemp,hightemp, setlowtemp, isFlipped, value, setValue, url, setUrl } = useContext(UserContext);
+  const { sethightemp, lowtemp, hightemp, setlowtemp, isFlipped, value, setValue, url, setUrl } = useContext(UserContext);
   const [clearfilter, setclearfilter] = useState([]);
-  
+
   const handleRangeChange = (event, newValue) => {
     console.log(event);
     setValue(newValue);
-  
-    // Check which value has changed
-      setlowtemp(newValue[0]);
-      sethightemp(newValue[1]);
-  
-      // Remove existing LowTemperature and HighTemperature parameters and their values from the URL
-      let newUrl = url.replace(/(\?|&)LowTemperature=[^&]*/g, '');
-      newUrl = newUrl.replace(/(\?|&)HighTemperature=[^&]*/g, '');
-  
-      // Add the new LowTemperature and HighTemperature parameters to the new URL
-      newUrl += `&LowTemperature=${newValue[0]}&HighTemperature=${newValue[1]}`;
-  
-      // Set the updated URL
-      setUrl(newUrl);
-    
-  };
-  
-  
-  // const handleRangeChange = (event, newValue) => {
-  //   console.log(event);
-  //   setValue(newValue);
-  //   setlowtemp(newValue[0]);
-  //   sethightemp(newValue[1]);
-  //   setUrl(url+`&LowTemperature=lte:${newValue[0]}`)
-  //   setUrl(url+`&HighTemperature=${newValue[1]}`)
-  // };
 
-  
-  
+    // Check which value has changed
+    setlowtemp(newValue[0]);
+    sethightemp(newValue[1]);
+
+    // Remove existing LowTemperature and HighTemperature parameters and their values from the URL
+    let newUrl = url.replace(/(\?|&)LowTemperature=[^&]*/g, '');
+    newUrl = newUrl.replace(/(\?|&)HighTemperature=[^&]*/g, '');
+
+    // Add the new LowTemperature and HighTemperature parameters to the new URL
+    newUrl += `&LowTemperature=${newValue[0]}&HighTemperature=${newValue[1]}`;
+
+    // Set the updated URL
+    setUrl(newUrl);
+  };
+
   return (
     <Box sx={{ width: 170, position: "relative" }}>
       <Slider
         getAriaLabel={() => "Temperature range"}
-        value={value}
+        value={value} // Use the value prop to set initial values
         onChange={handleRangeChange}
         valueLabelDisplay="auto"
         getAriaValueText={valuetext}

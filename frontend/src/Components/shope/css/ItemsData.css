@@ -49,9 +49,6 @@
     max-height: 3em; /* Maximum height for 2 lines of text */
     word-wrap: break-word; /* Ensure words wrap to the next line */
   }
-  
-  
-  
 
   .stock{
     background-color: #D3D3D3;
@@ -108,5 +105,7 @@
   border-right: 3px solid #767676;
 }
 
-
+.bold-text {
+  font-weight: 600;
+}
 

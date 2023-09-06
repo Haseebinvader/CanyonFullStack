@@ -1,4 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import Checkbox from "@mui/material/Checkbox";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import { UserContext } from "../../UserContext";
 let Arr = [];
 
@@ -9,8 +12,17 @@ const DurometerRange_Compliance = () => {
     shouldClearCheckboxes,
     checkboxStates,
     setCheckboxStates,
-    url,setUrl,page_size
+    url,setUrl,page_size,unchecked,
+    setunchecked,
   } = useContext(UserContext);
+
+  useEffect(() => {
+    
+    if (unchecked) {
+      Arr = [];
+    }
+  console.log("inchecked", unchecked, Arr)
+}, [unchecked]);
 
   const handleCheckboxChange = (event) => {
     if(event.target.checked){ 
@@ -59,40 +71,46 @@ const DurometerRange_Compliance = () => {
       fontSize: "12px",
       width: "70%",
     }}>
+      <FormGroup>
       {hardnessItems.map((item, index) => (
-        <div key={index} style={{ display: "flex",alignItems:"flex-start" }}>
-          <input
-            type="checkbox"
-            value={item}
-            onChange={handleCheckboxChange}
-            onClick={(e)=>{
-              if(e.target.checked){ 
-                if(Arr.length===0){
-                  setUrl(url+`&DurometerRange=${e.target.value}`)
-                Arr.push(e.target.value)
+        <FormControlLabel 
+          control={
+            <Checkbox 
+            style={{ fontSize: "10px", width: "16px", height: "16px" }}
+              checked={Arr.includes(item)}
+              onChange={(e) => {
+                console.log(item)
+                setunchecked(false);
+
+                if (e.target.checked) {
+                  if (Arr.length === 0) {
+                    setUrl(url + `&DurometerRange=${item}`);
+                    Arr.push(item);
+                  } else {
+                    Arr.map((i) => {
+                      return setUrl(url + "," + `${i + 1}`);
+                    });
+                  }
+                } else if (!e.target.checked) {
+                  let newUrl = url.replace(/(\?|&)DurometerRange=[^&]*/g, "");
+                  setUrl(newUrl);
+                  Arr.pop(item);
                 }
-                else{
-                  Arr.map((i)=>{
-                    return setUrl(url+','+`${i+1}`)
-                  })
-                }
-                
-                }
-                else if(!e.target.checked){
-                  setUrl( `http://127.0.0.1:8000/api/products/?limit=${page_size}`)
-                  Arr.pop(e.target.value)
-                }
-              // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
-              //   setrow([])
-              //   console.log(res.data);
-              //   setrow(res.data)
-              // })
-            }}
-            checked={checkboxStates[item] || false}
-          />
-          <label>{item}</label>
-        </div>
+                // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
+                //   setrow([])
+                //   console.log(res.data);
+                //   setrow(res.data)
+                // })
+              }}
+            />
+          }
+          label={
+            <span style={{ fontSize: "12px" }}>{/* Adjust the font size here */}
+              {item}
+            </span>
+          }          />
       ))}
+    </FormGroup>
     </div>
   );
 };

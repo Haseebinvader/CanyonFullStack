@@ -12,9 +12,8 @@ import CartPopup from "../CartPage/CartPopup";
 import zIndex from "@mui/material/styles/zIndex";
 import CheckboxeListSub from "./ExpandableComponents/CheckBoxListSub";
 import { Button } from "@mui/material";
-import Table from './StandardTable'
-import Table2 from './SizeTable'
-
+import Table from "./StandardTable";
+import Table2 from "./SizeTable";
 
 const ShopLeft = () => {
   const [isCartopen, setisCartopen] = useState(null);
@@ -37,11 +36,12 @@ const ShopLeft = () => {
   const countries = ["USA", "Canada", "Mexico", "Brazil", "Japan"];
 
   const [isopen, setisopen] = useState(true);
-  const [isTable2Visible, setIsTable2Visible] = useState(false); 
+  const [isTable2Visible, setIsTable2Visible] = useState(false);
 
   const {
+    unchecked, setunchecked,
     setCs,
-    setid,
+    setid1,
     setsearch,
     setsize,
     isChanged,
@@ -62,22 +62,26 @@ const ShopLeft = () => {
     setCheckboxStates,
     selectedCountry,
     setselectedCountry,
-     url,setUrl,page_size
+    url,
+    setUrl,
+    page_size,
   } = useContext(UserContext);
 
   const clearAllFilters = () => {
-        setUrl(`http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}`)
+    setUrl(
+      `http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}`
+    );
 
     setValue([0, 80]);
     setlowtemp(0);
     sethightemp(80);
-    setShouldClearCheckboxes(false); 
-    setselectedmaterial([]); 
+    setShouldClearCheckboxes(true);
+    setselectedmaterial([]);
     setselectedbrand([]);
     setselectedhardness([]);
     setselectedcolor([]);
-    setCheckboxStates(!checkboxStates);
-
+    setCheckboxStates(false);
+    setunchecked(true);
   };
 
   const handleCountryChange = (event) => {
@@ -131,7 +135,11 @@ const ShopLeft = () => {
             type="text"
             placeholder="Search Here"
             className="searchinput"
-            onChange={(e) => setUrl( `http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}&search=${e.target.value}`)}
+            onChange={(e) =>
+              setUrl(
+                `http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}&search=${e.target.value}`
+              )
+            }
           />
         </div>
       </div>
@@ -170,6 +178,7 @@ const ShopLeft = () => {
                   backgroundColor: "#fff",
                   borderRadius: "4px",
                   height: "2rem",
+                  width: "11.2rem",
                 }}
                 onChange={handleCountryChange}
               >
@@ -184,17 +193,17 @@ const ShopLeft = () => {
             </div>
 
             <div className="row">
-              <AiFillCaretUp
-                style={{ marginLeft: "-1rem" }}
+
+              <h2 style={{ marginLeft: "-1rem", cursor: 'pointer', fontSize: '15px' }}
                 onClick={() => {
-                  setIsTable2Visible(!isTable2Visible); 
-                }}
-              />
+                  setIsTable2Visible(!isTable2Visible);
+                }}> {isTable2Visible ? "▲" : "▼"}</h2>
+              
               <input
                 style={{
                   backgroundColor: "#fff",
                   borderRadius: "4px",
-                  width: "1.5rem",
+                  width: "2rem",
                   fontSize: "10px",
                 }}
                 type="text"
@@ -202,14 +211,13 @@ const ShopLeft = () => {
                 placeholder="Size"
                 min={0}
                 onChange={(e) => {
-                  if(e.target.value!==''){
-
+                  if (e.target.value !== "") {
                     setsize(e.target.value);
-                     setUrl(url + `&SizeStandard=${e.target.value}`);
-                  }
-                  else{
-                    let newUrl = url.replace(/(\?|&)SizeStandard=[^&]*/g, '');
-                    setUrl( newUrl)
+                    // let a = url.replace(/(\?|&)SizeAS568=[^&]*/g, "");
+                    // setUrl(a + `&SizeAS568=-${e.target.value}`);
+                  } else {
+                    // let newUrl = url.replace(/(\?|&)SizeAS568=[^&]*/g, "");
+                    // setUrl(newUrl);
                   }
                 }}
               />
@@ -217,51 +225,53 @@ const ShopLeft = () => {
                 style={{
                   backgroundColor: "#fff",
                   borderRadius: "4px",
-                  width: "1.5rem",
+                  width: "2rem",
                   fontSize: "10px",
                 }}
                 className="sizeinput"
                 placeholder="CS"
                 min={0}
                 onChange={(e) => {
-                  if(e.target.value){
-
+                  if (e.target.value) {
                     setCs(e.target.value);
-                     setUrl(url + `&CrossSectionalDiameter=${e.target.value}`);
+                    // let a = url.replace(
+                    //   // /(\?|&)CrossSectionalDiameter=[^&]*/g,
+                    //   ""
+                    // );
+                    // setUrl(a + `&CrossSectionalDiameter=${e.target.value}`);
+                  } else {
+                    // let newUrl = url.replace(
+                    //   // /(\?|&)CrossSectionalDiameter=[^&]*/g,
+                    //   ""
+                    // );
+                    // setUrl(newUrl);
                   }
-                  else{
-                  
-                    let newUrl = url.replace(/(\?|&)CrossSectionalDiameter=[^&]*/g, '');
-                    setUrl( newUrl)
-                  }
-                  
-                   
                 }}
               />
               <input
                 style={{
                   backgroundColor: "#fff",
                   borderRadius: "4px",
-                  width: "1.5rem",
+                  width: "2rem",
                   fontSize: "10px",
                 }}
                 className="sizeinput"
                 placeholder="ID"
                 min={0}
                 onChange={(e) => {
-                  if(e.target.value!==''){
-                  //  setid(e.target.value)
-                   setUrl(url + `&InsideDiameter=${e.target.value}`);
-                  }
-                  else{
-                    let newUrl = url.replace(/(\?|&)InsideDiameter=[^&]*/g, '');
-                    setUrl( newUrl)
+                  if (e.target.value !== "") {
+                    setid1(e.target.value);
+                    // let a = url.replace(/(\?|&)InsideDiameter=[^&]*/g, "");
+
+                    // setUrl(a + `&InsideDiameter=${e.target.value}`);
+                  } else {
+                    // let newUrl = url.replace(/(\?|&)InsideDiameter=[^&]*/g, "");
+                    // setUrl(newUrl);
                   }
                 }}
               />
             </div>
-            {isTable2Visible && <Table2 />} 
-
+            {isTable2Visible && <Table2 />}
           </>
         )}
 

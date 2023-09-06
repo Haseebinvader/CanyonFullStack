@@ -14,8 +14,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import previous from '../../Static/Icons/next.svg'
-import nextIcon from '../../Static/Icons/previous.svg'
+import previous from "../../Static/Icons/next.svg";
+import nextIcon from "../../Static/Icons/previous.svg";
 
 const ShopRight = () => {
   const [isOn, setIsOn] = useState(false);
@@ -23,43 +23,14 @@ const ShopRight = () => {
   const handleToggle = () => {
     setIsOn((prevIsOn) => !prevIsOn);
   };
-  const {
-    isdraweropen,
-    setisdraweropen,
-    filteredCount,
-    isFlipped,
-    setIsFlipped,
-    isChanged,
-    setIsChanged,
-    url,
-    setUrl,
-    paginationControl,
-    setPageSize,
-  } = useContext(UserContext);
-  const [search, setsearch] = useState(false);
-  const [unit, setunit] = useState();
-
-  const handledrawer = () => {
-    setisdraweropen(() => {
-      return isdraweropen(true);
-    });
-  };
-
-  const handleClick = () => {
-    setIsFlipped(!isFlipped);
-  };
-
-  const handleChange = () => {
-    setIsChanged(!isChanged);
-  };
+  const { filteredCount, url, setUrl, paginationControl, setPageSize } =
+    useContext(UserContext);
 
   const handleChangePageSize = (event) => {
     console.log(event.target.value);
     setPageSize(event.target.value);
     setUrl(url + `&limit=${event.target.value}`);
   };
-
-  const { setnumberofrecords } = useContext(UserContext);
 
   return (
     <>
@@ -84,6 +55,7 @@ const ShopRight = () => {
             style={{
               display: "flex",
               alignItems: "center",
+              gap: "1rem",
             }}
           >
             <div>
@@ -103,15 +75,23 @@ const ShopRight = () => {
           {/* <CustomPaginationActionsTable /> */}
           <ItemsData />
           <div className="footerTable">
-            <Box sx={{ minWidth: 120 }}>
+            <Box sx={{ minWidth: 120, height: "0.2rem", paddingTop: "1rem" }}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Page Size</InputLabel>
+                <InputLabel
+                  sx={{
+                    transform: "translateY(-80%)",
+                    paddingLeft: "0.9rem",
+                    fontSize: "12px",
+                  }}
+                >
+                  Page Size
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  // value={age}
                   label="Page Size"
                   onChange={handleChangePageSize}
+                  sx={{ height: "1.8rem" }}
                 >
                   <MenuItem value={25} defaultValue={25}>
                     25
@@ -121,13 +101,14 @@ const ShopRight = () => {
                 </Select>
               </FormControl>
             </Box>
+
             <div className="pagination">
               <button
                 onClick={(e) => {
                   setUrl(paginationControl.previous);
                 }}
               >
-                 <img src={nextIcon} alt="previous" />
+                <img src={nextIcon} alt="previous" />
               </button>
               <button
                 onClick={(e) => {

@@ -193,6 +193,7 @@ const Price = () => {
                 // }
               }
             }}
+
           >
             {row.qnty === 0 || islocalquantity > row.qnty
               ? "Request Quote"
