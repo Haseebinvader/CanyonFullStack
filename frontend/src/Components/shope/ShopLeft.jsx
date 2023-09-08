@@ -213,11 +213,7 @@ const ShopLeft = () => {
                 onChange={(e) => {
                   if (e.target.value !== "") {
                     setsize(e.target.value);
-                    // let a = url.replace(/(\?|&)SizeAS568=[^&]*/g, "");
-                    // setUrl(a + `&SizeAS568=-${e.target.value}`);
                   } else {
-                    // let newUrl = url.replace(/(\?|&)SizeAS568=[^&]*/g, "");
-                    // setUrl(newUrl);
                   }
                 }}
               />
@@ -232,19 +228,9 @@ const ShopLeft = () => {
                 placeholder="CS"
                 min={0}
                 onChange={(e) => {
-                  if (e.target.value) {
+                  if (e.target.value!=="") {
                     setCs(e.target.value);
-                    // let a = url.replace(
-                    //   // /(\?|&)CrossSectionalDiameter=[^&]*/g,
-                    //   ""
-                    // );
-                    // setUrl(a + `&CrossSectionalDiameter=${e.target.value}`);
                   } else {
-                    // let newUrl = url.replace(
-                    //   // /(\?|&)CrossSectionalDiameter=[^&]*/g,
-                    //   ""
-                    // );
-                    // setUrl(newUrl);
                   }
                 }}
               />
@@ -261,12 +247,7 @@ const ShopLeft = () => {
                 onChange={(e) => {
                   if (e.target.value !== "") {
                     setid1(e.target.value);
-                    // let a = url.replace(/(\?|&)InsideDiameter=[^&]*/g, "");
-
-                    // setUrl(a + `&InsideDiameter=${e.target.value}`);
                   } else {
-                    // let newUrl = url.replace(/(\?|&)InsideDiameter=[^&]*/g, "");
-                    // setUrl(newUrl);
                   }
                 }}
               />

@@ -14,7 +14,8 @@ export default function BasicTable() {
     item,
     selectedCountry,
     size,
-    setcs1,
+    setsize1,
+    setCs,
     setid1,
     cs,
     id,
@@ -23,18 +24,25 @@ export default function BasicTable() {
     row,
     setUrl,
     page_size,
+    url,
   } = useContext(UserContext);
   const [checkedItems, setCheckedItems] = useState({}); // Step 3
 
-  const handleCheckboxChange = (id, size1, cs1, id1) => {
+  const handleCheckboxChange = (id, size1, css1, idd1) => {
     if (!checkedItems[id]) {
       // Checkbox is being checked
-      setcs1(cs1);
-      setid1(id1);
+      setCs(css1);
+      setid1(idd1);
+      setsize1(size1);
     } else {
       // Checkbox is being unchecked
-      setcs1("");
+      setCs("");
       setid1("");
+      setsize1("");
+      let newUrl = url.replace(/(\?|&)SizeAS568=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)CrossSectionalDiameter=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)InsideDiameter=[^&]*/g, "");
+      setUrl(newUrl);
     }
     setCheckedItems((prevCheckedItems) => ({
       ...prevCheckedItems,
@@ -61,7 +69,7 @@ export default function BasicTable() {
         marginTop: "0.6rem",
         borderTop: "0.1px solid lightgrey",
         borderLeft: "0.1px solid lightgrey",
-        marginRight: '1rem'
+        marginRight: "1rem",
       }}
     >
       <TableContainer
@@ -77,17 +85,42 @@ export default function BasicTable() {
                     <TableCell sx={{ maxWidth: "2px", fontSize: "10px" }}>
                       <Checkbox
                         checked={checkedItems[index] || false}
-                        onChange={() =>
+                        onChange={(e) => {
                           handleCheckboxChange(
                             index,
                             value.SizeAS568 || value.SizeJIS,
-                            value.CrossSectionalDiameterCS,
-                            value.InsideDiameterID
-                          )
-                        }
+                            value.CrossSectionalDiameter,
+                            value.InsideDiameter
+                          );
+                          if (e.target.checked) {
+                            setUrl(
+                              url +
+                                `&SizeAS568=${
+                                  value.SizeAS568 || value.SizeJIS
+                                }&CrossSectionalDiameter=${
+                                  value.CrossSectionalDiameter
+                                }&InsideDiameter=${value.InsideDiameter}`
+                            );
+                          }
+                          if (!e.target.checked) {
+                            let newUrl = url.replace(
+                              /(\?|&)SizeAS568=[^&]*/g,
+                              ""
+                            );
+                            newUrl = newUrl.replace(
+                              /(\?|&)CrossSectionalDiameter=[^&]*/g,
+                              ""
+                            );
+                            newUrl = newUrl.replace(
+                              /(\?|&)InsideDiameter=[^&]*/g,
+                              ""
+                            );
+                            setUrl(newUrl);
+                          }
+                        }}
                       />
                     </TableCell>
-                    <TableCell sx={{ maxWidth: "2px",  }}>
+                    <TableCell sx={{ maxWidth: "2px" }}>
                       {value.SizeAS568.split(" ")[0].replace(/-/g, "")}
                     </TableCell>
                     <TableCell>{value.CrossSectionalDiameter}</TableCell>
@@ -100,7 +133,19 @@ export default function BasicTable() {
                     <TableCell sx={{ maxWidth: "2px", fontSize: "20px" }}>
                       <Checkbox
                         checked={checkedItems[index] || false}
-                        onChange={() => handleCheckboxChange(index)}
+                        onChange={() => {
+                          handleCheckboxChange(
+                            index,
+                            value.SizeAS568 || value.SizeJIS,
+                            value.CrossSectionalDiameter,
+                            value.InsideDiameter
+                          );
+
+                          setUrl(
+                            url +
+                              `&SizeAS568=${value.SizeAS568}&CrossSectionalDiameter=${value.CrossSectionalDiameter}&InsideDiameter=${value.InsideDiameter}`
+                          );
+                        }}
                       />
                     </TableCell>
                     <TableCell sx={{ maxWidth: "2px" }}>

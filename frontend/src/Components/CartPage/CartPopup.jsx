@@ -25,11 +25,10 @@ const CartPopup = () => {
     Orderable,
     TotalOrderPrice,
     setTotalOrderPrice,
+    islocalquantity,
+    setislocalquantity,
   } = useContext(UserContext);
   // // console.log(cartlocalArray);
-
-
-  
 
   const deleteproducts = (data) => {
     const updatedProducts = cartlocalArray?.filter(
@@ -40,25 +39,14 @@ const CartPopup = () => {
     setcartCountBtn((cartCountBtn) => cartCountBtn - 1);
   };
   const handleIncrement = (index) => {
-    const updatedProducts = [...cartlocalArray];
-    if (updatedProducts[index].quantity < updatedProducts[index].qnty) {
-      updatedProducts[index].quantity += 1;
-      updatedProducts[index].TotalPrice += updatedProducts[index].price;
-      // // console.log("helllllllo", updatedProducts[index]);
-
-      setlocalcartArray(updatedProducts);
-      localStorage.setItem("cart", JSON.stringify(updatedProducts));
-    } else {
-    }
+    // Increase the value of islocalquantity by 1
+    setislocalquantity(islocalquantity + 1);
   };
 
   const handleDecrement = (index) => {
-    const updatedProducts = [...cartlocalArray];
-    if (updatedProducts[index].quantity > 1) {
-      updatedProducts[index].quantity -= 1;
-      updatedProducts[index].TotalPrice -= updatedProducts[index].price;
-      setlocalcartArray(updatedProducts);
-      localStorage.setItem("cart", JSON.stringify(updatedProducts));
+    // Decrease the value of islocalquantity by 1, but ensure it doesn't go below a minimum value (e.g., 0)
+    if (islocalquantity > 0) {
+      setislocalquantity(islocalquantity - 1);
     }
   };
   //this is total price of all cart items
@@ -145,7 +133,7 @@ const CartPopup = () => {
                                 }}
                                 onClick={() => handleDecrement(index)}
                               />
-                              {row.quantity}
+                              {islocalquantity}
                               <span style={{ display: "inline-block" }}>
                                 <AiFillPlusCircle
                                   style={{
@@ -159,9 +147,51 @@ const CartPopup = () => {
                               </span>
                             </span>
                           </td>
-                          <td style={{ textAlign: "center" }}>{row.price}</td>
                           <td style={{ textAlign: "center" }}>
-                          {row.TotalPrice !== null ? row.TotalPrice.toFixed(2) : "N/A"}
+                            {islocalquantity >= 10 && islocalquantity < 30
+                              ? (row.price * 0.8641).toFixed(2)
+                              : islocalquantity >= 30 && islocalquantity < 100
+                              ? (row.price * 0.7406).toFixed(2)
+                              : islocalquantity >= 100 && islocalquantity < 500
+                              ? (row.price * 0.7037).toFixed(2)
+                              : islocalquantity >= 500 && islocalquantity < 1000
+                              ? (row.price * 0.6852).toFixed(2)
+                              : islocalquantity >= 1000 &&
+                                islocalquantity < 2500
+                              ? (row.price * 0.6665).toFixed(2)
+                              : islocalquantity > 2500
+                              ? (row.price * 0.6356).toFixed(2)
+                              : row.price}
+                          </td>
+                          <td style={{ textAlign: "center" }}>
+                            {islocalquantity >= 10 && islocalquantity < 30
+                              ? (row.price * 0.8641 * islocalquantity).toFixed(
+                                  2
+                                )
+                              : islocalquantity > 30 && islocalquantity < 100
+                              ? (row.price * 0.7406 * islocalquantity).toFixed(
+                                  2
+                                )
+                              : islocalquantity > 100 && islocalquantity < 500
+                              ? (row.price * 0.7037 * islocalquantity).toFixed(
+                                  2
+                                )
+                              : islocalquantity > 500 && islocalquantity < 1000
+                              ? (row.price * 0.6852 * islocalquantity).toFixed(
+                                  2
+                                )
+                              : islocalquantity > 1000 && islocalquantity < 2500
+                              ? (row.price * 0.6665 * islocalquantity).toFixed(
+                                  2
+                                )
+                              : islocalquantity > 2500
+                              ? (row.price * 0.6356 * islocalquantity).toFixed(
+                                  2
+                                )
+                              : (row.price  * islocalquantity).toFixed(
+                                  2
+                                )}
+                            {/* {row.TotalPrice !== null ? row.TotalPrice.toFixed(2) : "N/A"} */}
                           </td>
                           <td style={{ textAlign: "center" }}>
                             <AiFillDelete

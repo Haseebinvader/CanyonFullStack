@@ -14,36 +14,16 @@ const Brand = () => {
     shouldClearCheckboxes,
     checkboxStates,
     setCheckboxStates,
-    url,setUrl,page_size
+    url,
+    setUrl,
+    page_size,
   } = useContext(UserContext);
 
-   useEffect(() => {
-    
+  useEffect(() => {
     if (unchecked) {
       Arr = [];
     }
-  console.log("inchecked", unchecked, Arr)
-}, [unchecked]);
-
-  const handleCheckboxChange = (event) => {
-    if(event.target.checked){ 
-      setUrl(url+`&Brand=${event.target.value}`)
-      }
-      else if(!event.target.checked){
-        let newUrl = url.replace(/(\?|&)Brand=[^&]*/g, '');
-        setUrl( newUrl)
-      }
-    const itemId = event.target.value;
-    const newCheckboxStates = { ...checkboxStates };
-    newCheckboxStates[itemId] = event.target.checked;
-    setCheckboxStates(newCheckboxStates);
-
-    if (event.target.checked) {
-      setselectedbrand((prevItems) => [...prevItems, itemId]);
-    } else {
-      setselectedbrand((prevItems) => prevItems.filter((id) => id !== itemId));
-    }
-  };
+  }, [unchecked]);
 
   useEffect(() => {
     if (shouldClearCheckboxes) {
@@ -72,15 +52,15 @@ const Brand = () => {
         width: "70%",
       }}
     >
-   <FormGroup>
+      <FormGroup>
         {brandItems.map((item, index) => (
-          <FormControlLabel 
+          <FormControlLabel
             control={
-              <Checkbox 
-              style={{ fontSize: "30px", width: "20px", height: "16px" }}
+              <Checkbox
+                style={{ fontSize: "8px", width: "10px", height: "12px", marginLeft: "10px", paddingTop: '10px'  }}
                 checked={Arr.includes(item)}
                 onChange={(e) => {
-                  console.log(item)
+                  console.log(item);
                   setunchecked(false);
 
                   if (e.target.checked) {
@@ -88,6 +68,8 @@ const Brand = () => {
                       setUrl(url + `&Color=${item}`);
                       Arr.push(item);
                     } else {
+                      Arr.push(item);
+
                       Arr.map((i) => {
                         return setUrl(url + "," + `${i + 1}`);
                       });
@@ -97,19 +79,15 @@ const Brand = () => {
                     setUrl(newUrl);
                     Arr.pop(item);
                   }
-                  // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
-                  //   setrow([])
-                  //   console.log(res.data);
-                  //   setrow(res.data)
-                  // })
                 }}
               />
             }
             label={
-              <span style={{ fontSize: "12px" }}>{/* Adjust the font size here */}
+              <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
                 {item}
               </span>
-            }          />
+            }
+          />
         ))}
       </FormGroup>
     </div>

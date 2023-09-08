@@ -54,7 +54,7 @@ class DataFetchView(View):
 
         submaterial_list = []
 
-        url = "https://api.businesscentral.dynamics.com/v2.0/4e94f06f-db01-47eb-aff3-7a284b01dd84/SandboxNoExtentions/ODataV4/Company(%27My%20Company%27)/itemapi"
+        url = "https://api.businesscentral.dynamics.com/v2.0/4e94f06f-db01-47eb-aff3-7a284b01dd84/SandboxNoExtentions/ODataV4/Company('My%20Company')/itemapi?tenant=msft1a6720t84104913&aid=FIN&$skiptoken=59b250b8-d336-ee11-bdf5-000d3a5f89ca"
 
         while url:
 

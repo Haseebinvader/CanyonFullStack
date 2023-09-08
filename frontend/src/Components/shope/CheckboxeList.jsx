@@ -6,6 +6,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 let Arr = [];
 
 const CheckboxeList = () => {
+  console.log(Arr);
   const {
     selectedmaterial,
     setselectedmaterial,
@@ -22,7 +23,6 @@ const CheckboxeList = () => {
     if (unchecked) {
       Arr = [];
     }
-    console.log("inchecked", unchecked, Arr);
   }, [unchecked]);
 
   const checkboxItems = [
@@ -67,10 +67,16 @@ const CheckboxeList = () => {
           <FormControlLabel
             control={
               <Checkbox
-                style={{ fontSize: "10px", width: "20px", height: "16px", marginLeft: '10px' }}
+                style={{
+                  fontSize: "10px",
+                  width: "20px",
+                  height: "16px",
+                  marginLeft: "10px",
+                  paddingTop: '12px' 
+                }}
                 checked={Arr.includes(item)}
                 onChange={(e) => {
-                  console.log(item);
+                  console.log(e?.target);
                   setunchecked(false);
 
                   if (e.target.checked) {
@@ -78,6 +84,8 @@ const CheckboxeList = () => {
                       setUrl(url + `&Material=${item}`);
                       Arr.push(item);
                     } else {
+                      Arr.push(item);
+
                       Arr.map((i) => {
                         return setUrl(url + "," + `${i + 1}`);
                       });
@@ -85,18 +93,15 @@ const CheckboxeList = () => {
                   } else if (!e.target.checked) {
                     let newUrl = url.replace(/(\?|&)Material=[^&]*/g, "");
                     setUrl(newUrl);
-                    Arr.pop(item);
+                    const newarr = Arr.filter((itemdata) => itemdata !== item);
+                    Arr = newarr;
                   }
                 }}
               />
             }
             label={
-              <span
-                style={{
-                  fontSize: "13px",
-                  paddingLeft: "5px",
-                }}
-              >
+              <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
+
                 {item}
               </span>
             }

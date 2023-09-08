@@ -19,16 +19,7 @@ const CheckboxeListSub = () => {
     console.log("inchecked", unchecked, Arr)
   }, [unchecked]);
 
-  const handleCheckboxChange = (event) => {
-    const itemId = event.target.value;
-    if (event.target.checked) {
-      setselectedSubmaterial((prevItems) => [...prevItems, itemId]);
-    } else {
-      setselectedSubmaterial((prevItems) =>
-        prevItems.filter((id) => id !== itemId)
-      );
-    }
-  };
+
 
   const submaterialItems = [
     "FKM Type A (General Purpose Viton®)",
@@ -65,7 +56,7 @@ const CheckboxeListSub = () => {
           <FormControlLabel 
             control={
               <Checkbox 
-              style={{ fontSize: "10px", width: "16px", height: "16px" }}
+              style={{ fontSize: "10px", width: "16px", height: "16px", marginLeft: "10px", paddingTop: '10px' }}
                 checked={Arr.includes(item)}
                 onChange={(e) => {
                   console.log(item)
@@ -76,6 +67,7 @@ const CheckboxeListSub = () => {
                       setUrl(url + `&MaterialSubtype=${item}`);
                       Arr.push(item);
                     } else {
+                      Arr.push(item);
                       Arr.map((i) => {
                         return setUrl(url + "," + `${i + 1}`);
                       });
@@ -89,7 +81,7 @@ const CheckboxeListSub = () => {
               />
             }
             label={
-              <span style={{ fontSize: "13px" }}>{/* Adjust the font size here */}
+              <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
                 {item}
               </span>
             }          />

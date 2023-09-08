@@ -39,7 +39,6 @@ const Price = () => {
 
   const [isopen, setisopen] = useState(false);
 
-  const [isquantity, setisquantity] = useState(0);
 
   const [priceArrayRes, setpriceArrayRes] = useState();
 
@@ -65,12 +64,15 @@ const Price = () => {
     totalprice,
 
     settotalprice,
-
+    isquantity, setisquantity,
     qnty,
 
     accessToken,
-
+    selectedPriceInfo, setSelectedPriceInfo,
     setqnty,
+    islocalquantity, setislocalquantity,
+
+
   } = useContext(UserContext);
 
   useEffect(() => {
@@ -87,11 +89,9 @@ const Price = () => {
     };
   }, [row, productid]);
 
-  const [islocalquantity, setislocalquantity] = useState(row ? row.qnty : null);
 
   // console.log(row.ItemNo, "HELLSFKJDF");
 
-  const [selectedPriceInfo, setSelectedPriceInfo] = useState({});
 
   useEffect(() => {
     const totalPrice = qntyinput * row.price;
@@ -172,25 +172,6 @@ const Price = () => {
                 if (islocalquantity !== 0 && islocalquantity <= row.qnty) {
                   setisopen(!isopen);
                 }
-                // else {
-
-                //   // Check if quantity is more than 9 for discounted price
-
-                //   if (row.qnty > 9) {
-
-                //     // Calculate 5% discounted price
-
-                //     const originalPrice = row.originalPrice; // Replace this with the actual price property
-
-                //     const newpricediscount = originalPrice * 0.95; // 5% discount
-
-                //     // Display the discounted price
-
-                //     console.log("Discounted Price:", newpricediscount);
-
-                //   }
-
-                // }
               }
             }}
 

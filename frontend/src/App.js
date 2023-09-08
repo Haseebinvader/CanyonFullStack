@@ -22,6 +22,8 @@ function App() {
   const [url, setUrl] = useState(
     `http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}`
   );
+  const [selectedPriceInfo, setSelectedPriceInfo] = useState({});
+
   const [size1, setsize1] = useState();
   const [cs1, setcs1] = useState();
   const [id1, setid1] = useState();
@@ -116,8 +118,11 @@ function App() {
 
   const [dataLoaded, setDataLoaded] = useState(false);
   const [paginationControl, setPaginationControl] = useState();
-      const [unchecked, setunchecked] = useState()
+      const [unchecked, setunchecked] = useState(false)
 
+
+      const [islocalquantity, setislocalquantity] = useState(row ? row.qnty : null);
+  const [isquantity, setisquantity] = useState(0);
 
 
 
@@ -128,9 +133,9 @@ function App() {
   useEffect(() => {
     localStorage.setItem("login", JSON.stringify(login));
     axios.get(url).then((res) => {
-      setPaginationControl(res.data);
-      setrow(res.data.results);
-      // console.log(res.data, "first");
+      setrow(res?.data?.results);
+      setPaginationControl(res?.data);
+      console.log(res.data, "first");
     });
   }, [login, row, url, paginationControl, page_size]);
 
@@ -143,13 +148,15 @@ function App() {
             <Toaster position="top-center" reverseOrder={false} />
             <UserContext.Provider
               value={{
+                isquantity, setisquantity,
                 setunchecked,
+                unchecked,
                 color,
                 setColor,
                 selectedCountry,
                 setselectedCountry,
                 paginationControl,
-
+                islocalquantity, setislocalquantity,
                 id1,
                 setid1,
                 cs1,
@@ -162,7 +169,7 @@ function App() {
                 setCheckboxStates,
                 page_size,
                 setPageSize,
-
+                selectedPriceInfo, setSelectedPriceInfo,
                 value,
                 setValue,
                 setorderno,

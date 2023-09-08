@@ -7,12 +7,7 @@ import "./css/ItemsData.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { products } from "../../Data/API";
-const customStyles = `
-  .MuiDataGrid-columnHeaderFilters .MuiDataGrid-iconSeparator,
-  .MuiDataGrid-iconSeparator {
-    color: red; /* Change the color to your desired color */
-  }
-`;
+
 export default function DataTable() {
   const navigate = useNavigate();
 
@@ -264,7 +259,6 @@ export default function DataTable() {
   const getRowHeight = () => 35;
   return (
     <div style={{ height: "56.5rem" }}>
-      <style>{customStyles}</style>
       <DataGrid
         rows={row}
         columns={columns}

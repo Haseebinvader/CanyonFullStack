@@ -80,7 +80,7 @@ const Color = () => {
           <FormControlLabel 
             control={
               <Checkbox 
-              style={{ fontSize: "10px", width: "20px", height: "16px" }}
+              style={{ fontSize: "10px", width: "20px", height: "16px", marginLeft: "10px", paddingTop: '10px'  }}
                 checked={Arr.includes(item)}
                 onChange={(e) => {
                   console.log(item)
@@ -91,6 +91,7 @@ const Color = () => {
                       setUrl(url + `&Color=${item}`);
                       Arr.push(item);
                     } else {
+                      Arr.push(item);
                       Arr.map((i) => {
                         return setUrl(url + "," + `${i + 1}`);
                       });
@@ -109,7 +110,7 @@ const Color = () => {
               />
             }
             label={
-              <span style={{ fontSize: "12px" }}>{/* Adjust the font size here */}
+              <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
                 {item}
               </span>
             }          />

@@ -76,7 +76,7 @@ const DurometerRange_Compliance = () => {
         <FormControlLabel 
           control={
             <Checkbox 
-            style={{ fontSize: "10px", width: "16px", height: "16px" }}
+            style={{ fontSize: "10px", width: "16px", height: "16px", marginLeft: "10px", paddingTop: '10px'  }}
               checked={Arr.includes(item)}
               onChange={(e) => {
                 console.log(item)
@@ -87,6 +87,7 @@ const DurometerRange_Compliance = () => {
                     setUrl(url + `&DurometerRange=${item}`);
                     Arr.push(item);
                   } else {
+                    Arr.push(item);
                     Arr.map((i) => {
                       return setUrl(url + "," + `${i + 1}`);
                     });
@@ -96,17 +97,12 @@ const DurometerRange_Compliance = () => {
                   setUrl(newUrl);
                   Arr.pop(item);
                 }
-                // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
-                //   setrow([])
-                //   console.log(res.data);
-                //   setrow(res.data)
-                // })
               }}
             />
           }
           label={
-            <span style={{ fontSize: "12px" }}>{/* Adjust the font size here */}
-              {item}
+            <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
+            {item}
             </span>
           }          />
       ))}
