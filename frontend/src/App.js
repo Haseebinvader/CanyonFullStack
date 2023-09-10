@@ -36,6 +36,7 @@ function App() {
     useState(false);
   const [size, setsize] = useState(0);
   const [cs, setCs] = useState(0);
+  const [id, setId] = useState(0);
   const [search, setsearch] = useState("");
   const [selectedhardness, setselectedhardness] = useState([]);
   // API DATA BELOW
@@ -180,7 +181,7 @@ function App() {
                 setUrl,
                 submaterialArray,
                 setsubmaterialArray,
-
+                id, setId,
                 TotalOrderPrice,
                 setTotalOrderPrice,
 

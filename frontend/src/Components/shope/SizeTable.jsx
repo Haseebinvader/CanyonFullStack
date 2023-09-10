@@ -7,11 +7,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { UserContext } from "../../UserContext";
-import Checkbox from "@mui/material/Checkbox"; // Step 1
+import Checkbox from "@mui/material/Checkbox";
 
 export default function BasicTable() {
   const {
-    item,
     selectedCountry,
     size,
     setsize1,
@@ -19,44 +18,49 @@ export default function BasicTable() {
     setid1,
     cs,
     id,
-    cs1,
-    id1,
     row,
     setUrl,
-    page_size,
     url,
   } = useContext(UserContext);
-  const [checkedItems, setCheckedItems] = useState({}); // Step 3
 
-  const handleCheckboxChange = (id, size1, css1, idd1) => {
-    if (!checkedItems[id]) {
+  const [checkedItems, setCheckedItems] = useState({});
+
+  const handleCheckboxChange = (index, size1, css1, idd1) => {
+    setsize1(size1);
+    setCs(css1);
+    setid1(idd1);
+
+    // Check if the checkbox is checked
+    if (!checkedItems[index]) {
       // Checkbox is being checked
-      setCs(css1);
-      setid1(idd1);
-      setsize1(size1);
+      setCheckedItems((prevCheckedItems) => ({
+        ...prevCheckedItems,
+        [index]: true,
+      }));
+
+      // Add the selected item to the URL
+      setUrl(
+        url +
+          `&SizeAS568=${size1}&CrossSectionalDiameter=${css1}&InsideDiameter=${idd1}`
+      );
     } else {
       // Checkbox is being unchecked
-      setCs("");
-      setid1("");
-      setsize1("");
+      setCheckedItems((prevCheckedItems) => {
+        delete prevCheckedItems[index];
+        return { ...prevCheckedItems };
+      });
+
+      // Remove the selected item from the URL
       let newUrl = url.replace(/(\?|&)SizeAS568=[^&]*/g, "");
       newUrl = newUrl.replace(/(\?|&)CrossSectionalDiameter=[^&]*/g, "");
       newUrl = newUrl.replace(/(\?|&)InsideDiameter=[^&]*/g, "");
       setUrl(newUrl);
     }
-    setCheckedItems((prevCheckedItems) => ({
-      ...prevCheckedItems,
-      [id]: !prevCheckedItems[id], // Toggle the checkbox state
-    }));
   };
 
   const filteredItems = row.filter((data) => {
-    const sizeStandard = selectedCountry === "Japan" ? "js" : "as"; // Default to "as" for other countries
+    const sizeStandard = selectedCountry === "Japan" ? "js" : "as";
     return data.SizeStandard?.toLowerCase()?.includes(sizeStandard) ?? false;
-  });
-
-  const filteredSize = filteredItems.filter((data) => {
-    return data.SizeAS568.split(" ")[0].replace(/-/g, "").includes(size);
   });
 
   return (
@@ -79,83 +83,33 @@ export default function BasicTable() {
       >
         <Table>
           <TableBody>
-            {filteredSize
-              ? filteredSize.map((value, index) => (
-                  <TableRow key={index}>
-                    <TableCell sx={{ maxWidth: "2px", fontSize: "10px" }}>
-                      <Checkbox
-                        checked={checkedItems[index] || false}
-                        onChange={(e) => {
-                          handleCheckboxChange(
-                            index,
-                            value.SizeAS568 || value.SizeJIS,
-                            value.CrossSectionalDiameter,
-                            value.InsideDiameter
-                          );
-                          if (e.target.checked) {
-                            setUrl(
-                              url +
-                                `&SizeAS568=${
-                                  value.SizeAS568 || value.SizeJIS
-                                }&CrossSectionalDiameter=${
-                                  value.CrossSectionalDiameter
-                                }&InsideDiameter=${value.InsideDiameter}`
-                            );
-                          }
-                          if (!e.target.checked) {
-                            let newUrl = url.replace(
-                              /(\?|&)SizeAS568=[^&]*/g,
-                              ""
-                            );
-                            newUrl = newUrl.replace(
-                              /(\?|&)CrossSectionalDiameter=[^&]*/g,
-                              ""
-                            );
-                            newUrl = newUrl.replace(
-                              /(\?|&)InsideDiameter=[^&]*/g,
-                              ""
-                            );
-                            setUrl(newUrl);
-                          }
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: "2px" }}>
-                      {value.SizeAS568.split(" ")[0].replace(/-/g, "")}
-                    </TableCell>
-                    <TableCell>{value.CrossSectionalDiameter}</TableCell>
-                    <TableCell>{value.InsideDiameter}</TableCell>
-                  </TableRow>
-                ))
-              : filteredItems &&
-                filteredItems.map((value, index) => (
-                  <TableRow key={index}>
-                    <TableCell sx={{ maxWidth: "2px", fontSize: "20px" }}>
-                      <Checkbox
-                        checked={checkedItems[index] || false}
-                        onChange={() => {
-                          handleCheckboxChange(
-                            index,
-                            value.SizeAS568 || value.SizeJIS,
-                            value.CrossSectionalDiameter,
-                            value.InsideDiameter
-                          );
+            {filteredItems.length > 0 &&
+              filteredItems.map((value, index) => (
+                <TableRow key={index}>
+                  <TableCell sx={{ maxWidth: "2px", fontSize: "20px" }}>
+                    <Checkbox
+                      checked={checkedItems[index] || false}
+                      onChange={(e) => {
+                        handleCheckboxChange(
+                          index,
+                          value.SizeAS568,
+                          value.CrossSectionalDiameter,
+                          value.InsideDiameter
+                        );
 
-                          setUrl(
-                            url +
-                              `&SizeAS568=${value.SizeAS568}&CrossSectionalDiameter=${value.CrossSectionalDiameter}&InsideDiameter=${value.InsideDiameter}`
-                          );
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: "2px" }}>
-                      {value.SizeAS568.split(" ")[0].replace(/-/g, "") ||
-                        value.SizeJIS.split(" ")[0].replace(/-/g, "")}
-                    </TableCell>
-                    <TableCell>{value.CrossSectionalDiameterCS}</TableCell>
-                    <TableCell>{value.InsideDiameterID}</TableCell>
-                  </TableRow>
-                ))}
+                        if (e.target.checked) {
+                          setUrl(url + `&Color=${value}`);
+                        }
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: "2px" }}>
+                    {value.SizeAS568.split(" ")[0].replace(/-/g, "")}
+                  </TableCell>
+                  <TableCell>{value.CrossSectionalDiameter}</TableCell>
+                  <TableCell>{value.InsideDiameter}</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

@@ -41,11 +41,7 @@ const ShopLeft = () => {
   const {
     unchecked, setunchecked,
     setCs,
-    setid1,
-    setsearch,
     setsize,
-    isChanged,
-    selectedmaterial,
     isFlipped,
     setValue,
     setlowtemp,
@@ -65,6 +61,7 @@ const ShopLeft = () => {
     url,
     setUrl,
     page_size,
+    id, setId,
   } = useContext(UserContext);
 
   const clearAllFilters = () => {
@@ -246,7 +243,7 @@ const ShopLeft = () => {
                 min={0}
                 onChange={(e) => {
                   if (e.target.value !== "") {
-                    setid1(e.target.value);
+                    setId(e.target.value);
                   } else {
                   }
                 }}
