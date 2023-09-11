@@ -3,7 +3,6 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useContext, useState } from "react";
 import { UserContext } from "../../UserContext";
-import { color } from "framer-motion";
 
 export default function TemperatureToogle() {
   const [alignment, setAlignment] = useState("c");

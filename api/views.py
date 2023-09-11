@@ -13,6 +13,8 @@ from .models import Product
 from django.db.models import Count
 
 from django.db.models import Q
+from django.db.models import FloatField
+from django.db.models.functions import Cast
 
 
 class DataFetchView(View):
@@ -52,7 +54,7 @@ class DataFetchView(View):
 
         submaterial_list = []
 
-        url = "https://api.businesscentral.dynamics.com/v2.0/4e94f06f-db01-47eb-aff3-7a284b01dd84/SandboxNoExtentions/ODataV4/Company(%27My%20Company%27)/itemapi"
+        url = "https://api.businesscentral.dynamics.com/v2.0/4e94f06f-db01-47eb-aff3-7a284b01dd84/SandboxNoExtentions/ODataV4/Company('My%20Company')/itemapi?tenant=msft1a6720t84104913&aid=FIN&$skiptoken=59b250b8-d336-ee11-bdf5-000d3a5f89ca"
 
         while url:
 
@@ -355,15 +357,165 @@ class DataFetchView(View):
             "Authorization": f"Bearer {access_token}"
 
         }
+class CustomFilterBackend(DjangoFilterBackend):
+
+    def filter_queryset(self, request, queryset, view):
+
+        # Get the filter parameters from the request
+
+        filterset = self.get_filterset(request, queryset, view)
+
+        print(request.query_params.get('HighTemperature', None))
+
+       
+
+        # Apply custom filtering logic for each field
+
+        for field_name, value in request.GET.items():
+
+            if field_name=='HighTemperature'or field_name=='LowTemperature':
+
+                low_temp = request.query_params.get('LowTemperature', None)
+
+                high_temp = request.query_params.get('HighTemperature', None)
+
+ 
+
+                queryset = Product.objects.filter(
+
+                    Q(LowTemperature__lte=low_temp) &
+
+                    Q(HighTemperature__gte=high_temp)
+
+                )
+
+            elif field_name in filterset.filters:
+
+                # Split values by comma to allow multiple values
+
+                values = value.split(',')
+
+               
+
+                # Handle less than and greater than queries for temperature fields
+
+                if 'lt:' in values[0]:
+
+                    operator = '__lt'
+
+                    value = (values[0][3:])
+
+                elif 'lte:' in values[0]:
+
+                    operator = '__lte'
+
+                    value = (values[0][4:])
+
+                elif 'gt:' in values[0]:
+
+                    operator = '__gt'
+
+                    value = values[0][3:]
+
+                elif 'gte:' in values[0]:
+
+                    operator = '__gte'
+
+                    value = values[0][4:]
+
+                else:
+
+                    operator = ''
+
+                    value = values[0]
+
+ 
+
+                # Apply the filter to the queryset
+
+                queryset = queryset.filter(Q(**{f"{field_name}{operator}": value}))
+
+            if field_name=='search' :
+
+                search_query = request.GET.get('search', '')
+
+                if search_query:
+
+ 
+
+                    q_objects = Q()
+
+ 
+
+                    for field_name in view.filterset_fields:
+
+ 
+
+       
+
+ 
+
+                        q_objects |= Q(**{f"{field_name}__icontains": search_query})
+
+ 
+
+       
+
+ 
+
+               
+
+ 
+
+       
+
+ 
+
+                    # Apply the search filter to the queryset
+
+ 
+
+       
+
+ 
+
+                    queryset = queryset.filter(q_objects)
+
+ 
+
+   
+
+       
+
+        return queryset
+
+   
+
+ 
+
+
+
+    
+
+        
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = LimitOffsetPagination
-    default_limit = 10  # Default number of items per page
-    max_limit = 100  # Maximum number of items per page
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['id', 'ItemNo', 'qnty', 'price', 'Description', 'Description2', 'SearchDescription', 'Blocked',
-                        'CompoundNumber', 'Material', 'Durometer', 'DurometerScale', 'DurometerRange', 'Color',
-                        'LowTemperature', 'FDACompliant', 'MaterialSubtype', 'Brand', 'MaterialNotes',
-                        'CrossSectionalGeometry', 'CrossSectionalDiameter', 'InsideDiameter', 'SizeAS568', 'SizeMetric',
-                        'SizeJIS', 'SizeStandard', 'Online']
+    default_limit = 10
+    max_limit = 100
+    filter_backends = [CustomFilterBackend]  # Use the custom filtering backend
+    filterset_fields = [
+        'id', 'ItemNo', 'qnty', 'price', 'Description', 'Description2', 'SearchDescription', 'Blocked',
+        'CompoundNumber', 'Material', 'Durometer', 'DurometerScale', 'DurometerRange', 'Color',
+        'LowTemperature', 'FDACompliant', 'MaterialSubtype', 'Brand', 'MaterialNotes',
+        'CrossSectionalGeometry', 'CrossSectionalDiameter', 'InsideDiameter', 'SizeAS568', 'SizeMetric',
+        'SizeJIS', 'SizeStandard', 'Online'
+    ]
+
+
+# class MaterialSubtype(viewsets.ModelViewSet):
+#     def list(self,request,material):
+#         a = Product.objects.filter(Material=material)
+#         queryset = Product.objects.all()
+    

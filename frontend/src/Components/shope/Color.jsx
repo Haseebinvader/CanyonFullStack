@@ -1,9 +1,15 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../UserContext";
+import Checkbox from "@mui/material/Checkbox";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+let Arr = [];
 
 const Color = () => {
   const {
     colorArray,
+    unchecked,
+    setunchecked,
     setselectedcolor,
     shouldClearCheckboxes,
     checkboxStates,
@@ -13,6 +19,14 @@ const Color = () => {
      row,setrow,
     url,setUrl,page_size
   } = useContext(UserContext);
+
+  useEffect(() => {
+    
+    if (unchecked) {
+      Arr = [];
+    }
+  console.log("inchecked", unchecked, Arr)
+}, [unchecked]);
 
   const handleCheckboxChange = (event) => {
     const itemId = event.target.value;
@@ -61,26 +75,47 @@ const Color = () => {
         width: "70%",
       }}
     >
-      {colorItems.map((item, index) => (
-        <div key={index}>
-          <input
-            type="checkbox"
-            value={item}
-            onChange={handleCheckboxChange}
-            onClick={(e)=>{
-              console.log(e.target.value);
-              setUrl(url+`&Color=${e.target.value}`)
-              // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
-              //   setrow([])
-              //   console.log(res.data);
-              //   setrow(res.data)
-              // })
-            }}
-            checked={checkboxStates[item] || false}
-          />
-          <label>{item}</label>
-        </div>
-      ))}
+    <FormGroup>
+        {colorItems.map((item, index) => (
+          <FormControlLabel 
+            control={
+              <Checkbox 
+              style={{ fontSize: "10px", width: "20px", height: "16px", marginLeft: "10px", paddingTop: '10px'  }}
+                checked={Arr.includes(item)}
+                onChange={(e) => {
+                  console.log(item)
+                  setunchecked(false);
+
+                  if (e.target.checked) {
+                    if (Arr.length === 0) {
+                      setUrl(url + `&Color=${item}`);
+                      Arr.push(item);
+                    } else {
+                      Arr.push(item);
+                      Arr.map((i) => {
+                        return setUrl(url + "," + `${i + 1}`);
+                      });
+                    }
+                  } else if (!e.target.checked) {
+                    let newUrl = url.replace(/(\?|&)Color=[^&]*/g, "");
+                    setUrl(newUrl);
+                    Arr.pop(item);
+                  }
+                  // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
+                  //   setrow([])
+                  //   console.log(res.data);
+                  //   setrow(res.data)
+                  // })
+                }}
+              />
+            }
+            label={
+              <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
+                {item}
+              </span>
+            }          />
+        ))}
+      </FormGroup>
     </div>
   );
 };

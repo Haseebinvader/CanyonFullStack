@@ -86,6 +86,7 @@ function ProductComponent() {
                 Encapsulated, High Temp, and Silicon Lubricated.
               </p>
               <BasicTable rows={row} />
+              <CheckPrice/>
             </div>
 
           </div>

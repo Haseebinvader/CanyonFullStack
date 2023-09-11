@@ -6,45 +6,151 @@ const Theme = createTheme({
   },
   components: {
     //Table
+
     MuiDataGrid: {
       styleOverrides: {
         root: {
-          border: "1px solid #182E49",
+          border: "1px solid rgba(24, 46, 73, 1)",
+
           borderRadius: "6px",
-          overflow:"none",
-          whiteSpace:'nowrap'
         },
+
         menuList: {
           borderRadius: "10px",
-          width: "160px",
+
+          width: "200px",
+
           backgroundColor: "#000",
         },
+
         columnHeaders: {
-          backgroundColor: "#182E49",
+          backgroundColor: "rgba(24, 46, 73, 1)",
+
           color: "#FFFFFF",
+
           fontSize: 12,
         },
+
         columnSeparator: {
-          height: "80px",
+          height: "120px",
+          color: '#fff'
         },
+
         virtualScroller: {
           "&::-webkit-scrollbar": {
             width: "0.5rem",
+
             height: "0.5rem",
           },
+
           "&::-webkit-scrollbar-track": {
-            background: "#f1f1f1",
+            background: "rgba(24, 46, 73, 1)",
           },
+
           "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#182E49",
+            backgroundColor: "rgba(24, 46, 73, 1)",
+
             borderRadius: "4px",
           },
         },
+
         menu: {
-          maxWidth: "160px",
+          maxWidth: "200px",
         },
-        customFontSize: {
-          fontSize: 10, // Adjust the font size as needed
+
+        MenuItem: {
+          maxWidth: "200px",
+
+          padding: "3px 10px",
+        },
+
+        footerContainer: {
+          minHeight: "20px",
+        },
+
+        footerPanel: {
+          height: "20px",
+        },
+
+        panelFooter: {
+          display: "none",
+        },
+
+        columnsPanelRow: {
+          paddingLeft: "6px ",
+
+          fontSize: "0.75rem",
+        },
+
+        paper: {
+          minWidth: "90px",
+
+          marginLeft: "10px",
+
+          height: "300px",
+        },
+      },
+    },
+
+  
+
+    //Card
+
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          // boxShadow: "0px 0px 19px 9px rgba(231, 231, 231, 0.7)",
+
+          borderRadius: "8px",
+
+          backgroundColor: "#F9F8F7",
+        },
+      },
+    },
+
+    //Dialog
+
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          width: "fit-contant", // Set the desired width here
+
+          maxWidth: "none",
+
+          borderRadius: "10px",
+
+          backgroundColor: "#F9F8F7",
+        },
+      },
+    },
+
+  
+    
+
+    //TabBar Customization
+
+  
+
+    MuiMenu: {
+      styleOverrides: {
+        paper: {
+          color: "gray",
+        },
+
+        list: {
+          fontSize: "12px",
+
+          padding: "-30px",
+        },
+      },
+    },
+
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          fontSize: "12px",
+
+          width: "120px",
         },
       },
     },

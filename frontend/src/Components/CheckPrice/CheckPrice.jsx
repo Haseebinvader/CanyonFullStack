@@ -1,11 +1,19 @@
-import React, { useContext, useState, useEffect } from "react";
-import "../CheckPrice/Checkprice.css";
-import { AiFillInfoCircle } from "react-icons/ai";
-import { UserContext } from "../../UserContext";
-import { toast, success, error } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+
 import Button from "@mui/material/Button";
+
+import { useNavigate } from "react-router-dom";
+
+import { UserContext } from "../../UserContext";
+
+import "../CheckPrice/Checkprice.css";
+
+import { AiFillInfoCircle } from "react-icons/ai";
+
 import axios from "axios";
+
+import { useParams } from "react-router-dom";
+
 import {
   Table,
   TableBody,
@@ -16,102 +24,136 @@ import {
   Paper,
 } from "@mui/material";
 
-const CheckPrice = (props) => {
+import { toast, success, error } from "react-hot-toast";
+
+const Price = () => {
+  const { productid } = useParams();
+
+  const [row, setrow] = useState([]);
+
   const existingArray = JSON.parse(localStorage.getItem("cart")) || [];
+
   const navigate = useNavigate();
-console.log(props, "Morning");
+
+  // USE STATES BELOW
+
   const [isopen, setisopen] = useState(false);
-  const [isquantity, setisquantity] = useState(0);
-  const { cartlocalArray } = useContext(UserContext);
+
   const [priceArrayRes, setpriceArrayRes] = useState();
+
   const [priceArray, setpriceArray] = useState([]);
+
+  // USER CONTEXT
 
   const {
     setisCartopen,
-    isCartopen,
-    cartCountBtn,
-    setcartCountBtn,
-    setlocalcartArray,
-    setqntyinput,
-    qntyinput,
-    totalprice,
-    settotalprice,
-    qnty,
-    accessToken,
-    setqnty,
-  } = useContext(UserContext);
-  const [islocalquantity, setislocalquantity] = useState(
-    props.rows.data[0]
-      ? props.rows.data[0].quantity
-      : null
-  );
 
-  const [selectedPriceInfo, setSelectedPriceInfo] = useState({}); // New state for selected price info
+    isCartopen,
+
+    cartCountBtn,
+
+    setcartCountBtn,
+
+    setlocalcartArray,
+
+    setqntyinput,
+
+    qntyinput,
+
+    totalprice,
+
+    settotalprice,
+
+    isquantity,
+    setisquantity,
+
+    qnty,
+
+    accessToken,
+
+    selectedPriceInfo,
+    setSelectedPriceInfo,
+
+    setqnty,
+
+    islocalquantity,
+    setislocalquantity,
+  } = useContext(UserContext);
 
   useEffect(() => {
-    const totalPrice = qntyinput * props.row.price;
+    return () => {
+      axios
+
+        .get(`http://127.0.0.1:8000/api/products/?ItemNo=${productid}`)
+
+        .then((res) => {
+          console.log(res);
+
+          setrow(res.data[0]);
+        });
+    };
+  }, [row, productid]);
+
+  // console.log(row.ItemNo, "HELLSFKJDF");
+
+  useEffect(() => {
+    const totalPrice = qntyinput * row.price;
+
     settotalprice(totalPrice);
+
     axios
+
       .get(
         `https://api.businesscentral.dynamics.com/v2.0/4e94f06f-db01-47eb-aff3-7a284b01dd84/SandboxNoExtentions/ODataV4/Company('My%20Company')/itemsaleprice`,
+
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
+
           params: {
-            $filter: `ItemNo eq '${props.id}'`,
+            $filter: `ItemNo eq '${productid}'`,
           },
         }
       )
 
       .then((response) => {
-        console.log("Hello World" + response);
         setpriceArrayRes(response.data.value);
       })
+
       .catch((error) => {
         console.error("Error:", error);
       });
+
     // // console.log("quantity ", qntyinput);
-  }, [qntyinput, props.row.price, priceArrayRes]);
+  }, [qntyinput, row, priceArrayRes]);
 
   useEffect(() => {
     if (priceArrayRes && priceArrayRes.length > 0) {
       const selectedPrice = priceArrayRes.find(
-        (price) => price.ItemNo === props.row.ItemNo
+        (price) => price.ItemNo === row.ItemNo
       );
 
       if (selectedPrice) {
         setSelectedPriceInfo(selectedPrice);
       } else {
-        // If no specific price info is found, set a default UnitPrice
-        setSelectedPriceInfo({ UnitPrice: props.row.originalPrice });
+        setSelectedPriceInfo({ UnitPrice: row.price });
       }
     }
-  }, [
-    islocalquantity,
-    priceArrayRes,
-    props.row.ItemNo,
-    props.row.originalPrice,
-  ]);
+  }, [islocalquantity, priceArrayRes, row]);
 
-  const rowStyle = {
-    borderBottom: "1px solid #ccc", // Add a 1px solid line at the bottom of each row
-  };
-  const calculateDiscountedPrice = (originalPrice, discount) => {
-    return (originalPrice * (1 - discount / 100)).toFixed(2);
-  };
-  console.log(selectedPriceInfo, "priceinfo");
-  console.log(selectedPriceInfo.MinimumQuantity, "qnty");
   return (
     <div>
-      <h2>Enter a quantity to Check Price</h2>
+      <h2>Enter a Quantity to Check Price</h2>
+
       <div className="contain">
         <div className="flex">
           <input
             style={{ marginLeft: "-0.6rem" }}
             type="number"
             className="qnty"
-            value={islocalquantity}
+            // value={islocalquantity}
+
             placeholder="Quantity"
             min={1}
             onChange={(event) => {
@@ -120,54 +162,33 @@ console.log(props, "Morning");
               setisquantity(parseInt(event.target.value));
             }}
           />
+
           <Button
             className="btnqty"
             style={{ color: "#fff", marginLeft: "10px", fontWeight: "600" }}
             onClick={() => {
-              if (priceArrayRes) {
-                priceArrayRes
-                  .filter((k) => k.ItemNo === props.row.ItemNo)
-                  .map((i) => {
-                    // console.log(i);
-                    setpriceArray((prev) => [...prev, i]);
-                    console.log(priceArray);
-                  });
-              }
-              if (props.row.qnty === 0 || props.row.qnty < islocalquantity) {
+              if (row.qnty === 0 || islocalquantity > row.qnty) {
                 toast.error("No quantity available");
-                navigate(`/request-quote/${props.row.SearchDescription}`);
-              } else {
-                if (
-                  islocalquantity != null &&
-                  islocalquantity != 0 &&
-                  islocalquantity <= props.row.qnty
-                ) {
-                  setisopen(!isopen);
-                } else {
-                  // Check if quantity is more than 9 for discounted price
-                  if (props.row.qnty > 9) {
-                    // Calculate 5% discounted price
-                    const originalPrice = props.row.originalPrice; // Replace this with the actual price property
-                    const newpricediscount = originalPrice * 0.95; // 5% discount
 
-                    // Display the discounted price
-                    console.log("Discounted Price:", newpricediscount);
-                  }
+                navigate(`/request-quote/${row.SearchDescription}`);
+              } else {
+                if (islocalquantity !== 0 && islocalquantity <= row.qnty) {
+                  setisopen(!isopen);
                 }
               }
             }}
           >
-            {" "}
-            {props.row.qnty === 0 || islocalquantity > props.row.qnty
+            {row.qnty === 0 || islocalquantity > row.qnty
               ? "Request Quote"
               : "CHECK PRICE"}
           </Button>
         </div>
 
-        {isopen && islocalquantity <= props.row.qnty && islocalquantity != 0 ? (
+        {isopen && islocalquantity <= row.qnty && islocalquantity !== 0 ? (
           <div className="bord">
             <div className="table">
               <hr />
+
               <TableContainer
                 component={Paper}
                 style={{ width: "70rem", marginLeft: "-4rem" }}
@@ -178,51 +199,60 @@ console.log(props, "Morning");
                       <TableCell style={{ fontWeight: "600" }}>
                         Quantity
                       </TableCell>
+
                       <TableCell style={{ fontWeight: "600" }}>
                         Estimated Ship Time
                       </TableCell>
+
                       <TableCell style={{ fontWeight: "600" }}>
                         Unit Cost
                       </TableCell>
+
                       <TableCell style={{ fontWeight: "600" }}>
                         Total Price
                       </TableCell>
                     </TableRow>
                   </TableHead>
+
                   <TableBody>
                     {selectedPriceInfo && (
                       <TableRow key={selectedPriceInfo.ItemNo}>
                         <TableCell style={{ borderTop: "1px solid #ccc" }}>
                           {islocalquantity}
                         </TableCell>
+
                         <TableCell style={{ borderTop: "1px solid #ccc" }}>
                           Today or Tomorrow
                         </TableCell>
+
                         <TableCell
                           style={{
                             borderTop: "1px solid #ccc",
+
                             fontWeight: "600",
                           }}
                         >
                           {/* { value.MinimumQuantity === islocalquantity ? value.UnitPrice : 'null'} */}
                           $
                           {isquantity > 9 && isquantity <= 29
-                            ? (selectedPriceInfo.UnitPrice * 0.8641).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.8587).toFixed(2)
                             : isquantity >= 30 && isquantity < 99
-                            ? (selectedPriceInfo.UnitPrice * 0.7406).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.7382).toFixed(2)
                             : isquantity >= 100 && isquantity < 499
-                            ? (selectedPriceInfo.UnitPrice * 0.7037).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.7014).toFixed(2)
                             : isquantity >= 500 && isquantity < 999
-                            ? (selectedPriceInfo.UnitPrice * 0.6852).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.6855).toFixed(2)
                             : isquantity >= 1000 && isquantity < 2499
-                            ? (selectedPriceInfo.UnitPrice * 0.6665).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.6644).toFixed(2)
                             : isquantity >= 2500
-                            ? (selectedPriceInfo.UnitPrice * 0.6356).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.6337).toFixed(2)
                             : selectedPriceInfo.UnitPrice}
                         </TableCell>
+
                         <TableCell
                           style={{
                             borderTop: "1px solid #ccc",
+
                             fontWeight: "600",
                           }}
                         >
@@ -231,37 +261,37 @@ console.log(props, "Morning");
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.8563
+                                0.8587
                               ).toFixed(2)
                             : isquantity >= 30 && isquantity < 99
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.7356
+                                0.7382
                               ).toFixed(2)
                             : isquantity >= 100 && isquantity < 499
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.7012
+                                0.7014
                               ).toFixed(2)
                             : isquantity >= 500 && isquantity < 999
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.684
+                                0.6855
                               ).toFixed(2)
                             : isquantity >= 1000 && isquantity < 2499
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.6667
+                                0.6644
                               ).toFixed(2)
                             : isquantity >= 2500
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.6323
+                                0.6337
                               ).toFixed(2)
                             : (
                                 selectedPriceInfo.UnitPrice * islocalquantity
@@ -277,52 +307,74 @@ console.log(props, "Morning");
                 className="addtocart"
                 style={{
                   color: "#fff",
+
                   width: "14rem",
+
                   fontSize: "0.7rem",
+
                   fontWeight: "600",
                 }}
                 onClick={() => {
                   setisCartopen(!isCartopen);
 
                   const existingItemIndex = existingArray.findIndex(
-                    (item) => item.ItemNo === props.row.ItemNo
+                    (item) => item.ItemNo === row.ItemNo
                   );
 
                   if (existingItemIndex !== -1) {
                     existingArray[existingItemIndex].quantity = qntyinput;
 
                     existingArray[existingItemIndex].TotalPrice = totalprice;
+
                     localStorage.setItem("cart", JSON.stringify(existingArray));
+
                     toast.success("updates successfully ");
+
                     setlocalcartArray(existingArray);
                   } else {
                     try {
                       const newRow = {
-                        ...props.row,
+                        ...row,
+
                         quantity: qntyinput,
+
                         TotalPrice: totalprice,
                       };
-                      existingArray.push(newRow);
+
+                      // Find the index of the item with the same ItemNo in the existingArray
 
                       const existingItemIndex = existingArray.findIndex(
-                        (item) => item.ItemNo === props.row.ItemNo
-                      );
-                      const qntty = parseInt(
-                        existingArray[existingItemIndex].quantity
+                        (item) => item.ItemNo === row.ItemNo
                       );
 
-                      setqnty(qntty);
-                      const nullIndex = existingArray.indexOf(null);
-                      if (nullIndex !== -1) {
-                        existingArray.splice(nullIndex, 1);
+                      if (existingItemIndex !== -1) {
+                        // If the item already exists in the cart, update its quantity and total price
+
+                        existingArray[existingItemIndex].quantity += qntyinput;
+
+                        existingArray[existingItemIndex].TotalPrice +=
+                          totalprice;
+                      } else {
+                        // If the item is not in the cart, add it
+
+                        existingArray.push(newRow);
                       }
 
-                      setlocalcartArray(existingArray);
-                      setcartCountBtn((cartCountBtn) => cartCountBtn + 1);
+                      // Update the local storage with the updated cart array
+
                       localStorage.setItem(
                         "cart",
                         JSON.stringify(existingArray)
                       );
+
+                      // Update the context with the new cart array
+
+                      setlocalcartArray(existingArray);
+
+                      // Update the cart count
+
+                      setcartCountBtn((cartCountBtn) => cartCountBtn + 1);
+
                       toast.success("Successfully added");
                     } catch (error) {
                       toast.error(
@@ -334,10 +386,13 @@ console.log(props, "Morning");
               >
                 Add to Cart
               </Button>
+
               <hr />
             </div>
+
             <div className="flex" style={{ marginTop: "2rem" }}>
               <AiFillInfoCircle size={20} />
+
               <p style={{ fontSize: "1.1rem" }}>
                 Try increasing your qunatity for better value.
               </p>
@@ -347,8 +402,7 @@ console.log(props, "Morning");
           <></>
         )}
       </div>
-      {/* <DiscountTable /> */}
-      {/* Table goes here */}
+
       <TableContainer
         component={Paper}
         style={{ width: "50rem", marginTop: "2rem" }}
@@ -359,31 +413,45 @@ console.log(props, "Morning");
               <TableCell
                 style={{
                   fontWeight: "700",
+
                   color: "#fff",
+
                   textAlign: "center",
+
                   lineHeight: "2",
+
                   borderRight: "2px solid #E5E5E5",
                 }}
               >
                 Quantity
               </TableCell>
+
               <TableCell
                 style={{
                   fontWeight: "600",
+
                   color: "#fff",
+
                   textAlign: "center",
+
                   lineHeight: "2",
+
                   borderRight: "2px solid #E5E5E5",
                 }}
               >
                 Unit Price
               </TableCell>
+
               <TableCell
                 style={{
                   fontWeight: "600",
+
                   color: "#fff",
+
                   textAlign: "center",
+
                   lineHeight: "2",
+
                   borderRight: "2px solid #E5E5E5",
                 }}
               >
@@ -391,21 +459,27 @@ console.log(props, "Morning");
               </TableCell>
             </TableRow>
           </TableHead>
+
           {priceArrayRes ? (
             priceArrayRes.map((item, index) => (
               <TableBody key={index}>
                 <TableRow
                   style={{
                     backgroundColor: index % 2 === 0 ? "white" : "#E5E5E5",
+
                     fontWeight: "600",
                   }}
                 >
                   <TableCell
                     style={{
                       textAlign: "center",
+
                       lineHeight: "1",
+
                       borderRight: "2px solid #E5E5E5",
+
                       fontWeight: "600",
+
                       fontSize: "14px",
                     }}
                   >
@@ -415,12 +489,17 @@ console.log(props, "Morning");
                       ? priceArrayRes[index + 1].MinimumQuantity - 1
                       : null}
                   </TableCell>
+
                   <TableCell
                     style={{
                       textAlign: "center",
+
                       lineHeight: "1",
+
                       borderRight: "2px solid #E5E5E5",
+
                       fontWeight: "600",
+
                       fontSize: "14px",
                     }}
                   >
@@ -430,9 +509,13 @@ console.log(props, "Morning");
                   <TableCell
                     style={{
                       textAlign: "center",
+
                       lineHeight: "1",
+
                       borderRight: "2px solid #E5E5E5",
+
                       fontWeight: "600",
+
                       fontSize: "14px",
                     }}
                   >
@@ -450,7 +533,9 @@ console.log(props, "Morning");
             <h3
               style={{
                 display: "flex",
+
                 justifyContent: "center",
+
                 alignItems: "center",
               }}
             >
@@ -463,4 +548,4 @@ console.log(props, "Morning");
   );
 };
 
-export default CheckPrice;
+export default Price;

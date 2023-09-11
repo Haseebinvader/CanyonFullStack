@@ -58,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar() {
-  const { setsideMenuBar } = useContext(UserContext);
+  const { setsideMenuBar, setUrl,page_size } = useContext(UserContext);
   const {
     cartCountBtn,
     setcartCountBtn,
@@ -103,7 +103,13 @@ export default function NavBar() {
               sx={{ display: { xs: "none", sm: "block" } }}
             />
           </Link>
-          <Search>
+          <Search
+            onChange={(e) =>
+              setUrl(
+                `http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}&search=${e.target.value}`
+              )
+            }
+          >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -175,7 +181,7 @@ export default function NavBar() {
                   onClose={handleCloseMenu}
                 >
                   <MenuItem onClick={handleCloseMenu}>
-                  <Link to={`/Table/${userNo}`}>Order</Link>
+                    <Link to={`/Table/${userNo}`}>Order</Link>
                   </MenuItem>
                   <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
                   <MenuItem onClick={handlelogout}>

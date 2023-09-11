@@ -1,20 +1,25 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../UserContext";
+import Checkbox from "@mui/material/Checkbox";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+let Arr = [];
 
 const CheckboxeListSub = () => {
   const { submaterialArray, setselectedSubmaterial,  row,setrow,
+    unchecked,
+    setunchecked,
     url,setUrl,page_size } = useContext(UserContext);
 
-  const handleCheckboxChange = (event) => {
-    const itemId = event.target.value;
-    if (event.target.checked) {
-      setselectedSubmaterial((prevItems) => [...prevItems, itemId]);
-    } else {
-      setselectedSubmaterial((prevItems) =>
-        prevItems.filter((id) => id !== itemId)
-      );
-    }
-  };
+    useEffect(() => {
+    
+      if (unchecked) {
+        Arr = [];
+      }
+    console.log("inchecked", unchecked, Arr)
+  }, [unchecked]);
+
+
 
   const submaterialItems = [
     "FKM Type A (General Purpose Viton®)",
@@ -45,28 +50,43 @@ const CheckboxeListSub = () => {
 
   return (
     <div
-      style={{
-        position: "relative",
-        top: 0,
-        bottom: 0,
-        fontSize: "12px",
-        width: "70%",
-      }}
     >
-      {submaterialItems.map((item, index) => (
-        <div key={index} style={{ display: "flex", alignItems: "flex-start" }}>
-          <input type="checkbox" value={item} onChange={handleCheckboxChange}  onClick={(e)=>{
-              console.log(e.target.value);
-              setUrl(url+`&MaterialSubtype=${e.target.value}`)
-              // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
-              //   setrow([])
-              //   console.log(res.data);
-              //   setrow(res.data)
-              // })
-            }} />
-          <label>{item}</label>
-        </div>
-      ))}
+     <FormGroup>
+        {submaterialItems.map((item, index) => (
+          <FormControlLabel 
+            control={
+              <Checkbox 
+              style={{ fontSize: "10px", width: "16px", height: "16px", marginLeft: "10px", paddingTop: '10px' }}
+                checked={Arr.includes(item)}
+                onChange={(e) => {
+                  console.log(item)
+                  setunchecked(false);
+
+                  if (e.target.checked) {
+                    if (Arr.length === 0) {
+                      setUrl(url + `&MaterialSubtype=${item}`);
+                      Arr.push(item);
+                    } else {
+                      Arr.push(item);
+                      Arr.map((i) => {
+                        return setUrl(url + "," + `${i + 1}`);
+                      });
+                    }
+                  } else if (!e.target.checked) {
+                    let newUrl = url.replace(/(\?|&)MaterialSubtype=[^&]*/g, "");
+                    setUrl(newUrl);
+                    Arr.pop(item);
+                  }
+                }}
+              />
+            }
+            label={
+              <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
+                {item}
+              </span>
+            }          />
+        ))}
+      </FormGroup>
     </div>
   );
 };
