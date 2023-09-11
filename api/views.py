@@ -383,7 +383,7 @@ class CustomFilterBackend(DjangoFilterBackend):
 
                 queryset = Product.objects.filter(
 
-                    Q(LowTemperature__gte=low_temp) &
+                    Q(LowTemperature__lte=low_temp) &
 
                     Q(HighTemperature__gte=high_temp)
 

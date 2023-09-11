@@ -1,18 +1,33 @@
 import React, { useContext, useState, useEffect } from "react";
+
 import "./css/shopleft.css";
+
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+
 import CheckboxList from "./CheckboxeList";
+
 import SliderComponent from "./SliderComponent";
+
 import Color from "./Color";
+
 import Brand from "./Brand";
+
 import DurometerRange_Compliance from "./DurometerRange_Compliance";
+
 import { UserContext } from "../../UserContext";
+
 import dimensions from "../../Static/Dimensions.jpg";
+
 import CartPopup from "../CartPage/CartPopup";
+
 import zIndex from "@mui/material/styles/zIndex";
+
 import CheckboxeListSub from "./ExpandableComponents/CheckBoxListSub";
+
 import { Button } from "@mui/material";
+
 import Table from "./StandardTable";
+
 import Table2 from "./SizeTable";
 
 const ShopLeft = () => {
@@ -25,6 +40,7 @@ const ShopLeft = () => {
   const [isTempExpand, setisTempExpand] = useState(true);
 
   const [isBaseExpand, setisBaseExpand] = useState(true);
+
   const [isSubMaterial, setisSubMaterial] = useState(true);
 
   const [isHardnessExpand, setisHardnessExpand] = useState(true);
@@ -36,32 +52,60 @@ const ShopLeft = () => {
   const countries = ["USA", "Canada", "Mexico", "Brazil", "Japan"];
 
   const [isopen, setisopen] = useState(true);
+
   const [isTable2Visible, setIsTable2Visible] = useState(false);
 
   const {
-    unchecked, setunchecked,
+    unchecked,
+    setunchecked,
+
     setCs,
+
     setsize,
+
     isFlipped,
+
     setValue,
+
     setlowtemp,
+
     sethightemp,
+
     setselectedcolor,
+
     value,
+
     setselectedhardness,
+
     shouldClearCheckboxes,
+
     setShouldClearCheckboxes,
+
     baseMaterialTypeArray,
+
     setselectedmaterial,
+
     setselectedbrand,
+
     checkboxStates,
+
     setCheckboxStates,
+
     selectedCountry,
+
     setselectedCountry,
+
     url,
+
     setUrl,
+
     page_size,
-    id, setId,
+
+    id,
+    setId,
+    sizetable,
+
+    setsizetable,
   } = useContext(UserContext);
 
   const clearAllFilters = () => {
@@ -70,14 +114,23 @@ const ShopLeft = () => {
     );
 
     setValue([0, 80]);
+
     setlowtemp(0);
+
     sethightemp(80);
+
     setShouldClearCheckboxes(true);
+
     setselectedmaterial([]);
+
     setselectedbrand([]);
+
     setselectedhardness([]);
+
     setselectedcolor([]);
+
     setCheckboxStates(false);
+
     setunchecked(true);
   };
 
@@ -112,6 +165,7 @@ const ShopLeft = () => {
   const handleExpandBrand = () => {
     setisBrandExpand(!isBrandExpand);
   };
+
   const handleSubBase = () => {
     setisSubMaterial(!isSubMaterial);
   };
@@ -126,6 +180,7 @@ const ShopLeft = () => {
       >
         <p>Clear All Filters</p>
       </Button>
+
       <div className="keywordSearch">
         <div>
           <input
@@ -144,37 +199,51 @@ const ShopLeft = () => {
       <div
         style={{
           justifyContent: "flex-start",
+
           alignItems: "flex-start",
+
           display: "flex",
+
           flexDirection: "column",
+
           width: "14.5rem",
         }}
       >
         {isCartopen && <CartPopup />}
+
         <div className="flex" onClick={handleExpandCollapseDimensions}>
           <h2 style={{ fontWeight: "500", fontSize: "15px" }}>
             DIMENSIONS(mm)
           </h2>
+
           {isDimensionsExpanded ? <AiFillCaretUp /> : <AiFillCaretDown />}
         </div>
+
         {isDimensionsExpanded && (
           <img src={dimensions} alt="StandardImage" width={160} />
         )}
+
         <div className="flex" onClick={handelExpandStandard}>
           <h2 style={{ fontWeight: "500", fontSize: "15px" }}>STANDARD SIZE</h2>
+
           {isStandardExpand ? <AiFillCaretUp /> : <AiFillCaretDown />}
         </div>
+
         {isStandardExpand && (
           <>
             <p>Standard Sizes:</p>
+
             <div className="p1" style={{ width: "10rem" }}>
               <select
                 value={selectedCountry}
                 className="country"
                 style={{
                   backgroundColor: "#fff",
+
                   borderRadius: "4px",
+
                   height: "2rem",
+
                   width: "11.2rem",
                 }}
                 onChange={handleCountryChange}
@@ -190,17 +259,28 @@ const ShopLeft = () => {
             </div>
 
             <div className="row">
-
-              <h2 style={{ marginLeft: "-1rem", cursor: 'pointer', fontSize: '15px' }}
+              <h2
+                style={{
+                  marginLeft: "-1rem",
+                  cursor: "pointer",
+                  fontSize: "15px",
+                }}
                 onClick={() => {
                   setIsTable2Visible(!isTable2Visible);
-                }}> {isTable2Visible ? "▲" : "▼"}</h2>
-              
+                }}
+              >
+                {" "}
+                {isTable2Visible ? "▲" : "▼"}
+              </h2>
+
               <input
                 style={{
                   backgroundColor: "#fff",
+
                   borderRadius: "4px",
+
                   width: "2rem",
+
                   fontSize: "10px",
                 }}
                 type="text"
@@ -209,33 +289,71 @@ const ShopLeft = () => {
                 min={0}
                 onChange={(e) => {
                   if (e.target.value !== "") {
+                    let newUrl = sizetable.replace(
+                      /(\?|&)SizeAS568=[^&]*/g,
+                      ""
+                    );
+
                     setsize(e.target.value);
+
+                    setsizetable(newUrl + `&SizeAS568=-${e.target.value}`);
                   } else {
+                    let newUrl = sizetable.replace(
+                      /(\?|&)SizeAS568=[^&]*/g,
+                      ""
+                    );
+
+                    setsizetable(newUrl);
                   }
                 }}
               />
+
               <input
                 style={{
                   backgroundColor: "#fff",
+
                   borderRadius: "4px",
+
                   width: "2rem",
+
                   fontSize: "10px",
                 }}
                 className="sizeinput"
                 placeholder="CS"
                 min={0}
                 onChange={(e) => {
-                  if (e.target.value!=="") {
+                  if (e.target.value !== "") {
+                    let newUrl = sizetable.replace(
+                      /(\?|&)CrossSectionalDiameter=[^&]*/g,
+                      ""
+                    );
+
                     setCs(e.target.value);
+
+                    setsize(e.target.value);
+
+                    setsizetable(
+                      newUrl + `&CrossSectionalDiameter=${e.target.value}`
+                    );
                   } else {
+                    let newUrl = sizetable.replace(
+                      /(\?|&)CrossSectionalDiameter=[^&]*/g,
+                      ""
+                    );
+
+                    setsizetable(newUrl);
                   }
                 }}
               />
+
               <input
                 style={{
                   backgroundColor: "#fff",
+
                   borderRadius: "4px",
+
                   width: "2rem",
+
                   fontSize: "10px",
                 }}
                 className="sizeinput"
@@ -243,12 +361,28 @@ const ShopLeft = () => {
                 min={0}
                 onChange={(e) => {
                   if (e.target.value !== "") {
+                    let newUrl = sizetable.replace(
+                      /(\?|&)InsideDiameter=[^&]*/g,
+                      ""
+                    );
+
                     setId(e.target.value);
+
+                    setsize(e.target.value);
+
+                    setsizetable(newUrl + `&InsideDiameter=${e.target.value}`);
                   } else {
+                    let newUrl = sizetable.replace(
+                      /(\?|&)InsideDiameter=[^&]*/g,
+                      ""
+                    );
+
+                    setsizetable(newUrl);
                   }
                 }}
               />
             </div>
+
             {isTable2Visible && <Table2 />}
           </>
         )}
@@ -280,6 +414,7 @@ const ShopLeft = () => {
         </div>
 
         {isBaseExpand && <CheckboxList />}
+
         <div className="flex" onClick={handleSubBase}>
           <h2 style={{ fontWeight: "500", fontSize: "15px" }}>
             MATERIAL SUBTYPE

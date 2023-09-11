@@ -39,7 +39,6 @@ const Price = () => {
 
   const [isopen, setisopen] = useState(false);
 
-
   const [priceArrayRes, setpriceArrayRes] = useState();
 
   const [priceArray, setpriceArray] = useState([]);
@@ -64,15 +63,21 @@ const Price = () => {
     totalprice,
 
     settotalprice,
-    isquantity, setisquantity,
+
+    isquantity,
+    setisquantity,
+
     qnty,
 
     accessToken,
-    selectedPriceInfo, setSelectedPriceInfo,
+
+    selectedPriceInfo,
+    setSelectedPriceInfo,
+
     setqnty,
-    islocalquantity, setislocalquantity,
 
-
+    islocalquantity,
+    setislocalquantity,
   } = useContext(UserContext);
 
   useEffect(() => {
@@ -89,9 +94,7 @@ const Price = () => {
     };
   }, [row, productid]);
 
-
   // console.log(row.ItemNo, "HELLSFKJDF");
-
 
   useEffect(() => {
     const totalPrice = qntyinput * row.price;
@@ -174,7 +177,6 @@ const Price = () => {
                 }
               }
             }}
-
           >
             {row.qnty === 0 || islocalquantity > row.qnty
               ? "Request Quote"
@@ -233,17 +235,17 @@ const Price = () => {
                           {/* { value.MinimumQuantity === islocalquantity ? value.UnitPrice : 'null'} */}
                           $
                           {isquantity > 9 && isquantity <= 29
-                            ? (selectedPriceInfo.UnitPrice * 0.8641).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.8587).toFixed(2)
                             : isquantity >= 30 && isquantity < 99
-                            ? (selectedPriceInfo.UnitPrice * 0.7406).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.7382).toFixed(2)
                             : isquantity >= 100 && isquantity < 499
-                            ? (selectedPriceInfo.UnitPrice * 0.7037).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.7014).toFixed(2)
                             : isquantity >= 500 && isquantity < 999
-                            ? (selectedPriceInfo.UnitPrice * 0.6852).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.6855).toFixed(2)
                             : isquantity >= 1000 && isquantity < 2499
-                            ? (selectedPriceInfo.UnitPrice * 0.6665).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.6644).toFixed(2)
                             : isquantity >= 2500
-                            ? (selectedPriceInfo.UnitPrice * 0.6356).toFixed(2)
+                            ? (selectedPriceInfo.UnitPrice * 0.6337).toFixed(2)
                             : selectedPriceInfo.UnitPrice}
                         </TableCell>
 
@@ -259,37 +261,37 @@ const Price = () => {
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.8641
+                                0.8587
                               ).toFixed(2)
                             : isquantity >= 30 && isquantity < 99
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.7406
+                                0.7382
                               ).toFixed(2)
                             : isquantity >= 100 && isquantity < 499
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.7037
+                                0.7014
                               ).toFixed(2)
                             : isquantity >= 500 && isquantity < 999
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.6852
+                                0.6855
                               ).toFixed(2)
                             : isquantity >= 1000 && isquantity < 2499
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.6665
+                                0.6644
                               ).toFixed(2)
                             : isquantity >= 2500
                             ? (
                                 selectedPriceInfo.UnitPrice *
                                 islocalquantity *
-                                0.6356
+                                0.6337
                               ).toFixed(2)
                             : (
                                 selectedPriceInfo.UnitPrice * islocalquantity
@@ -305,57 +307,80 @@ const Price = () => {
                 className="addtocart"
                 style={{
                   color: "#fff",
+
                   width: "14rem",
+
                   fontSize: "0.7rem",
+
                   fontWeight: "600",
                 }}
                 onClick={() => {
                   setisCartopen(!isCartopen);
+
                   const existingItemIndex = existingArray.findIndex(
                     (item) => item.ItemNo === row.ItemNo
                   );
+
                   if (existingItemIndex !== -1) {
                     existingArray[existingItemIndex].quantity = qntyinput;
+
                     existingArray[existingItemIndex].TotalPrice = totalprice;
+
                     localStorage.setItem("cart", JSON.stringify(existingArray));
+
                     toast.success("updates successfully ");
+
                     setlocalcartArray(existingArray);
                   } else {
                     try {
                       const newRow = {
                         ...row,
+
                         quantity: qntyinput,
+
                         TotalPrice: totalprice,
                       };
-                    
+
                       // Find the index of the item with the same ItemNo in the existingArray
+
                       const existingItemIndex = existingArray.findIndex(
                         (item) => item.ItemNo === row.ItemNo
                       );
-                    
+
                       if (existingItemIndex !== -1) {
                         // If the item already exists in the cart, update its quantity and total price
+
                         existingArray[existingItemIndex].quantity += qntyinput;
-                        existingArray[existingItemIndex].TotalPrice += totalprice;
+
+                        existingArray[existingItemIndex].TotalPrice +=
+                          totalprice;
                       } else {
                         // If the item is not in the cart, add it
+
                         existingArray.push(newRow);
                       }
-                    
+
                       // Update the local storage with the updated cart array
-                      localStorage.setItem("cart", JSON.stringify(existingArray));
-                      
+
+                      localStorage.setItem(
+                        "cart",
+                        JSON.stringify(existingArray)
+                      );
+
                       // Update the context with the new cart array
+
                       setlocalcartArray(existingArray);
-                      
+
                       // Update the cart count
+
                       setcartCountBtn((cartCountBtn) => cartCountBtn + 1);
-                      
+
                       toast.success("Successfully added");
                     } catch (error) {
-                      toast.error("Failed to add item to cart. Please try again later.");
+                      toast.error(
+                        "Failed to add item to cart. Please try again later."
+                      );
                     }
-                    
                   }
                 }}
               >
