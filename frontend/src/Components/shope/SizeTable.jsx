@@ -68,7 +68,7 @@ export default function BasicTable() {
       style={{
         height: 200,
         width: "200px",
-        maxHeight: "800px",
+        maxHeight: "801px",
         overflow: "scroll",
         marginTop: "0.6rem",
         borderTop: "0.1px solid lightgrey",
