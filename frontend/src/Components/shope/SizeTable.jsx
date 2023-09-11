@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Table from "@mui/material/Table";
 
@@ -15,12 +15,15 @@ import Paper from "@mui/material/Paper";
 import { UserContext } from "../../UserContext";
 
 import Checkbox from "@mui/material/Checkbox";
-
+let Arr = [];
 export default function BasicTable() {
   const {
     selectedCountry,
 
     setsize1,
+
+    unchecked,
+    setunchecked,
 
     setCs,
 
@@ -34,6 +37,11 @@ export default function BasicTable() {
   } = useContext(UserContext);
 
   const [checkedItems, setCheckedItems] = useState({});
+  useEffect(() => {
+    if (unchecked) {
+      setCheckedItems([]);
+    }
+  }, [unchecked]);
 
   const handleCheckboxChange = (index, size1, css1, idd1) => {
     setsize1(size1);
