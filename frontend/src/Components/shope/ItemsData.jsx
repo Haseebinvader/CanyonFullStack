@@ -13,12 +13,9 @@ export default function DataTable() {
 
   const { row, isChanged, page_size, isFlipped } = useContext(UserContext);
 
-
   // const [url, setUrl] = useState(
   //   `api/products/?id=${id}&ItemNo=${ItemNo}&qnty=${qnty}&price=${price}&Description=${Description}&Description2=${Description2}&SearchDescription=${SearchDescription}&Blocked=${Blocked}&CompoundNumber=${CompoundNumber}&Material=${Material}&Durometer=${Durometer}&DurometerScale=${DurometerScale}&DurometerRange=${DurometerRange}&Color=${color}&LowTemperature=${LowTemperature}&FDACompliant=${FDACompliant}&MaterialSubtype=${MaterialSubtype}&Brand=${brand}&MaterialNotes=${MaterialNotes}&CrossSectionalGeometry=${CrossSectionalGeometry}&CrossSectionalDiameter=${CrossSectionalDiameter}&InsideDiameter=${InsideDiameter}&SizeAS568=${SizeAS568}&SizeMetric=${SizeMetric}&SizeJIS=${SizeJIS}&SizeStandard=${SizeStandard}&Online=${Online}&limit=${page_size}`
   // );
-  const [count, setcount] = useState(0);
-  console.log(isFlipped, "Changed");
 
   const columns = [
     {
@@ -29,7 +26,6 @@ export default function DataTable() {
       flex: false,
       minWidth: 115,
       resizable: true, // Allow resizing for this column
-      
     },
     {
       id: "ItemNo",
@@ -166,7 +162,9 @@ export default function DataTable() {
         const { row } = params;
         // Check if row.SizeStandard is not null before splitting
         if (row.SizeStandard) {
-          return row.SizeStandard.split(" ")[0].concat(row.SizeAS568 ? row.SizeAS568 : row.SizeJIS);
+          return row.SizeStandard.split(" ")[0].concat(
+            row.SizeAS568 ? row.SizeAS568 : row.SizeJIS
+          );
         } else {
           return row.SizeJIS; // Or handle the case where SizeStandard is null as needed
         }
@@ -198,7 +196,7 @@ export default function DataTable() {
         const displayedValue = isChanged
           ? `${(value / 25.4).toFixed(3)} `
           : `${value}`;
-        return <span style={{fontSize: '11px'}}>{displayedValue}</span>;
+        return <span style={{ fontSize: "11px" }}>{displayedValue}</span>;
       },
     },
     {
@@ -226,7 +224,7 @@ export default function DataTable() {
     {
       id: "ItemNo",
       field: "LowTemperature",
-      headerName: isFlipped ? "Low Tmp(°F)" : "Low Tmp(°C)" ,
+      headerName: isFlipped ? "Low Tmp(°F)" : "Low Tmp(°C)",
       width: 85,
       cellClassName: "borderRightCell",
       renderCell: (params) => {
@@ -240,7 +238,7 @@ export default function DataTable() {
     {
       id: "ItemNo",
       field: "HighTemperature",
-      headerName:  isFlipped ? "High Tmp(°F)" : "High Tmp(°C)",
+      headerName: isFlipped ? "High Tmp(°F)" : "High Tmp(°C)",
       width: 90,
       cellClassName: "borderRightCell",
       renderCell: (params) => {
@@ -253,17 +251,17 @@ export default function DataTable() {
     },
   ];
 
-  const handleClick = (data) => {
-    navigate(`/product/${data}`);
-  };
+  // const handleClick = (data) => {
+  //   // const url = `/product/${data}`;
+  //   navigate(`/product/${data}`); // Use navigate to navigate
+  // };
   const getRowHeight = () => 35;
   return (
     <div style={{ height: "56.5rem" }}>
       <DataGrid
         rows={row}
         columns={columns}
-        onCellClick={(params) => handleClick(params.row.ItemNo)}
-        onClick={() => handleClick(row.ItemNo)}
+        onCellClick={(params) => navigate(`/product/${params.row.ItemNo}`)}
         rowCount={page_size}
         hideFooter={true}
         disableColumnFilter={true}

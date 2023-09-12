@@ -116,8 +116,20 @@ export default function BasicTable() {
           <TableBody>
             {filteredItems.length > 0 &&
               filteredItems.map((value, index) => (
-                <TableRow key={index}>
-                  <TableCell sx={{ maxWidth: "2px", fontSize: "20px" }}>
+                <TableRow
+                  key={index}
+                  sx={{
+                    backgroundColor: index % 2 === 0 ? "white" : "#E5E5E5",
+                    lineHeight: "0.1",
+                  }}
+                >
+                  <TableCell
+                    sx={{
+                      maxWidth: "2px",
+                      fontSize: "20px",
+                      padding: "0.1px",
+                    }}
+                  >
                     <Checkbox
                       checked={checkedItems[index] || false}
                       onChange={(e) => {
@@ -141,11 +153,13 @@ export default function BasicTable() {
                     />
                   </TableCell>
 
-                  <TableCell sx={{ maxWidth: "2px" }}>
+                  <TableCell sx={{ maxWidth: "2px", paddingLeft: "35px" }}>
                     {value.SizeAS568.split(" ")[0].replace(/-/g, "")}
                   </TableCell>
 
-                  <TableCell>{value.CrossSectionalDiameter}</TableCell>
+                  <TableCell sx={{ paddingLeft: "25px", width: "2px" }}>
+                    {value.CrossSectionalDiameter}
+                  </TableCell>
 
                   <TableCell>{value.InsideDiameter}</TableCell>
                 </TableRow>
