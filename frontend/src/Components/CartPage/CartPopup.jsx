@@ -569,7 +569,7 @@ const CartPopup = () => {
               }}
             >
               <img src={EmptyCart} width={350} alt="Empty Cart" />
-              <p>No items in your cart.... Yet!!!</p>
+              <p>No items in your cart....</p>
             </div>
           )}
         </div>
