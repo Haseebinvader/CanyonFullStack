@@ -33,7 +33,7 @@ const Theme = createTheme({
 
         columnSeparator: {
           height: "120px",
-          color: '#fff'
+          color: "#fff",
         },
 
         virtualScroller: {
@@ -88,11 +88,10 @@ const Theme = createTheme({
           marginLeft: "10px",
 
           height: "300px",
+          display: "none",
         },
       },
     },
-
-  
 
     //Card
 
@@ -124,12 +123,7 @@ const Theme = createTheme({
       },
     },
 
-  
-    
-
     //TabBar Customization
-
-  
 
     MuiMenu: {
       styleOverrides: {
@@ -139,7 +133,6 @@ const Theme = createTheme({
 
         list: {
           fontSize: "12px",
-
           padding: "-30px",
         },
       },
@@ -149,11 +142,18 @@ const Theme = createTheme({
       styleOverrides: {
         root: {
           fontSize: "12px",
-
-          width: "120px",
+          width: "200px",
         },
       },
     },
+
+    // MuiButtonBase: {
+    //   styleOverrides: {
+    //     root: {
+    //       color: "blue", // Default color for all items
+    //     },
+    //   },
+    // },
   },
 });
 

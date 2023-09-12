@@ -2,23 +2,17 @@ import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { UserContext } from "../../UserContext";
 import { useContext } from "react";
-import { useEffect } from "react";
 import "./css/ItemsData.css";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { products } from "../../Data/API";
 
 export default function DataTable() {
   const navigate = useNavigate();
 
   const { row, isChanged, page_size, isFlipped } = useContext(UserContext);
 
-
   // const [url, setUrl] = useState(
   //   `api/products/?id=${id}&ItemNo=${ItemNo}&qnty=${qnty}&price=${price}&Description=${Description}&Description2=${Description2}&SearchDescription=${SearchDescription}&Blocked=${Blocked}&CompoundNumber=${CompoundNumber}&Material=${Material}&Durometer=${Durometer}&DurometerScale=${DurometerScale}&DurometerRange=${DurometerRange}&Color=${color}&LowTemperature=${LowTemperature}&FDACompliant=${FDACompliant}&MaterialSubtype=${MaterialSubtype}&Brand=${brand}&MaterialNotes=${MaterialNotes}&CrossSectionalGeometry=${CrossSectionalGeometry}&CrossSectionalDiameter=${CrossSectionalDiameter}&InsideDiameter=${InsideDiameter}&SizeAS568=${SizeAS568}&SizeMetric=${SizeMetric}&SizeJIS=${SizeJIS}&SizeStandard=${SizeStandard}&Online=${Online}&limit=${page_size}`
   // );
-  const [count, setcount] = useState(0);
-  console.log(isFlipped, "Changed");
 
   const columns = [
     {
@@ -27,9 +21,23 @@ export default function DataTable() {
       headerName: "Part Number",
       cellClassName: "borderRightCell bold-text",
       flex: false,
-      minWidth: 115,
-      resizable: true, // Allow resizing for this column
-      
+      minWidth: 110,
+      resizable: true,
+
+      renderCell: (params) => {
+        const part = params.value;
+        return (
+          <div
+            style={{
+              whiteSpace: "normal",
+              wordWrap: "break-word",
+              lineHeight: "1",
+            }}
+          >
+            {part}
+          </div>
+        );
+      },
     },
     {
       id: "ItemNo",
@@ -71,7 +79,6 @@ export default function DataTable() {
 
         let cellText = "In";
 
-        // Set the text based on the quantity
         if (qnty > 0) {
           cellText = "In stock";
           params.row.inStock = true;
@@ -123,15 +130,15 @@ export default function DataTable() {
       id: "ItemNo",
       field: "Color",
       headerName: "Color",
-      resizable: true, // Allow resizing for this column
+      resizable: true,
       cellClassName: "borderRightCell",
-      maxWidth: 55,
+      maxWidth: 65,
     },
     {
       id: "ItemNo",
       field: "Durometer",
       headerName: "Hardness",
-      resizable: true, // Allow resizing for this column
+      resizable: true,
 
       flex: true,
       cellClassName: "borderRightCell centerText",
@@ -143,7 +150,7 @@ export default function DataTable() {
       width: 70,
       overflow: "hidden",
       whiteSpace: "wrap",
-      resizable: true, // Allow resizing for this column
+      resizable: true,
       headerClassName: "headerRightColumn",
       cellClassName: "borderRightCell",
     },
@@ -152,21 +159,23 @@ export default function DataTable() {
       field: "CrossSectionalGeometry",
       headerName: "Type",
       flex: true,
-      resizable: true, // Allow resizing for this column
+      resizable: true,
       cellClassName: "borderRightCell",
     },
     {
       id: "ItemNo",
       field: "SizeStandard",
       headerName: "Size",
-      width: 85,
-      resizable: true, // Allow resizing for this column
+      width: 100,
+      resizable: true,
       cellClassName: "borderRightCell",
       valueGetter: (params) => {
         const { row } = params;
         // Check if row.SizeStandard is not null before splitting
         if (row.SizeStandard) {
-          return row.SizeStandard.split(" ")[0].concat(row.SizeAS568 ? row.SizeAS568 : row.SizeJIS);
+          return row.SizeStandard.split(" ")[0].concat(
+            row.SizeAS568 ? row.SizeAS568 : row.SizeJIS
+          );
         } else {
           return row.SizeJIS; // Or handle the case where SizeStandard is null as needed
         }
@@ -198,13 +207,13 @@ export default function DataTable() {
         const displayedValue = isChanged
           ? `${(value / 25.4).toFixed(3)} `
           : `${value}`;
-        return <span style={{fontSize: '11px'}}>{displayedValue}</span>;
+        return <span style={{ fontSize: "11px" }}>{displayedValue}</span>;
       },
     },
     {
       id: "ItemNo",
       field: "Description",
-      resizable: true, // Allow resizing for this column
+      resizable: true,
       headerName: "Material Description",
       cellClassName: "borderRightCell",
       minWidth: 150,
@@ -225,9 +234,9 @@ export default function DataTable() {
     },
     {
       id: "ItemNo",
-      field: "LowTemperature",
-      headerName: isFlipped ? "Low Tmp(°F)" : "Low Tmp(°C)" ,
-      width: 85,
+      field: "HighTemperature",
+      headerName: isFlipped ? "High Tmp(°F)" : "High Tmp(°C)",
+      width: 90,
       cellClassName: "borderRightCell",
       renderCell: (params) => {
         const value = params.value;
@@ -239,9 +248,9 @@ export default function DataTable() {
     },
     {
       id: "ItemNo",
-      field: "HighTemperature",
-      headerName:  isFlipped ? "High Tmp(°F)" : "High Tmp(°C)",
-      width: 90,
+      field: "LowTemperature",
+      headerName: isFlipped ? "Low Tmp(°F)" : "Low Tmp(°C)",
+      width: 85,
       cellClassName: "borderRightCell",
       renderCell: (params) => {
         const value = params.value;
@@ -253,17 +262,17 @@ export default function DataTable() {
     },
   ];
 
-  const handleClick = (data) => {
-    navigate(`/product/${data}`);
-  };
+  // const handleClick = (data) => {
+  //   // const url = `/product/${data}`;
+  //   navigate(`/product/${data}`); // Use navigate to navigate
+  // };
   const getRowHeight = () => 35;
   return (
     <div style={{ height: "56.5rem" }}>
       <DataGrid
         rows={row}
         columns={columns}
-        onCellClick={(params) => handleClick(params.row.ItemNo)}
-        onClick={() => handleClick(row.ItemNo)}
+        onCellClick={(params) => navigate(`/product/${params.row.ItemNo}`)}
         rowCount={page_size}
         hideFooter={true}
         disableColumnFilter={true}

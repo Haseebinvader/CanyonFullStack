@@ -16,6 +16,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import logo from "../../Static/Images/logo.png";
 import MenuSharpIcon from "@mui/icons-material/MenuSharp";
 import { Menu, MenuItem } from "@mui/material";
+import "./Navbar.css";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,7 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar() {
-  const { setsideMenuBar, setUrl,page_size } = useContext(UserContext);
+  const { setsideMenuBar, setUrl, page_size } = useContext(UserContext);
   const {
     cartCountBtn,
     setcartCountBtn,
@@ -93,10 +94,14 @@ export default function NavBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "rgba(24, 46, 73, 1)" }}>
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: "rgba(24, 46, 73, 1)", height: "70px" }}
+      >
         <Toolbar>
           <Link to="/">
             <img
+              className="logo-img"
               src={logo}
               component="div"
               alt="logo"

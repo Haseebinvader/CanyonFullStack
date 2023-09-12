@@ -20,13 +20,10 @@ import dimensions from "../../Static/Dimensions.jpg";
 
 import CartPopup from "../CartPage/CartPopup";
 
-import zIndex from "@mui/material/styles/zIndex";
-
 import CheckboxeListSub from "./ExpandableComponents/CheckBoxListSub";
+import Compliance from "./Compliance";
 
 import { Button } from "@mui/material";
-
-import Table from "./StandardTable";
 
 import Table2 from "./SizeTable";
 
@@ -42,6 +39,8 @@ const ShopLeft = () => {
   const [isBaseExpand, setisBaseExpand] = useState(true);
 
   const [isSubMaterial, setisSubMaterial] = useState(true);
+
+  const [isCompliance, setisCompliance] = useState(true);
 
   const [isHardnessExpand, setisHardnessExpand] = useState(true);
 
@@ -424,11 +423,22 @@ const ShopLeft = () => {
             className={isSubMaterial ? "caret-icon expanded" : "caret-icon"}
           />
         </div>
-
         {isSubMaterial && <CheckboxeListSub />}
+        <div className="flex" onClick={handleSubBase}>
+          <h2 style={{ fontWeight: "500", fontSize: "15px" }}>
+            MATERIAL COMPLIANCE
+          </h2>
 
+          <AiFillCaretDown
+            className={isCompliance ? "caret-icon expanded" : "caret-icon"}
+          />
+        </div>
+
+        {isCompliance && <Compliance />}
         <div className="flex" onClick={handleExpandHardness}>
-          <h2 style={{ fontWeight: "500", fontSize: "15px" }}>HARDNESS</h2>
+          <h2 style={{ fontWeight: "500", fontSize: "15px" }}>
+            MATERIAL HARDNESS
+          </h2>
 
           {isHardnessExpand ? <AiFillCaretUp /> : <AiFillCaretDown />}
         </div>
@@ -436,7 +446,9 @@ const ShopLeft = () => {
         {isHardnessExpand && <DurometerRange_Compliance />}
 
         <div className="flex" onClick={handleExpandColor}>
-          <h2 style={{ fontWeight: "500", fontSize: "15px" }}>COLOR</h2>
+          <h2 style={{ fontWeight: "500", fontSize: "15px" }}>
+            MATERIAL COLOR
+          </h2>
 
           {isColorExpand ? <AiFillCaretUp /> : <AiFillCaretDown />}
         </div>
@@ -444,7 +456,9 @@ const ShopLeft = () => {
         {isColorExpand && <Color />}
 
         <div className="flex" onClick={handleExpandBrand}>
-          <h2 style={{ fontWeight: "500", fontSize: "15px" }}>BRAND</h2>
+          <h2 style={{ fontWeight: "500", fontSize: "15px" }}>
+            MATERIAL BRAND
+          </h2>
 
           {isBrandExpand ? <AiFillCaretUp /> : <AiFillCaretDown />}
         </div>

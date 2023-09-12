@@ -1,9 +1,5 @@
 import React, { useContext } from "react";
-import { FaBars } from "react-icons/fa";
-import axios from "axios";
-import { motion } from "framer-motion";
 import "./css/shopright.css";
-import CustomPaginationActionsTable from "./ItemDetails";
 import { useState, useEffect } from "react";
 import { UserContext } from "../../UserContext";
 import ColorToggleButton from "./ColorToggleButton";

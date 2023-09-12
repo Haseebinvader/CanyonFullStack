@@ -4,7 +4,6 @@ import Sright from "./ShopRight";
 import Drawer from "./Drawer";
 import { useContext } from "react";
 import "./Shop.css";
-import Table from "./ItemDetails";
 import { UserContext } from "../../UserContext";
 import { useEffect, useState } from "react";
 import { Grid, Paper, Typography } from "@mui/material";
@@ -31,29 +30,10 @@ const Shope = () => {
   }, []);
 
   return (
-    // <div className="row" style={{ height: "100%" }}>
-    //   <div>
-    //     {isMobileView ? <>{isdraweropen ? <Drawer /> : null}</> : <Sleft />}
-    //   </div>
-    //   {isMobileView ? (
-    //     <>
-    //       <Sright />
-    //     </>
-    //   ) : (
-    //     <Sright />
-    //   )}
-    //   {/* {isMobileView ? (
-    //     <>
-    //       {isdraweropen ? <div style={{"position":"absolute","zIndex":"1","top":"125px","left":"0"}}><Sright /> </div> :<div style={{"width":"100%"}}><Sright/></div>}
-    //     </>
-    //   ) : (
-    //     <Sright />
-    //   )}  */}
-    // </div>
     <>
       <Grid container spacing={2}>
         <Grid item xs={2}>
-            {isMobileView ? <>{isdraweropen ? <Drawer /> : null}</> : <Sleft />}
+          {isMobileView ? <>{isdraweropen ? <Drawer /> : null}</> : <Sleft />}
         </Grid>
         <Grid item xs={10}>
           <Sright />

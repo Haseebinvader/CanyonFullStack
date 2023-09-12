@@ -7,16 +7,13 @@ let Arr = [];
 
 const Brand = () => {
   const {
-    brandArray,
     unchecked,
     setunchecked,
     setselectedbrand,
     shouldClearCheckboxes,
-    checkboxStates,
     setCheckboxStates,
     url,
     setUrl,
-    page_size,
   } = useContext(UserContext);
 
   useEffect(() => {
@@ -57,7 +54,13 @@ const Brand = () => {
           <FormControlLabel
             control={
               <Checkbox
-                style={{ fontSize: "8px", width: "10px", height: "12px", marginLeft: "10px", paddingTop: '10px'  }}
+                style={{
+                  fontSize: "8px",
+                  width: "10px",
+                  height: "12px",
+                  marginLeft: "10px",
+                  paddingTop: "10px",
+                }}
                 checked={Arr.includes(item)}
                 onChange={(e) => {
                   console.log(item);
@@ -83,7 +86,15 @@ const Brand = () => {
               />
             }
             label={
-              <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
+              <span
+                style={{
+                  fontSize: "10.5px",
+                  paddingLeft: "2px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 {item}
               </span>
             }

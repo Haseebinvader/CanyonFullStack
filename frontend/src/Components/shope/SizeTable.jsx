@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Table from "@mui/material/Table";
 
@@ -15,12 +15,15 @@ import Paper from "@mui/material/Paper";
 import { UserContext } from "../../UserContext";
 
 import Checkbox from "@mui/material/Checkbox";
-
+let Arr = [];
 export default function BasicTable() {
   const {
     selectedCountry,
 
     setsize1,
+
+    unchecked,
+    setunchecked,
 
     setCs,
 
@@ -34,6 +37,11 @@ export default function BasicTable() {
   } = useContext(UserContext);
 
   const [checkedItems, setCheckedItems] = useState({});
+  useEffect(() => {
+    if (unchecked) {
+      setCheckedItems([]);
+    }
+  }, [unchecked]);
 
   const handleCheckboxChange = (index, size1, css1, idd1) => {
     setsize1(size1);
@@ -108,8 +116,20 @@ export default function BasicTable() {
           <TableBody>
             {filteredItems.length > 0 &&
               filteredItems.map((value, index) => (
-                <TableRow key={index}>
-                  <TableCell sx={{ maxWidth: "2px", fontSize: "20px" }}>
+                <TableRow
+                  key={index}
+                  sx={{
+                    backgroundColor: index % 2 === 0 ? "white" : "#E5E5E5",
+                    lineHeight: "0.1",
+                  }}
+                >
+                  <TableCell
+                    sx={{
+                      maxWidth: "2px",
+                      fontSize: "20px",
+                      padding: "0.1px",
+                    }}
+                  >
                     <Checkbox
                       checked={checkedItems[index] || false}
                       onChange={(e) => {
@@ -133,11 +153,13 @@ export default function BasicTable() {
                     />
                   </TableCell>
 
-                  <TableCell sx={{ maxWidth: "2px" }}>
+                  <TableCell sx={{ maxWidth: "2px", paddingLeft: "35px" }}>
                     {value.SizeAS568.split(" ")[0].replace(/-/g, "")}
                   </TableCell>
 
-                  <TableCell>{value.CrossSectionalDiameter}</TableCell>
+                  <TableCell sx={{ paddingLeft: "25px", width: "2px" }}>
+                    {value.CrossSectionalDiameter}
+                  </TableCell>
 
                   <TableCell>{value.InsideDiameter}</TableCell>
                 </TableRow>

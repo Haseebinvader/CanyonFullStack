@@ -16,17 +16,19 @@ const Color = () => {
     setCheckboxStates,
     color,
     setColor,
-     row,setrow,
-    url,setUrl,page_size
+    row,
+    setrow,
+    url,
+    setUrl,
+    page_size,
   } = useContext(UserContext);
 
   useEffect(() => {
-    
     if (unchecked) {
       Arr = [];
     }
-  console.log("inchecked", unchecked, Arr)
-}, [unchecked]);
+    console.log("inchecked", unchecked, Arr);
+  }, [unchecked]);
 
   const handleCheckboxChange = (event) => {
     const itemId = event.target.value;
@@ -75,15 +77,21 @@ const Color = () => {
         width: "70%",
       }}
     >
-    <FormGroup>
+      <FormGroup>
         {colorItems.map((item, index) => (
-          <FormControlLabel 
+          <FormControlLabel
             control={
-              <Checkbox 
-              style={{ fontSize: "10px", width: "20px", height: "16px", marginLeft: "10px", paddingTop: '10px'  }}
+              <Checkbox
+                style={{
+                  fontSize: "10px",
+                  width: "20px",
+                  height: "16px",
+                  marginLeft: "10px",
+                  paddingTop: "10px",
+                }}
                 checked={Arr.includes(item)}
                 onChange={(e) => {
-                  console.log(item)
+                  console.log(item);
                   setunchecked(false);
 
                   if (e.target.checked) {
@@ -101,19 +109,23 @@ const Color = () => {
                     setUrl(newUrl);
                     Arr.pop(item);
                   }
-                  // axios.get(`http://127.0.0.1:8000/api/products/?Color=${e.target.value}&limit=25`).then((res)=>{
-                  //   setrow([])
-                  //   console.log(res.data);
-                  //   setrow(res.data)
-                  // })
                 }}
               />
             }
             label={
-              <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
+              <span
+                style={{
+                  fontSize: "10.5px",
+                  paddingLeft: "2px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 {item}
               </span>
-            }          />
+            }
+          />
         ))}
       </FormGroup>
     </div>
