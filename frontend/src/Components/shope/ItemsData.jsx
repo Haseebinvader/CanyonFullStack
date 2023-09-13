@@ -142,6 +142,19 @@ export default function DataTable() {
       cellClassName: "borderRightCell",
       maxWidth: 65,
       textAlign: "center",
+      renderCell: (params) => {
+        const Color = params.value;
+        return (
+          <div
+            style={{
+              textAlign: "center",
+              width: "100%",
+            }}
+          >
+            {Color}
+          </div>
+        );
+      },
     },
     {
       id: "ItemNo",
@@ -152,6 +165,19 @@ export default function DataTable() {
       flex: false,
       cellClassName: "borderRightCell centerText",
       textAlign: "center",
+      renderCell: (params) => {
+        const Hardness = params.value;
+        return (
+          <div
+            style={{
+              textAlign: "center",
+              width: "100%",
+            }}
+          >
+            {Hardness}
+          </div>
+        );
+      },
     },
     {
       id: "ItemNo",
@@ -204,7 +230,11 @@ export default function DataTable() {
         const displayedValue = isChanged
           ? `${(value / 25.4).toFixed(3)} `
           : `${value}`;
-        return <span>{displayedValue}</span>;
+        return (
+          <span style={{ width: "100%", textAlign: "center" }}>
+            {displayedValue}
+          </span>
+        );
       },
     },
     {
@@ -222,7 +252,7 @@ export default function DataTable() {
           : `${value}`;
         return (
           <span
-            style={{ fontSize: "11px", alignItems: "center", display: "flex" }}
+            style={{ alignItems: "center", width: "100%", fontSize: "12px" }}
           >
             {displayedValue}
           </span>
@@ -273,7 +303,11 @@ export default function DataTable() {
         const displayedValue = isFlipped
           ? `${(value * 1.8 + 32).toFixed(0)}`
           : `${value}`;
-        return <span style={{ textAlign: "center" }}>{displayedValue}</span>;
+        return (
+          <span style={{ textAlign: "center", width: "100%" }}>
+            {displayedValue}
+          </span>
+        );
       },
     },
 
@@ -298,7 +332,11 @@ export default function DataTable() {
         const displayedValue = isFlipped
           ? `${(value * 1.8 + 32).toFixed(0)}`
           : `${value}`;
-        return <span style={{ textAlign: "center" }}>{displayedValue}</span>;
+        return (
+          <span style={{ textAlign: "center", width: "100%" }}>
+            {displayedValue}
+          </span>
+        );
       },
     },
   ];
