@@ -49,7 +49,7 @@ const CheckboxeListSub = () => {
         top: 0,
         bottom: 0,
         fontSize: "12px",
-        width: "105%",
+        width: "90%",
       }}
     >
       <FormGroup>
@@ -62,7 +62,7 @@ const CheckboxeListSub = () => {
                   width: "16px",
                   height: "16px",
                   marginLeft: "10px",
-                  paddingTop: "10px",
+                  paddingTop: "12px",
                 }}
                 checked={Arr.includes(item)}
                 onChange={(e) => {
@@ -98,6 +98,9 @@ const CheckboxeListSub = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  position: "absolute",
+                  lineHeight: 0.9,
+                  height: "10px",
                 }}
               >
                 {item}

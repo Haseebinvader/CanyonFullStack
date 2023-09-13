@@ -12,26 +12,27 @@ const DurometerRange_Compliance = () => {
     shouldClearCheckboxes,
     checkboxStates,
     setCheckboxStates,
-    url,setUrl,page_size,unchecked,
+    url,
+    setUrl,
+    page_size,
+    unchecked,
     setunchecked,
   } = useContext(UserContext);
 
   useEffect(() => {
-    
     if (unchecked) {
       Arr = [];
     }
-  console.log("inchecked", unchecked, Arr)
-}, [unchecked]);
+    console.log("inchecked", unchecked, Arr);
+  }, [unchecked]);
 
   const handleCheckboxChange = (event) => {
-    if(event.target.checked){ 
-      setUrl(url+`&DurometerRange=${event.target.value}`)
-      }
-      else if(!event.target.checked){
-        let newUrl = url.replace(/(\?|&)DurometerRange=[^&]*/g, '');
-        setUrl( newUrl)
-      }
+    if (event.target.checked) {
+      setUrl(url + `&DurometerRange=${event.target.value}`);
+    } else if (!event.target.checked) {
+      let newUrl = url.replace(/(\?|&)DurometerRange=[^&]*/g, "");
+      setUrl(newUrl);
+    }
     const itemId = event.target.value;
     const newCheckboxStates = { ...checkboxStates };
     newCheckboxStates[itemId] = event.target.checked;
@@ -64,49 +65,65 @@ const DurometerRange_Compliance = () => {
 
   return (
     <div
-    style={{
-      position: "relative",
-      top: 0,
-      bottom: 0,
-      fontSize: "12px",
-      width: "70%",
-    }}>
+      style={{
+        position: "relative",
+        top: 0,
+        bottom: 0,
+        fontSize: "12px",
+        width: "70%",
+      }}
+    >
       <FormGroup>
-      {hardnessItems.map((item, index) => (
-        <FormControlLabel 
-          control={
-            <Checkbox 
-            style={{ fontSize: "10px", width: "16px", height: "16px", marginLeft: "10px", paddingTop: '10px'  }}
-              checked={Arr.includes(item)}
-              onChange={(e) => {
-                console.log(item)
-                setunchecked(false);
+        {hardnessItems.map((item, index) => (
+          <FormControlLabel
+            control={
+              <Checkbox
+                style={{
+                  fontSize: "10px",
+                  width: "16px",
+                  height: "16px",
+                  marginLeft: "10px",
+                  paddingTop: "12px",
+                }}
+                checked={Arr.includes(item)}
+                onChange={(e) => {
+                  console.log(item);
+                  setunchecked(false);
 
-                if (e.target.checked) {
-                  if (Arr.length === 0) {
-                    setUrl(url + `&DurometerRange=${item}`);
-                    Arr.push(item);
-                  } else {
-                    Arr.push(item);
-                    Arr.map((i) => {
-                      return setUrl(url + "," + `${i + 1}`);
-                    });
+                  if (e.target.checked) {
+                    if (Arr.length === 0) {
+                      setUrl(url + `&DurometerRange=${item}`);
+                      Arr.push(item);
+                    } else {
+                      Arr.push(item);
+                      Arr.map((i) => {
+                        return setUrl(url + "," + `${i + 1}`);
+                      });
+                    }
+                  } else if (!e.target.checked) {
+                    let newUrl = url.replace(/(\?|&)DurometerRange=[^&]*/g, "");
+                    setUrl(newUrl);
+                    Arr.pop(item);
                   }
-                } else if (!e.target.checked) {
-                  let newUrl = url.replace(/(\?|&)DurometerRange=[^&]*/g, "");
-                  setUrl(newUrl);
-                  Arr.pop(item);
-                }
-              }}
-            />
-          }
-          label={
-            <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
-            {item}
-            </span>
-          }          />
-      ))}
-    </FormGroup>
+                }}
+              />
+            }
+            label={
+              <span
+                style={{
+                  fontSize: "10.5px",
+                  paddingLeft: "2px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {item}
+              </span>
+            }
+          />
+        ))}
+      </FormGroup>
     </div>
   );
 };

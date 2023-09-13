@@ -21,7 +21,7 @@ export default function DataTable() {
       headerName: "Part Number",
       cellClassName: "borderRightCell bold-text",
       flex: false,
-      minWidth: 110,
+      minWidth: 120,
       resizable: true,
 
       renderCell: (params) => {
@@ -43,8 +43,12 @@ export default function DataTable() {
     {
       id: "ItemNo",
       field: "price",
-      headerName: "Starting Price",
-      maxWidth: 90,
+      headerName: (
+        <div style={{ lineHeight: 1.2, textAlign: "center" }}>
+          Starting <br /> Price
+        </div>
+      ),
+      maxWidth: 70,
       cellClassName: "borderRightCell bold-text",
       renderCell: (params) => {
         const price = params.value;
@@ -138,6 +142,19 @@ export default function DataTable() {
       cellClassName: "borderRightCell",
       maxWidth: 65,
       textAlign: "center",
+      renderCell: (params) => {
+        const Color = params.value;
+        return (
+          <div
+            style={{
+              textAlign: "center",
+              width: "100%",
+            }}
+          >
+            {Color}
+          </div>
+        );
+      },
     },
     {
       id: "ItemNo",
@@ -148,6 +165,19 @@ export default function DataTable() {
       flex: false,
       cellClassName: "borderRightCell centerText",
       textAlign: "center",
+      renderCell: (params) => {
+        const Hardness = params.value;
+        return (
+          <div
+            style={{
+              textAlign: "center",
+              width: "100%",
+            }}
+          >
+            {Hardness}
+          </div>
+        );
+      },
     },
     {
       id: "ItemNo",
@@ -173,7 +203,7 @@ export default function DataTable() {
       id: "ItemNo",
       field: "SizeStandard",
       headerName: "Size",
-      width: 90,
+      width: 95,
       resizable: true,
       cellClassName: "borderRightCell",
       valueGetter: (params) => {
@@ -200,7 +230,11 @@ export default function DataTable() {
         const displayedValue = isChanged
           ? `${(value / 25.4).toFixed(3)} `
           : `${value}`;
-        return <span>{displayedValue}</span>;
+        return (
+          <span style={{ width: "100%", textAlign: "center" }}>
+            {displayedValue}
+          </span>
+        );
       },
     },
     {
@@ -218,7 +252,7 @@ export default function DataTable() {
           : `${value}`;
         return (
           <span
-            style={{ fontSize: "11px", alignItems: "center", display: "flex" }}
+            style={{ alignItems: "center", width: "100%", fontSize: "12px" }}
           >
             {displayedValue}
           </span>
@@ -251,29 +285,58 @@ export default function DataTable() {
     {
       id: "ItemNo",
       field: "HighTemperature",
-      headerName: isFlipped ? "High Tmp(°F)" : "High Tmp(°C)",
-      width: 90,
+      headerName: isFlipped ? (
+        <div style={{ lineHeight: "1.2", textAlign: "center" }}>
+          High Tmp
+          <br /> (°F)
+        </div>
+      ) : (
+        <div style={{ lineHeight: "1.2", textAlign: "center" }}>
+          High Tmp
+          <br /> (°C)
+        </div>
+      ),
+      width: 70,
       cellClassName: "borderRightCell",
       renderCell: (params) => {
         const value = params.value;
         const displayedValue = isFlipped
           ? `${(value * 1.8 + 32).toFixed(0)}`
           : `${value}`;
-        return <span style={{ textAlign: "center" }}>{displayedValue}</span>;
+        return (
+          <span style={{ textAlign: "center", width: "100%" }}>
+            {displayedValue}
+          </span>
+        );
       },
     },
+
     {
       id: "ItemNo",
       field: "LowTemperature",
-      headerName: isFlipped ? "Low Tmp(°F)" : "Low Tmp(°C)",
-      width: 85,
+      headerName: isFlipped ? (
+        <div style={{ lineHeight: "1.2", textAlign: "center" }}>
+          Low Tmp
+          <br /> (°F)
+        </div>
+      ) : (
+        <div style={{ lineHeight: "1.2", textAlign: "center" }}>
+          Low Tmp
+          <br /> (°C)
+        </div>
+      ),
+      width: 70,
       cellClassName: "borderRightCell",
       renderCell: (params) => {
         const value = params.value;
         const displayedValue = isFlipped
           ? `${(value * 1.8 + 32).toFixed(0)}`
           : `${value}`;
-        return <span style={{ textAlign: "center" }}>{displayedValue}</span>;
+        return (
+          <span style={{ textAlign: "center", width: "100%" }}>
+            {displayedValue}
+          </span>
+        );
       },
     },
   ];

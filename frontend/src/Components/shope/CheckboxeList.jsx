@@ -51,14 +51,22 @@ const CheckboxeList = () => {
   ];
 
   return (
-    <div style={{}}>
+    <div
+      style={{
+        position: "relative",
+        top: 0,
+        bottom: 0,
+        fontSize: "12px",
+        width: "100%",
+      }}
+    >
       <FormGroup>
         {checkboxItems.map((item, index) => (
           <FormControlLabel
             control={
               <Checkbox
                 style={{
-                  fontSize: "10px",
+                  fontSize: "9px",
                   width: "20px",
                   height: "16px",
                   marginLeft: "10px",
@@ -97,6 +105,9 @@ const CheckboxeList = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  position: "absolute",
+                  lineHeight: 0.9,
+                  height: "10px",
                 }}
               >
                 {item}
