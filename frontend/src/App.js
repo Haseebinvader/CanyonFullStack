@@ -17,7 +17,7 @@ import CenteredIcon from "./Components/CenteredIcon/CenteredIcon";
 function App() {
   const [page_size, setPageSize] = useState(25);
   const [url, setUrl] = useState(
-    `http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}`
+    `http://127.0.0.1:8000/api/products/?Blocked=False&limit=${page_size}&SizeStandard=AS568`
   );
   const [selectedPriceInfo, setSelectedPriceInfo] = useState({});
   const [size1, setsize1] = useState();
@@ -32,7 +32,7 @@ function App() {
     useState(false);
   const [size, setsize] = useState(0);
   const [sizetable, setsizetable] = useState(
-    `http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}`
+    `http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${page_size}&SizeStandard=AS568`
   );
   const [cs, setCs] = useState(0);
   const [id, setId] = useState(0);

@@ -59,7 +59,7 @@ const Brand = () => {
                   width: "10px",
                   height: "12px",
                   marginLeft: "10px",
-                  paddingTop: "10px",
+                  paddingTop: "12px",
                 }}
                 checked={Arr.includes(item)}
                 onChange={(e) => {

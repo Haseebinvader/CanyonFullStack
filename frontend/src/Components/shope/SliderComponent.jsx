@@ -11,7 +11,18 @@ function valuetext(value) {
 }
 
 export default function RangeSlider() {
-  const { sethightemp, lowtemp, hightemp, setlowtemp, isFlipped, value, setValue, url, setUrl } = useContext(UserContext);
+  const {
+    sethightemp,
+    lowtemp,
+    hightemp,
+    setlowtemp,
+    isFlipped,
+    value,
+    setValue,
+    url,
+    setUrl,
+    page_size,
+  } = useContext(UserContext);
   const [clearfilter, setclearfilter] = useState([]);
 
   const handleRangeChange = (event, newValue) => {
@@ -23,12 +34,12 @@ export default function RangeSlider() {
     sethightemp(newValue[1]);
 
     // Remove existing LowTemperature and HighTemperature parameters and their values from the URL
-    let newUrl = url.replace(/(\?|&)LowTemperature=[^&]*/g, '');
-    newUrl = newUrl.replace(/(\?|&)HighTemperature=[^&]*/g, '');
+    let newUrl = url.replace(/(\?|&)LowTemperature=[^&]*/g, "");
+    newUrl = newUrl.replace(/(\?|&)HighTemperature=[^&]*/g, "");
 
     // Add the new LowTemperature and HighTemperature parameters to the new URL
     newUrl += `&LowTemperature=${newValue[0]}&HighTemperature=${newValue[1]}`;
-
+    newUrl += "&Online=Online";
     // Set the updated URL
     setUrl(newUrl);
   };

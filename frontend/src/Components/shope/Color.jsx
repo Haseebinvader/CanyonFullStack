@@ -82,7 +82,7 @@ const Color = () => {
                   width: "20px",
                   height: "16px",
                   marginLeft: "10px",
-                  paddingTop: "10px",
+                  paddingTop: "12px",
                 }}
                 checked={Arr.includes(item)}
                 onChange={(e) => {

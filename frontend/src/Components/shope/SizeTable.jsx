@@ -1,38 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import Table from "@mui/material/Table";
-
 import TableBody from "@mui/material/TableBody";
-
 import TableCell from "@mui/material/TableCell";
-
 import TableContainer from "@mui/material/TableContainer";
-
 import TableRow from "@mui/material/TableRow";
-
 import Paper from "@mui/material/Paper";
-
 import { UserContext } from "../../UserContext";
-
 import Checkbox from "@mui/material/Checkbox";
-let Arr = [];
 export default function BasicTable() {
   const {
     selectedCountry,
-
     setsize1,
-
     unchecked,
-    setunchecked,
-
     setCs,
-
     setid1,
-
     setUrl,
-
     url,
-
     filtersized,
   } = useContext(UserContext);
 
@@ -45,38 +28,21 @@ export default function BasicTable() {
 
   const handleCheckboxChange = (index, size1, css1, idd1) => {
     setsize1(size1);
-
     setCs(css1);
-
     setid1(idd1);
-
-    // Check if the checkbox is checked
-
     if (!checkedItems[index]) {
-      // Checkbox is being checked
-
       setCheckedItems((prevCheckedItems) => ({
         ...prevCheckedItems,
-
         [index]: true,
       }));
     } else {
-      // Checkbox is being unchecked
-
       setCheckedItems((prevCheckedItems) => {
         delete prevCheckedItems[index];
-
         return { ...prevCheckedItems };
       });
-
-      // Remove the selected item from the URL
-
       let newUrl = url.replace(/(\?|&)SizeAS568=[^&]*/g, "");
-
       newUrl = newUrl.replace(/(\?|&)CrossSectionalDiameter=[^&]*/g, "");
-
       newUrl = newUrl.replace(/(\?|&)InsideDiameter=[^&]*/g, "");
-
       setUrl(newUrl);
     }
   };
