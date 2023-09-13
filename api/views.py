@@ -15,7 +15,7 @@ from django.db.models import Count
 from django.db.models import Q
 from django.db.models import FloatField
 from django.db.models.functions import Cast
-
+from rest_framework import filters
 
 class DataFetchView(View):
 
@@ -504,7 +504,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     pagination_class = LimitOffsetPagination
     default_limit = 10
     max_limit = 100
-    filter_backends = [CustomFilterBackend]  # Use the custom filtering backend
+    filter_backends = [filters.OrderingFilter,CustomFilterBackend]  # Use the custom filtering backend
     filterset_fields = [
         'id', 'ItemNo', 'qnty', 'price', 'Description', 'Description2', 'SearchDescription', 'Blocked',
         'CompoundNumber', 'Material', 'Durometer', 'DurometerScale', 'DurometerRange', 'Color',

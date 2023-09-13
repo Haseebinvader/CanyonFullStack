@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-#!f2o+w$f$7h_1_vmw67_i-&q#+t#l3m%^3x!(c!&0s&*^ujq2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -95,15 +95,25 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'djangoProject1.wsgi.application'
+ASGI_APPLICATION = 'djangoProject1.asgi.app'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'canyoncomponentsdatabase',
+        'USER': 'malik',
+        'PASSWORD': 'malik123',
+        # 'HOST': '127.0.0.1',  # If your database is on a different host, change this
+        # 'PORT': '5432',           # Leave this empty to use the default PostgreSQL port (5432)
     }
 }
 
