@@ -41,8 +41,6 @@ const CartPopup = () => {
 
     Orderable,
 
-    TotalOrderPrice,
-
     setTotalOrderPrice,
 
     islocalquantity,
@@ -106,15 +104,16 @@ const CartPopup = () => {
       <Layout>
         <div className="border" style={{ color: "#000", marginBottom: "4rem" }}>
           <h2 className="heading">
-            {" "}
             <h1 style={{ color: "#182E49" }}>
               <ShoppingBagIcon
                 style={{ fontSize: "2.5rem", color: "#182E49" }}
-              />{" "}
+              />
               My Cart
             </h1>
           </h2>
-          {islocalquantity ? (
+          {islocalquantity !== null &&
+          cartlocalArray &&
+          cartlocalArray.length > 0 ? (
             <div className="flexwrap">
               <div className="leftcart">
                 <table className="tableborder" cellSpacing={20}>

@@ -12,8 +12,6 @@ export default function ColorToogle() {
     if (newAlignment === alignment) {
       return;
     }
-
-    // Clicked a different ToggleButton, update the state
     setAlignment(newAlignment);
     setIsChanged(!isChanged);
   };

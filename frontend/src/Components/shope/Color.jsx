@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../UserContext";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
@@ -7,20 +7,15 @@ let Arr = [];
 
 const Color = () => {
   const {
-    colorArray,
     unchecked,
     setunchecked,
     setselectedcolor,
     shouldClearCheckboxes,
     checkboxStates,
     setCheckboxStates,
-    color,
     setColor,
-    row,
-    setrow,
     url,
     setUrl,
-    page_size,
   } = useContext(UserContext);
 
   useEffect(() => {

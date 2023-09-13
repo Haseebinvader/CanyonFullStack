@@ -1,22 +1,11 @@
-import React, { useState } from "react";
-import SliderComponent from "../SliderComponent";
+import React from "react";
 import CheckboxList from "../CheckboxeList";
 const BaseExpand = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
-
   return (
     <div>
-      
-      
-        <div>
-          {" "}
-          <CheckboxList/>
-        </div>
-      
+      <div>
+        <CheckboxList />
+      </div>
     </div>
   );
 };

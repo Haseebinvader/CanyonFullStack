@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../UserContext";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
@@ -7,17 +7,7 @@ let Arr = [];
 
 const CheckboxeList = () => {
   console.log(Arr);
-  const {
-    selectedmaterial,
-    setselectedmaterial,
-    row,
-    setrow,
-    unchecked,
-    setunchecked,
-    url,
-    setUrl,
-    page_size,
-  } = useContext(UserContext);
+  const { unchecked, setunchecked, url, setUrl } = useContext(UserContext);
 
   useEffect(() => {
     if (unchecked) {
@@ -72,7 +62,7 @@ const CheckboxeList = () => {
                   width: "20px",
                   height: "16px",
                   marginLeft: "10px",
-                  paddingTop: '12px' 
+                  paddingTop: "12px",
                 }}
                 checked={Arr.includes(item)}
                 onChange={(e) => {
@@ -100,8 +90,15 @@ const CheckboxeList = () => {
               />
             }
             label={
-              <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
-
+              <span
+                style={{
+                  fontSize: "10.5px",
+                  paddingLeft: "2px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 {item}
               </span>
             }

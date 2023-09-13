@@ -27,7 +27,6 @@ const ShopLeft = () => {
   const countries = ["USA", "Japan"];
   const [isTable2Visible, setIsTable2Visible] = useState(false);
   const {
-    unchecked,
     setunchecked,
     setCs,
     setsize,
@@ -38,19 +37,14 @@ const ShopLeft = () => {
     setselectedcolor,
     value,
     setselectedhardness,
-    shouldClearCheckboxes,
     setShouldClearCheckboxes,
-    baseMaterialTypeArray,
     setselectedmaterial,
     setselectedbrand,
-    checkboxStates,
     setCheckboxStates,
     selectedCountry,
     setselectedCountry,
-    url,
     setUrl,
     page_size,
-    id,
     setId,
     sizetable,
     setsizetable,
@@ -372,9 +366,7 @@ const ShopLeft = () => {
             MATERIAL SUBTYPE
           </h2>
 
-          <AiFillCaretDown
-            className={isSubMaterial ? "caret-icon expanded" : "caret-icon"}
-          />
+          {isSubMaterial ? <AiFillCaretUp /> : <AiFillCaretDown />}
         </div>
         {isSubMaterial && <CheckboxeListSub />}
         <div className="flex" onClick={handleExpandComp}>
@@ -382,9 +374,7 @@ const ShopLeft = () => {
             MATERIAL COMPLIANCE
           </h2>
 
-          <AiFillCaretDown
-            className={isCompliance ? "caret-icon expanded" : "caret-icon"}
-          />
+          {isCompliance ? <AiFillCaretUp /> : <AiFillCaretDown />}
         </div>
 
         {isCompliance && <Compliance />}

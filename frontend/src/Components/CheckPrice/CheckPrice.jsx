@@ -41,8 +41,6 @@ const Price = () => {
 
   const [priceArrayRes, setpriceArrayRes] = useState();
 
-  const [priceArray, setpriceArray] = useState([]);
-
   // USER CONTEXT
 
   const {
@@ -215,90 +213,77 @@ const Price = () => {
                   </TableHead>
 
                   <TableBody>
-                    {selectedPriceInfo && (
-                      <TableRow key={selectedPriceInfo.ItemNo}>
-                        <TableCell style={{ borderTop: "1px solid #ccc" }}>
-                          {islocalquantity}
-                        </TableCell>
+                    {selectedPriceInfo &&
+                      priceArrayRes
+                        .filter((item, index) => index === 0)
+                        .map((item, index) => (
+                          <TableRow key={selectedPriceInfo.ItemNo}>
+                            <TableCell style={{ borderTop: "1px solid #ccc" }}>
+                              {islocalquantity}
+                            </TableCell>
 
-                        <TableCell style={{ borderTop: "1px solid #ccc" }}>
-                          Today or Tomorrow
-                        </TableCell>
+                            <TableCell style={{ borderTop: "1px solid #ccc" }}>
+                              Today or Tomorrow
+                            </TableCell>
 
-                        <TableCell
-                          style={{
-                            borderTop: "1px solid #ccc",
+                            <TableCell
+                              style={{
+                                borderTop: "1px solid #ccc",
+                                fontWeight: "600",
+                              }}
+                            >
+                              $
+                              {islocalquantity
+                                ? priceArrayRes
+                                    .filter((i, index) => {
+                                      if (
+                                        islocalquantity >= i.MinimumQuantity &&
+                                        (index + 1 === priceArrayRes.length ||
+                                          islocalquantity <
+                                            priceArrayRes[index + 1]
+                                              .MinimumQuantity)
+                                      ) {
+                                        return true;
+                                      }
+                                      return false;
+                                    })
+                                    .map(
+                                      (filteredPrice) => filteredPrice.UnitPrice
+                                    )
+                                : null}
+                            </TableCell>
 
-                            fontWeight: "600",
-                          }}
-                        >
-                          {/* { value.MinimumQuantity === islocalquantity ? value.UnitPrice : 'null'} */}
-                          $
-                          {isquantity > 9 && isquantity <= 29
-                            ? (selectedPriceInfo.UnitPrice * 0.8587).toFixed(2)
-                            : isquantity >= 30 && isquantity < 99
-                            ? (selectedPriceInfo.UnitPrice * 0.7382).toFixed(2)
-                            : isquantity >= 100 && isquantity < 499
-                            ? (selectedPriceInfo.UnitPrice * 0.7014).toFixed(2)
-                            : isquantity >= 500 && isquantity < 999
-                            ? (selectedPriceInfo.UnitPrice * 0.6855).toFixed(2)
-                            : isquantity >= 1000 && isquantity < 2499
-                            ? (selectedPriceInfo.UnitPrice * 0.6644).toFixed(2)
-                            : isquantity >= 2500
-                            ? (selectedPriceInfo.UnitPrice * 0.6337).toFixed(2)
-                            : selectedPriceInfo.UnitPrice}
-                        </TableCell>
-
-                        <TableCell
-                          style={{
-                            borderTop: "1px solid #ccc",
-
-                            fontWeight: "600",
-                          }}
-                        >
-                          $
-                          {isquantity > 9 && isquantity <= 29
-                            ? (
-                                selectedPriceInfo.UnitPrice *
-                                islocalquantity *
-                                0.8587
-                              ).toFixed(2)
-                            : isquantity >= 30 && isquantity < 99
-                            ? (
-                                selectedPriceInfo.UnitPrice *
-                                islocalquantity *
-                                0.7382
-                              ).toFixed(2)
-                            : isquantity >= 100 && isquantity < 499
-                            ? (
-                                selectedPriceInfo.UnitPrice *
-                                islocalquantity *
-                                0.7014
-                              ).toFixed(2)
-                            : isquantity >= 500 && isquantity < 999
-                            ? (
-                                selectedPriceInfo.UnitPrice *
-                                islocalquantity *
-                                0.6855
-                              ).toFixed(2)
-                            : isquantity >= 1000 && isquantity < 2499
-                            ? (
-                                selectedPriceInfo.UnitPrice *
-                                islocalquantity *
-                                0.6644
-                              ).toFixed(2)
-                            : isquantity >= 2500
-                            ? (
-                                selectedPriceInfo.UnitPrice *
-                                islocalquantity *
-                                0.6337
-                              ).toFixed(2)
-                            : (
-                                selectedPriceInfo.UnitPrice * islocalquantity
-                              ).toFixed(2)}
-                        </TableCell>
-                      </TableRow>
-                    )}
+                            <TableCell
+                              style={{
+                                borderTop: "1px solid #ccc",
+                                fontWeight: "600",
+                              }}
+                            >
+                              $
+                              {islocalquantity
+                                ? priceArrayRes
+                                    .filter((i, index) => {
+                                      if (
+                                        islocalquantity >= i.MinimumQuantity &&
+                                        (index + 1 === priceArrayRes.length ||
+                                          islocalquantity <
+                                            priceArrayRes[index + 1]
+                                              .MinimumQuantity)
+                                      ) {
+                                        return true;
+                                      }
+                                      return false;
+                                    })
+                                    .map((filteredPrice) =>
+                                      (
+                                        filteredPrice.UnitPrice *
+                                        islocalquantity
+                                      ).toFixed(2)
+                                    )
+                                : null}
+                            </TableCell>
+                          </TableRow>
+                        ))}
                   </TableBody>
                 </Table>
               </TableContainer>

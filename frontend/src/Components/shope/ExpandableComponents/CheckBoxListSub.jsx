@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../../UserContext";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
@@ -6,17 +6,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 let Arr = [];
 
 const CheckboxeListSub = () => {
-  const {
-    submaterialArray,
-    setselectedSubmaterial,
-    row,
-    setrow,
-    unchecked,
-    setunchecked,
-    url,
-    setUrl,
-    page_size,
-  } = useContext(UserContext);
+  const { unchecked, setunchecked, url, setUrl } = useContext(UserContext);
 
   useEffect(() => {
     if (unchecked) {
