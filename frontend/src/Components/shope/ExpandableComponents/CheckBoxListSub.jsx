@@ -6,20 +6,24 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 let Arr = [];
 
 const CheckboxeListSub = () => {
-  const { submaterialArray, setselectedSubmaterial,  row,setrow,
+  const {
+    submaterialArray,
+    setselectedSubmaterial,
+    row,
+    setrow,
     unchecked,
     setunchecked,
-    url,setUrl,page_size } = useContext(UserContext);
+    url,
+    setUrl,
+    page_size,
+  } = useContext(UserContext);
 
-    useEffect(() => {
-    
-      if (unchecked) {
-        Arr = [];
-      }
-    console.log("inchecked", unchecked, Arr)
+  useEffect(() => {
+    if (unchecked) {
+      Arr = [];
+    }
+    console.log("inchecked", unchecked, Arr);
   }, [unchecked]);
-
-
 
   const submaterialItems = [
     "FKM Type A (General Purpose Viton®)",
@@ -50,16 +54,29 @@ const CheckboxeListSub = () => {
 
   return (
     <div
+      style={{
+        position: "relative",
+        top: 0,
+        bottom: 0,
+        fontSize: "12px",
+        width: "105%",
+      }}
     >
-     <FormGroup>
+      <FormGroup>
         {submaterialItems.map((item, index) => (
-          <FormControlLabel 
+          <FormControlLabel
             control={
-              <Checkbox 
-              style={{ fontSize: "10px", width: "16px", height: "16px", marginLeft: "10px", paddingTop: '10px' }}
+              <Checkbox
+                style={{
+                  fontSize: "10px",
+                  width: "16px",
+                  height: "16px",
+                  marginLeft: "10px",
+                  paddingTop: "10px",
+                }}
                 checked={Arr.includes(item)}
                 onChange={(e) => {
-                  console.log(item)
+                  console.log(item);
                   setunchecked(false);
 
                   if (e.target.checked) {
@@ -73,7 +90,10 @@ const CheckboxeListSub = () => {
                       });
                     }
                   } else if (!e.target.checked) {
-                    let newUrl = url.replace(/(\?|&)MaterialSubtype=[^&]*/g, "");
+                    let newUrl = url.replace(
+                      /(\?|&)MaterialSubtype=[^&]*/g,
+                      ""
+                    );
                     setUrl(newUrl);
                     Arr.pop(item);
                   }
@@ -81,10 +101,19 @@ const CheckboxeListSub = () => {
               />
             }
             label={
-              <span style={{ fontSize: "10.5px",paddingLeft: "2px", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
+              <span
+                style={{
+                  fontSize: "10.5px",
+                  paddingLeft: "2px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 {item}
               </span>
-            }          />
+            }
+          />
         ))}
       </FormGroup>
     </div>

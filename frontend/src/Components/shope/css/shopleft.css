@@ -5,12 +5,13 @@
   flex-direction: column;
   flex: 1;
   /* width: auto; */
-  height: 56.7rem;
+  height: 56.4rem;
   overflow-y: scroll;
   padding: 0;
   overflow-x: hidden;
-  padding-left: 1.2rem;
+  padding-left: 1rem;
   margin-top: 2rem;
+  width: 99.9%;
 }
 
 .main h2 {
@@ -31,12 +32,9 @@
   height: 3vh;
 }
 
-
-
-
 .clear-btn {
   width: 10.9rem;
-  background-color: #F4976C;
+  background-color: #f4976c;
   font-weight: 500;
   margin-top: 1.4rem;
   margin-bottom: 1rem;
@@ -53,7 +51,6 @@
   border: 1px solid grey;
   border-radius: 4px;
 }
-
 
 .country {
   width: 100%;

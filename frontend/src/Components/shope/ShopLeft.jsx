@@ -1,109 +1,58 @@
-import React, { useContext, useState, useEffect } from "react";
-
+import React, { useContext, useState } from "react";
 import "./css/shopleft.css";
-
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
-
 import CheckboxList from "./CheckboxeList";
-
 import SliderComponent from "./SliderComponent";
-
 import Color from "./Color";
-
 import Brand from "./Brand";
-
 import DurometerRange_Compliance from "./DurometerRange_Compliance";
-
 import { UserContext } from "../../UserContext";
-
 import dimensions from "../../Static/Dimensions.jpg";
-
 import CartPopup from "../CartPage/CartPopup";
-
 import CheckboxeListSub from "./ExpandableComponents/CheckBoxListSub";
 import Compliance from "./Compliance";
-
 import { Button } from "@mui/material";
-
 import Table2 from "./SizeTable";
-
 const ShopLeft = () => {
   const [isCartopen, setisCartopen] = useState(null);
-
   const [isDimensionsExpanded, setIsDimensionsExpanded] = useState(true);
-
   const [isStandardExpand, setisStandardExpand] = useState(true);
-
   const [isTempExpand, setisTempExpand] = useState(true);
-
   const [isBaseExpand, setisBaseExpand] = useState(true);
-
   const [isSubMaterial, setisSubMaterial] = useState(true);
-
   const [isCompliance, setisCompliance] = useState(true);
-
   const [isHardnessExpand, setisHardnessExpand] = useState(true);
-
   const [isColorExpand, setisColorExpand] = useState(true);
-
   const [isBrandExpand, setisBrandExpand] = useState(true);
-
-  const countries = ["USA", "Canada", "Mexico", "Brazil", "Japan"];
-
-  const [isopen, setisopen] = useState(true);
-
+  const countries = ["USA", "Japan"];
   const [isTable2Visible, setIsTable2Visible] = useState(false);
-
   const {
     unchecked,
     setunchecked,
-
     setCs,
-
     setsize,
-
     isFlipped,
-
     setValue,
-
     setlowtemp,
-
     sethightemp,
-
     setselectedcolor,
-
     value,
-
     setselectedhardness,
-
     shouldClearCheckboxes,
-
     setShouldClearCheckboxes,
-
     baseMaterialTypeArray,
-
     setselectedmaterial,
-
     setselectedbrand,
-
     checkboxStates,
-
     setCheckboxStates,
-
     selectedCountry,
-
     setselectedCountry,
-
     url,
-
     setUrl,
-
     page_size,
-
     id,
     setId,
     sizetable,
-
     setsizetable,
   } = useContext(UserContext);
 
@@ -151,6 +100,10 @@ const ShopLeft = () => {
 
   const handleExpandBase = () => {
     setisBaseExpand(!isBaseExpand);
+  };
+
+  const handleExpandComp = () => {
+    setisCompliance(!isCompliance);
   };
 
   const handleExpandHardness = () => {
@@ -424,7 +377,7 @@ const ShopLeft = () => {
           />
         </div>
         {isSubMaterial && <CheckboxeListSub />}
-        <div className="flex" onClick={handleSubBase}>
+        <div className="flex" onClick={handleExpandComp}>
           <h2 style={{ fontWeight: "500", fontSize: "15px" }}>
             MATERIAL COMPLIANCE
           </h2>

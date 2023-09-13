@@ -46,7 +46,7 @@ const Brand = () => {
         top: 0,
         bottom: 0,
         fontSize: "12px",
-        width: "70%",
+        width: "90%",
       }}
     >
       <FormGroup>

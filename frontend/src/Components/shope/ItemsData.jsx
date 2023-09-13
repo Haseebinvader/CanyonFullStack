@@ -32,6 +32,7 @@ export default function DataTable() {
               whiteSpace: "normal",
               wordWrap: "break-word",
               lineHeight: "1",
+              textAlign: "center",
             }}
           >
             {part}
@@ -61,6 +62,7 @@ export default function DataTable() {
               whiteSpace: "normal",
               wordWrap: "break-word",
               lineHeight: "1",
+              textAlign: "center", // Add this line to center align the text
             }}
           >
             {cellText}
@@ -108,6 +110,7 @@ export default function DataTable() {
       id: "ItemNo",
       field: "Material",
       headerName: "Material",
+      flex: true,
       minWidth: 175,
       headerClassName: "headerleftColumn",
       cellClassName: "borderRightCell",
@@ -119,6 +122,7 @@ export default function DataTable() {
               whiteSpace: "normal",
               wordWrap: "break-word",
               lineHeight: "1",
+              textAlign: "center",
             }}
           >
             {material}
@@ -133,15 +137,17 @@ export default function DataTable() {
       resizable: true,
       cellClassName: "borderRightCell",
       maxWidth: 65,
+      textAlign: "center",
     },
     {
       id: "ItemNo",
       field: "Durometer",
       headerName: "Hardness",
       resizable: true,
-
-      flex: true,
+      width: 70,
+      flex: false,
       cellClassName: "borderRightCell centerText",
+      textAlign: "center",
     },
     {
       id: "ItemNo",
@@ -158,7 +164,8 @@ export default function DataTable() {
       id: "ItemNo",
       field: "CrossSectionalGeometry",
       headerName: "Type",
-      flex: true,
+      width: 62,
+      flex: false,
       resizable: true,
       cellClassName: "borderRightCell",
     },
@@ -166,7 +173,7 @@ export default function DataTable() {
       id: "ItemNo",
       field: "SizeStandard",
       headerName: "Size",
-      width: 100,
+      width: 90,
       resizable: true,
       cellClassName: "borderRightCell",
       valueGetter: (params) => {
@@ -185,7 +192,8 @@ export default function DataTable() {
       id: "ItemNo",
       field: "CrossSectionalDiameter",
       headerName: isChanged ? "CS (in)" : "CS (mm)",
-      flex: true,
+      flex: false,
+      width: 60,
       cellClassName: "borderRightCell",
       renderCell: (params) => {
         const value = params.value;
@@ -199,7 +207,8 @@ export default function DataTable() {
       id: "ItemNo",
       field: "InsideDiameter",
       headerName: isChanged ? "ID (in)" : "ID (mm)",
-      flex: true,
+      flex: false,
+      width: 60,
       headerClassName: "headerRightColumn",
       cellClassName: "headerRightCell",
       renderCell: (params) => {
@@ -207,7 +216,13 @@ export default function DataTable() {
         const displayedValue = isChanged
           ? `${(value / 25.4).toFixed(3)} `
           : `${value}`;
-        return <span style={{ fontSize: "11px" }}>{displayedValue}</span>;
+        return (
+          <span
+            style={{ fontSize: "11px", alignItems: "center", display: "flex" }}
+          >
+            {displayedValue}
+          </span>
+        );
       },
     },
     {
@@ -216,6 +231,7 @@ export default function DataTable() {
       resizable: true,
       headerName: "Material Description",
       cellClassName: "borderRightCell",
+      flex: true,
       minWidth: 150,
       renderCell: (params) => {
         const material = params.value;
@@ -243,7 +259,7 @@ export default function DataTable() {
         const displayedValue = isFlipped
           ? `${(value * 1.8 + 32).toFixed(0)}`
           : `${value}`;
-        return <span>{displayedValue}</span>;
+        return <span style={{ textAlign: "center" }}>{displayedValue}</span>;
       },
     },
     {
@@ -257,7 +273,7 @@ export default function DataTable() {
         const displayedValue = isFlipped
           ? `${(value * 1.8 + 32).toFixed(0)}`
           : `${value}`;
-        return <span>{displayedValue}</span>;
+        return <span style={{ textAlign: "center" }}>{displayedValue}</span>;
       },
     },
   ];
