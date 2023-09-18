@@ -9,19 +9,21 @@ const BaseMaterial = () => {
   const { url, setUrl, pageSize, clearFilter } = useContext(UserContext);
 
   useEffect(() => {
-    if (clearFilter) {
-      console.log("cleared");
-      setSelectedMaterials([]); 
-    } else {
-      let selectedMaterialsString = selectedMaterials.join(',');
-
-      if (selectedMaterialsString !== '') {
-        let newUrl = url.replace(/(\?|&)Material=[^&]*/g, "");
-        newUrl = newUrl.replace(/(\?|&)Online=[^&]*/g, "");
-        setUrl(newUrl + `&Material=${selectedMaterialsString}&Online=Online`);
-      }
-      else if (selectedMaterialsString === '') {
-        setUrl(`http://127.0.0.1:8000/api/products/?limit=${pageSize}&Online=Online&ordering=CompoundNumber`)
+    return ()=>{
+      if (clearFilter) {
+        console.log("cleared");
+        setSelectedMaterials([]); 
+      } else {
+        let selectedMaterialsString = selectedMaterials.join(',');
+  
+        if (selectedMaterialsString !== '') {
+          let newUrl = url.replace(/(\?|&)Material=[^&]*/g, "");
+          newUrl = newUrl.replace(/(\?|&)Online=[^&]*/g, "");
+          setUrl(newUrl + `&Material=${selectedMaterialsString}&Online=Online`);
+        }
+        else if (selectedMaterialsString === '') {
+          setUrl(`http://127.0.0.1:8000/api/products/?limit=${pageSize}&Online=Online&ordering=CompoundNumber`)
+        }
       }
     }
   }, [selectedMaterials, url, pageSize, setUrl, clearFilter]);
