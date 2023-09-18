@@ -8,9 +8,9 @@ from .jobs import sehedule_api
 def start():
     scheduler = BackgroundScheduler()
 
-    scheduler.add_job(sehedule_api, 'cron', day='*', hour='0', minute='0')
-
-    scheduler.start()
+    # scheduler.add_job(sehedule_api, 'cron', day='*', hour='0', minute='0')
+    # scheduler.add_job(sehedule_api)
+    # scheduler.start()
 
     # # Manually trigger the job
 

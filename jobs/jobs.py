@@ -50,7 +50,7 @@ def get_access_token():
     return access_token
 
 
-def sehedule_api():
+def sehedule_api(url=None):
     access_token = get_access_token()
 
     if access_token:
@@ -66,8 +66,8 @@ def sehedule_api():
         brand_list = []
 
         submaterial_list = []
-
-        url = "https://api.businesscentral.dynamics.com/v2.0/4e94f06f-db01-47eb-aff3-7a284b01dd84/SandboxNoExtentions/ODataV4/Company(%27My%20Company%27)/itemapi"
+        if not url:
+         url = "https://api.businesscentral.dynamics.com/v2.0/4e94f06f-db01-47eb-aff3-7a284b01dd84/SandboxNoExtentions/ODataV4/Company(%27My%20Company%27)/itemapi"
 
         while url:
 
@@ -336,7 +336,7 @@ def sehedule_api():
 
                             product.SizeAS568 = product_data.get('Size(AS568)')
 
-                            product.SizeJIS = product_data.get('SizeJIS')
+                            product.SizeJIS = product_data.get('Size(JIS)')
 
                             product.SizeMetric = product_data.get('SizeMetric')
 
@@ -355,6 +355,7 @@ def sehedule_api():
                                 'picture2'),
 
                             product.save()
+                            print(f"{product.ItemNo} is updated ")
 
                     elif not p:
 
@@ -462,7 +463,7 @@ def sehedule_api():
 
                             SizeAS568=product_data.get('Size(AS568)'),
 
-                            SizeJIS=product_data.get('SizeJIS'),
+                            SizeJIS=product_data.get('Size(JIS)'),
 
                             SizeMetric=product_data.get('SizeMetric'),
 
@@ -483,8 +484,8 @@ def sehedule_api():
                     url = data["@odata.nextLink"]
 
                 else:
-
-                    url = None
+                    
+                    sehedule_api(url)
 
 
 def get_headers(access_token):

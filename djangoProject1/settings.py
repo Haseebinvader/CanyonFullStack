@@ -109,10 +109,10 @@ ASGI_APPLICATION = 'djangoProject1.asgi.app'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'canyoncomponentsdatabase',
+        'NAME': 'canyoncomponentsdb',
         'USER': 'malik',
         'PASSWORD': 'malik123',
-        # 'HOST': '127.0.0.1',  # If your database is on a different host, change this
+        # 'HOST': 'localhost',  # If your database is on a different host, change this
         # 'PORT': '5432',           # Leave this empty to use the default PostgreSQL port (5432)
     }
 }
