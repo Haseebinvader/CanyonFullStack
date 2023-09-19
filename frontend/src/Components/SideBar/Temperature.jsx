@@ -5,18 +5,16 @@ import "../Styles.css"
 import { UserContext } from '../../UserContext/UserContext';
 
 const Temperature = () => {
-  const [temperature, setTemperature] = useState([0, 70]);
 
-  const {url, setUrl, tempToggle} = useContext(UserContext)
+  const {url, setUrl, tempToggle,temperature, setTemperature} = useContext(UserContext)
 
   const handleChange = (event, newValue) => {
     setTemperature(newValue);
     let newUrl = url.replace(/(\?|&)LowTemperature=[^&]*/g, '');
+    newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
       newUrl = newUrl.replace(/(\?|&)HighTemperature=[^&]*/g, '');
-      newUrl = newUrl.replace(/(\?|&)Online=[^&]*/g, '');
-      newUrl = newUrl.replace(/(\?|&)Blocked=[^&]*/g, '');
 
-      newUrl += `&Blocked=False&LowTemperature=${newValue[0]}&HighTemperature=${newValue[1]}&Online=Online`;
+      newUrl += `&LowTemperature=${newValue[0]}&HighTemperature=${newValue[1]}`;
   
       setUrl(newUrl);
   };

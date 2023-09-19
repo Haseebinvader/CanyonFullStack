@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState ,useEffect} from 'react'
 import Dimentions from './Dimentions.jsx'
 import Standard from './Standard.jsx'
 import Temperature from './Temperature.jsx'
@@ -14,7 +14,7 @@ import "../Styles.css"
 import { UserContext } from '../../UserContext/UserContext.jsx'
 
 const SidBarLayout = () => {
-  const { setUrl, pageSize, setClearFilter } = useContext(UserContext)
+  const { setUrl, pageSize, setClearFilter,setSelectedbrand,clearFilter,setTemperature,setSelectedcolor,selectedMaterials, setSelectedhardness,setSelectedcompliance,setSelectedsubtype,setSelectedMaterials} = useContext(UserContext)
   const [showDimensions, setShowDimensions] = useState(false);
   const [showStandard, setShowStandard] = useState(false);
   const [showTemp, setShowTemp] = useState(false);
@@ -26,11 +26,18 @@ const SidBarLayout = () => {
   const [showBrand, setShowBrand] = useState(false);
 
 
+
   return (
     <div style={{ padding: " 0 1rem 5rem 1rem", height: "100%", overflowY: 'scroll' }}>
       <Button variant='contained' sx={{ width: 1, fontSize: "12px", height: '32px', backgroundColor: '#F4976C', '&:hover': { backgroundColor: '#F4976C' } }} onClick={() => {
         setUrl(`http://127.0.0.1:8000/api/products/?limit=${pageSize}&Blocked=False&ordering=CompoundNumber&Online=Online`); 
-        
+        setSelectedMaterials([])
+        setSelectedcompliance([])
+        setSelectedsubtype([])
+        setSelectedhardness([])
+        setSelectedcolor([])
+        setSelectedbrand([])
+        setTemperature([0, 70])
           setClearFilter(true);
         }} > Clear All Filters</Button>
       <input type="text" placeholder='Search Here' className='sidebarSearchInput' onChange={(e) =>{

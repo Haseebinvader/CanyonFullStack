@@ -18,6 +18,14 @@ function App() {
   const [accessToken, setAccessToken] = useState('')
   const [clearFiler, setClearFilter] = useState(false)
   
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
+  const [selectedcompliance, setSelectedcompliance] = useState([]);
+  const [selectedhardness, setSelectedhardness] = useState([]);
+  const [selectedbrand, setSelectedbrand] = useState([]);
+  const [selectedcolor, setSelectedcolor] = useState([]);
+  const [selectedsubtype, setSelectedsubtype] = useState([]);
+  const [temperature, setTemperature] = useState([0, 70]);
+
   useEffect(() => {
     axios.get(url).then((res) => {
       setData(res.data.results)
@@ -30,7 +38,7 @@ function App() {
   }, [url, pageSize, setAccessToken, setData]);
   return (
     <div className="App">
-       <UserContext.Provider value={{url, setUrl,setPageSize, data, pageSize, sizeToggle, setSizeToggle, tempToggle, setTempToggle, row, setRow, nextPage, setNextPage, previousPage, setPreviousPage, accessToken, setAccessToken, clearFiler, setClearFilter}} >
+       <UserContext.Provider value={{temperature, setTemperature,selectedbrand, setSelectedbrand,selectedsubtype, setSelectedsubtype,selectedcolor, setSelectedcolor,selectedhardness, setSelectedhardness,selectedcompliance, setSelectedcompliance,selectedMaterials, setSelectedMaterials,url, setUrl,setPageSize, data, pageSize, sizeToggle, setSizeToggle, tempToggle, setTempToggle, row, setRow, nextPage, setNextPage, previousPage, setPreviousPage, accessToken, setAccessToken, clearFiler, setClearFilter}} >
        <Router>
         <Routes>
           <Route path="/"  element={<Home />}/>

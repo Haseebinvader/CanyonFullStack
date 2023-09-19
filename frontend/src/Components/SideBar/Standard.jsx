@@ -180,7 +180,7 @@ const Standard = () => {
                         }
                         />
                       </td>
-                      <td>{selectedCountry==="USA"?i.SizeAS568.replace("-",""):i.SizeJIS}</td>
+                      <td>{selectedCountry==="Japan"?i.SizeJIS:i.SizeAS568.replace("-","")}</td>
                       <td>{i.CrossSectionalDiameter}</td>
                       <td>{i.InsideDiameter}</td>
                     </tr>

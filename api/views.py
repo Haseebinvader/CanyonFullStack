@@ -1,7 +1,7 @@
 import requests
 
 from django.http import JsonResponse
-
+import django_filters.rest_framework
 from django.views import View
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, status
@@ -9,7 +9,6 @@ from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
 from .serializers import *
 from .models import Product
-
 from django.db.models import Count
 
 from django.db.models import Q
@@ -17,11 +16,10 @@ from django.db.models import FloatField
 from django.db.models.functions import Cast
 from rest_framework import filters
 
+
 class GetAccessTokenView(View):
 
     def get(self, request, *args, **kwargs):
-
- 
 
         data = {
 
@@ -35,15 +33,11 @@ class GetAccessTokenView(View):
 
         }
 
- 
-
         headers = {
 
             'Content-Type': 'application/x-www-form-urlencoded'
 
         }
-
- 
 
         response = requests.post(
 
@@ -54,8 +48,6 @@ class GetAccessTokenView(View):
             headers=headers
 
         )
-
- 
 
         if response.status_code == 200:
 
@@ -111,7 +103,8 @@ class DataFetchView(View):
 
         while url:
 
-            response = requests.get(url, headers=self.get_headers(access_token))
+            response = requests.get(
+                url, headers=self.get_headers(access_token))
 
             if response.status_code == 200:
 
@@ -172,7 +165,8 @@ class DataFetchView(View):
                         }
 
                     if item['AttributeName']:
-                        attribute_key = item['AttributeName'].replace(' ', '').replace(r'\W', '')
+                        attribute_key = item['AttributeName'].replace(
+                            ' ', '').replace(r'\W', '')
 
                         current_product[attribute_key] = item['AttributeValue']
 
@@ -204,126 +198,144 @@ class DataFetchView(View):
                             submaterial_list.append(value)
 
                 for product_data in product_list:
-                    p = Product.objects.filter(ItemNo=product_data.get('ItemNo')).first()
+                    p = Product.objects.filter(
+                        ItemNo=product_data.get('ItemNo')).first()
 
                     if not p:
                         pr = Product(
 
-                        ItemNo=product_data.get('ItemNo'),
+                            ItemNo=product_data.get('ItemNo'),
 
-                        qnty=product_data.get('qnty'),
+                            qnty=product_data.get('qnty'),
 
-                        price=product_data.get('price'),
+                            price=product_data.get('price'),
 
-                        Description=product_data.get('Description'),
+                            Description=product_data.get('Description'),
 
-                        Description2=product_data.get('Description2'),
+                            Description2=product_data.get('Description2'),
 
-                        SearchDescription=product_data.get('SearchDescription'),
+                            SearchDescription=product_data.get(
+                                'SearchDescription'),
 
-                        LotSize=product_data.get('LotSize'),
+                            LotSize=product_data.get('LotSize'),
 
-                        Blocked=product_data.get('Blocked'),
+                            Blocked=product_data.get('Blocked'),
 
-                        CompoundNumber=product_data.get('CompoundNumber'),
+                            CompoundNumber=product_data.get('CompoundNumber'),
 
-                        Material=product_data.get('Material'),
+                            Material=product_data.get('Material'),
 
-                        Durometer=product_data.get('Durometer'),
+                            Durometer=product_data.get('Durometer'),
 
-                        DurometerScale=product_data.get('DurometerScale'),
+                            DurometerScale=product_data.get('DurometerScale'),
 
-                        DurometerRange=product_data.get('DurometerRange'),
+                            DurometerRange=product_data.get('DurometerRange'),
 
-                        Color=product_data.get('Color'),
+                            Color=product_data.get('Color'),
 
-                        LowTemperature=product_data.get('LowTemperature(°C)'),
+                            LowTemperature=product_data.get(
+                                'LowTemperature(°C)'),
 
-                        HighTemperature=product_data.get('HighTemperature(°C)'),
+                            HighTemperature=product_data.get(
+                                'HighTemperature(°C)'),
 
-                        FDACompliant=product_data.get('FDACompliant'),
+                            FDACompliant=product_data.get('FDACompliant'),
 
-                        MaterialSubtype=product_data.get('MaterialSubtype'),
+                            MaterialSubtype=product_data.get(
+                                'MaterialSubtype'),
 
-                        CureType=product_data.get('CureType'),
+                            CureType=product_data.get('CureType'),
 
-                        Encapsulated=product_data.get('Encapsulated'),
+                            Encapsulated=product_data.get('Encapsulated'),
 
-                        Brand=product_data.get('Brand'),
+                            Brand=product_data.get('Brand'),
 
-                        SalesNotes=product_data.get('SalesNotes'),
+                            SalesNotes=product_data.get('SalesNotes'),
 
-                        MaterialNotes=product_data.get('MaterialNotes'),
+                            MaterialNotes=product_data.get('MaterialNotes'),
 
-                        CleanRoomManufactured=product_data.get('CleanRoomManufactured'),
+                            CleanRoomManufactured=product_data.get(
+                                'CleanRoomManufactured'),
 
-                        FDAType=product_data.get('FDAType'),
+                            FDAType=product_data.get('FDAType'),
 
-                        USPClassVI=product_data.get('USPClassVI'),
+                            USPClassVI=product_data.get('USPClassVI'),
 
-                        USPClassVI87=product_data.get('USPClassVI87'),
+                            USPClassVI87=product_data.get('USPClassVI87'),
 
-                        USPClassVI88=product_data.get('USPClassVI88'),
+                            USPClassVI88=product_data.get('USPClassVI88'),
 
-                        A3Sanitary=product_data.get('3ASanitary'),
+                            A3Sanitary=product_data.get('3ASanitary'),
 
-                        KTW=product_data.get('KTW'),
+                            KTW=product_data.get('KTW'),
 
-                        WRAS=product_data.get('WRAS'),
+                            WRAS=product_data.get('WRAS'),
 
-                        ULListed=product_data.get('ULListed'),
+                            ULListed=product_data.get('ULListed'),
 
-                        ULRating=product_data.get('ULRating'),
+                            ULRating=product_data.get('ULRating'),
 
-                        MetalDetectable=product_data.get('MetalDetectable'),
+                            MetalDetectable=product_data.get(
+                                'MetalDetectable'),
 
-                        NSF61=product_data.get('NSF61'),
+                            NSF61=product_data.get('NSF61'),
 
-                        NSF51=product_data.get('NSF51'),
+                            NSF51=product_data.get('NSF51'),
 
-                        AntiExplosiveDecompression=product_data.get('AntiExplosiveDecompressionAED'),
+                            AntiExplosiveDecompression=product_data.get(
+                                'AntiExplosiveDecompressionAED'),
 
-                        NACETM0297=product_data.get('NACETM0297'),
+                            NACETM0297=product_data.get('NACETM0297'),
 
-                        NORSOKM710=product_data.get('NORSOKM710'),
+                            NORSOKM710=product_data.get('NORSOKM710'),
 
-                        UltraLowTemperature=product_data.get('UltraLowTemperature'),
+                            UltraLowTemperature=product_data.get(
+                                'UltraLowTemperature'),
 
-                        UltraHighTemperature=product_data.get('UltraHighTemperature'),
+                            UltraHighTemperature=product_data.get(
+                                'UltraHighTemperature'),
 
-                        SteamResistant=product_data.get('SteamResistant'),
+                            SteamResistant=product_data.get('SteamResistant'),
 
-                        UltraSteamResistant=product_data.get('UltraSteamResistant'),
+                            UltraSteamResistant=product_data.get(
+                                'UltraSteamResistant'),
 
-                        InternallyLubricated=product_data.get('InternallyLubricated'),
+                            InternallyLubricated=product_data.get(
+                                'InternallyLubricated'),
 
-                        ExternallyLubricated=product_data.get('ExternallyLubricated'),
+                            ExternallyLubricated=product_data.get(
+                                'ExternallyLubricated'),
 
-                        ConductiveFiller=product_data.get('ConductiveFiller'),
+                            ConductiveFiller=product_data.get(
+                                'ConductiveFiller'),
 
-                        LowCompressionSet=product_data.get('LowCompressionSet'),
+                            LowCompressionSet=product_data.get(
+                                'LowCompressionSet'),
 
-                        CrossSectionalGeometry=product_data.get('CrossSectionalGeometry'),
+                            CrossSectionalGeometry=product_data.get(
+                                'CrossSectionalGeometry'),
 
-                        CrossSectionalDiameter=product_data.get('CrossSectionalDiameter(CS)'),
+                            CrossSectionalDiameter=product_data.get(
+                                'CrossSectionalDiameter(CS)'),
 
-                        InsideDiameter=product_data.get('InsideDiameter(ID)'),
+                            InsideDiameter=product_data.get(
+                                'InsideDiameter(ID)'),
 
-                        SizeAS568=product_data.get('Size(AS568)'),
+                            SizeAS568=product_data.get('Size(AS568)'),
 
-                        SizeJIS=product_data.get('SizeJIS'),
+                            SizeJIS=product_data.get('SizeJIS'),
 
-                        SizeMetric=product_data.get('SizeMetric'),
+                            SizeMetric=product_data.get('SizeMetric'),
 
-                        SizeStandard=product_data.get('SizeStandard'),
+                            SizeStandard=product_data.get('SizeStandard'),
 
-                        Online=product_data.get('Online'),
+                            Online=product_data.get('Online'),
 
-                        picture1=product_data.get('picture1'),
+                            picture1=product_data.get('picture1'),
 
-                        picture2=product_data.get('picture2'),
+                            picture2=product_data.get('picture2'),
 
-                    )
+                        )
 
                         pr.save()
 
@@ -334,8 +346,6 @@ class DataFetchView(View):
                 else:
 
                     url = None
-
-
 
             else:
 
@@ -413,6 +423,7 @@ class DataFetchView(View):
 
 
 
+    
 class CustomFilterBackend(DjangoFilterBackend):
 
     def filter_queryset(self, request, queryset, view):
@@ -420,155 +431,56 @@ class CustomFilterBackend(DjangoFilterBackend):
         # Get the filter parameters from the request
 
         filterset = self.get_filterset(request, queryset, view)
-
-       
-
-        # Apply custom filtering logic for each field
-
-        for field_name, value in request.GET.items():
-
-            if field_name=='HighTemperature'or field_name=='LowTemperature':
+        query = Q()
+        key_query = Q()
+        for field_name, values in request.query_params.items():
+            if field_name=='search' :
+                    search_query = request.GET.get('search', '')
+                    if search_query:
+                        for field_name in view.ordering_fields:
+                            query |= Q(**{f"{field_name}__icontains": search_query})
+            elif field_name == 'HighTemperature' or field_name == 'LowTemperature':
 
                 low_temp = request.query_params.get('LowTemperature', None)
 
                 high_temp = request.query_params.get('HighTemperature', None)
 
- 
-
-                queryset = Product.objects.filter(
-
-                    Q(LowTemperature__lte=low_temp) &
-                    Q(HighTemperature__gte=high_temp)
-
-                )
-
-            elif field_name in filterset.filters:
-
-                # Split values by comma to allow multiple values
-
-                values = value.split(',')
+                query = query & (Q(LowTemperature__lte=low_temp) &
+                                 Q(HighTemperature__gte=high_temp))
+            elif field_name in ['Color', 'Material', 'MaterialSubtype', 'FDACompliant', 'DurometerRange', 'Brand']:
+                arr = values.split("$")
                 if field_name == 'Color':
-                    queryset = Product.objects.filter(Color__in=values)
+                    key_query = Q(Color__in=arr)
                 elif field_name == 'Material':
-                    queryset = Product.objects.filter(Material__in=values)
+                    key_query = Q(Material__in=arr)
                 elif field_name == 'MaterialSubtype':
-                    queryset = Product.objects.filter(MaterialSubtype__in=values)
+                    key_query = Q(MaterialSubtype__in=arr)
                 elif field_name == 'FDACompliant':
-                    queryset = Product.objects.filter(FDACompliant__in=values)
+                    key_query = Q(MaterialSubtype__in=arr)
                 elif field_name == 'DurometerRange':
-                    queryset = Product.objects.filter(DurometerRange__in=values)
+                    key_query = Q(DurometerRange__in=arr)
                 elif field_name == 'Brand':
-                    queryset = Product.objects.filter(Brand__in=values)
+                    key_query = Q(Brand__in=arr)
 
-                # Handle less than and greater than queries for temperature fields
-                else:
-                    if 'lt:' in values[0]:
-
-                        operator = '__lt'
-
-                        value = (values[0][3:])
-
-                    elif 'lte:' in values[0]:
-
-                        operator = '__lte'
-
-                        value = (values[0][4:])
-
-                    elif 'gt:' in values[0]:
-
-                        operator = '__gt'
-
-                        value = values[0][3:]
-
-                    elif 'gte:' in values[0]:
-
-                        operator = '__gte'
-
-                        value = values[0][4:]
-
-                    else:
-
-                        operator = ''
-
-                        value = values[0]
-
-    
-
-                    # Apply the filter to the queryset
-
-                    queryset = queryset.filter(Q(**{f"{field_name}{operator}": value}))
+            elif field_name == 'ItemNo':
+                key_query = Q(ItemNo=values)
 
 
-                if field_name=='search' :
+            query = query & key_query
 
-                    search_query = request.GET.get('search', '')
-
-                    if search_query:
-
-    
-
-                        q_objects = Q()
-
-    
-
-                        for field_name in view.filterset_fields:
-
-    
-
-        
-
-    
-
-                            q_objects |= Q(**{f"{field_name}__icontains": search_query})
-
-    
-
-        
-
-    
-
-                
-
-    
-
-        
-
-    
-
-                        # Apply the search filter to the queryset
-
-    
-
-        
-
-    
-
-                        queryset = queryset.filter(q_objects)
-
- 
-
-   
-
-       
+        queryset = Product.objects.filter(query)
 
         return queryset
 
-   
 
- 
-
-
-
-    
-
-        
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = LimitOffsetPagination
     default_limit = 10
     max_limit = 100
-    filter_backends = [filters.OrderingFilter,CustomFilterBackend]  # Use the custom filtering backend
+    # Use the custom filtering backend
+    filter_backends = [CustomFilterBackend, filters.OrderingFilter]
     ordering_fields = [
         'id', 'ItemNo', 'qnty', 'price', 'Description', 'Description2', 'SearchDescription', 'Blocked',
         'CompoundNumber', 'Material', 'Durometer', 'DurometerScale', 'DurometerRange', 'Color',
@@ -576,17 +488,3 @@ class ProductViewSet(viewsets.ModelViewSet):
         'CrossSectionalGeometry', 'CrossSectionalDiameter', 'InsideDiameter', 'SizeAS568', 'SizeMetric',
         'SizeJIS', 'SizeStandard', 'Online'
     ]
-    filterset_fields = [
-        'id', 'ItemNo', 'qnty', 'price', 'Description', 'Description2', 'SearchDescription', 'Blocked',
-        'CompoundNumber', 'Material', 'Durometer', 'DurometerScale', 'DurometerRange', 'Color',
-        'LowTemperature', 'FDACompliant', 'MaterialSubtype', 'Brand', 'MaterialNotes',
-        'CrossSectionalGeometry', 'CrossSectionalDiameter', 'InsideDiameter', 'SizeAS568', 'SizeMetric',
-        'SizeJIS', 'SizeStandard', 'Online'
-    ]
-
-
-# class MaterialSubtype(viewsets.ModelViewSet):
-#     def list(self,request,material):
-#         a = Product.objects.filter(Material=material)
-#         queryset = Product.objects.all()
-    
