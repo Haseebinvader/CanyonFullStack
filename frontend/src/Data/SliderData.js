@@ -64,7 +64,7 @@ export const complianceData = [
     // "NSF 61",
     "FDA Compliant",
     "USP Class VI",
-    "NSF 51",
+    "NSF 61",
     // "UL Listed",
     // "Metal Detectable",
     // "3A Sanitary",

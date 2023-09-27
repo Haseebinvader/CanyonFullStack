@@ -7,8 +7,20 @@ import { UserContext } from "../../UserContext/UserContext";
 
 const Standard = () => {
 
-  const { setData, setUrl, pageSize } = useContext(UserContext)
-  const [selectedCountry, setSelectedCountry] = useState("");
+  const { setData, setUrl, pageSize, url, selectedCountry, setSelectedCountry,
+    selectedSize, setSelectedSize,selectedCS, setSelectedCS,selectedID, setSelectedID,
+    selectedUSASize,
+    selectedJSSize,
+    selectedUSACS,
+    selectedUSAID,
+    selectedJSCS,
+    selectedJSID,
+    setselectedJSSize,
+    setselectedJSCS,
+    setselectedJSID,
+    setselectedUSASize,
+    setselectedUSACS,
+    setselectedUSAID, } = useContext(UserContext)
   const [showTable, setShowTable] = useState(false);
   const countries = ["USA", "Japan"];
   const [isopen, setisopen] = useState(false);
@@ -16,6 +28,8 @@ const Standard = () => {
   const [size, setsize] = useState(0);
   const [cs, setCs] = useState(0);
   const [id, setid] = useState(0);
+  const [sizeBool, setSizeBool] = useState(true)
+  const [filterData, setFilterData] = useState(true)
 
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
@@ -27,14 +41,14 @@ const Standard = () => {
   useEffect(() => {
     if (selectedCountry === "USA") {
 
-      axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=AS568&Onine=Online`).then((res) => {
-        setSizedata(res?.data?.results);
+      axios.get(`http://127.0.0.1:8000/api/get_usa_Size/`).then((res) => {
+        setSizedata(res?.data?.data);
       });
     }
     if (selectedCountry === "Japan") {
 
-      axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=JIS&Onine=Online`).then((res) => {
-        setSizedata(res?.data?.results);
+      axios.get(`http://127.0.0.1:8000/api/get_js_Size/`).then((res) => {
+        setSizedata(res?.data?.data);
       });
     }
   }, [selectedCountry]);
@@ -42,27 +56,28 @@ const Standard = () => {
     const isJapan = selectedCountry === "Japan";
     const isUsa = selectedCountry === "USA";
     if (e.target.value !== "") {
+      setSizeBool(false)
       if (isUsa) {
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=AS568&SizeAS568=-${e.target.value}&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
-        });
+        let result = sizedata.filter((i) => i[0] === '-' + e.target.value)
+        setFilterData(result)
       } else if (isJapan) {
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=JIS&SizeJIS=${e.target.value}&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
-        });
+        let result = sizedata.filter((i) => i[0] === e.target.value)
+        setFilterData(result)
       }
     }
-    else{
+    else {
+      setSizeBool(true)
+
       if (selectedCountry === "USA") {
 
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=AS568&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
+        axios.get(`http://127.0.0.1:8000/api/get_usa_Size/`).then((res) => {
+          setSizedata(res?.data?.data);
         });
       }
       if (selectedCountry === "Japan") {
-  
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=JIS&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
+
+        axios.get(`http://127.0.0.1:8000/api/get_js_Size/`).then((res) => {
+          setSizedata(res?.data?.data);
         });
       }
     }
@@ -71,27 +86,30 @@ const Standard = () => {
     const isJapan = selectedCountry === "Japan";
     const isUsa = selectedCountry === "USA";
     if (e.target.value !== "") {
+      setSizeBool(false)
       if (isUsa) {
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=AS568&CrossSectionalDiameter=${e.target.value}&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
-        });
+        console.log(sizedata);
+        let result = sizedata.filter((i) => i[1] === e.target.value)
+        console.log(result);
+        setFilterData(result)
       } else if (isJapan) {
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=JIS&CrossSectionalDiameter=${e.target.value}&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
-        });
+        let result = sizedata.filter((i) => i[1] === e.target.value)
+        setFilterData(result)
       }
     }
-    else{
+    else {
+      setSizeBool(true)
+
       if (selectedCountry === "USA") {
 
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=AS568&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
+        axios.get(`http://127.0.0.1:8000/api/get_usa_Size/`).then((res) => {
+          setSizedata(res?.data?.data);
         });
       }
       if (selectedCountry === "Japan") {
-  
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=JIS&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
+
+        axios.get(`http://127.0.0.1:8000/api/get_js_Size/`).then((res) => {
+          setSizedata(res?.data?.data);
         });
       }
     }
@@ -100,31 +118,111 @@ const Standard = () => {
     const isJapan = selectedCountry === "Japan";
     const isUsa = selectedCountry === "USA";
     if (e.target.value !== "") {
+      setSizeBool(false)
       if (isUsa) {
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=AS568&InsideDiameter=${e.target.value}&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
-        });
+        let result = sizedata.filter((i) => i[2] === e.target.value)
+        setFilterData(result)
       } else if (isJapan) {
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=JIS&InsideDiameter=${e.target.value}&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
-        });
+        let result = sizedata.filter((i) => i[2] === e.target.value)
+        setFilterData(result)
       }
     }
-    else{
+    else {
+      setSizeBool(true)
+
       if (selectedCountry === "USA") {
 
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=AS568&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
+        axios.get(`http://127.0.0.1:8000/api/get_usa_Size/`).then((res) => {
+          setSizedata(res?.data?.data);
         });
       }
       if (selectedCountry === "Japan") {
-  
-        axios.get(`http://127.0.0.1:8000/api/products/?limit=10&SizeStandard=JIS&Onine=Online`).then((res) => {
-          setSizedata(res?.data?.results);
+
+        axios.get(`http://127.0.0.1:8000/api/get_js_Size/`).then((res) => {
+          setSizedata(res?.data?.data);
         });
       }
     }
   }
+  const handleCheckboxChange = (e, size, cs, id) => {
+    const isChecked = e.target.checked;
+  
+    if (isChecked) {
+      setSelectedSize((prevSelectedSize) => [...prevSelectedSize, size]);
+      setSelectedCS((prevSelectedCS) => [...prevSelectedCS, cs]);
+      setSelectedID((prevSelectedID) => [...prevSelectedID, id]);
+    } else {
+      setSelectedSize((prevSelectedSize) => prevSelectedSize.filter((item) => item !== size));
+      setSelectedCS((prevSelectedCS) => {
+        let removed = false;
+        return prevSelectedCS.filter((item) => {
+          if (!removed && item === cs) {
+            removed = true;
+            return false; // Remove the first occurrence of 'cs'
+          }
+          return true;
+        });
+      });
+      
+      setSelectedID((prevSelectedID) => {
+        let removed = false;
+        return prevSelectedID.filter((item) => {
+          if (!removed && item === id) {
+            removed = true;
+            return false; // Remove the first occurrence of 'id'
+          }
+          return true;
+        });
+      });
+    }
+  };
+  
+  useEffect(() => {
+    if (selectedCountry === "USA") {
+
+      const selectedSizeString = selectedSize.join('$');
+      const selectedCSString = selectedCS.join('$');
+      const selectedIDString = selectedID.join('$');
+  
+      // Build the URL with selected values
+      const apiUrl = `&SizeAS568=${selectedSizeString}&CrossSectionalDiameter=${selectedCSString}&InsideDiameter=${selectedIDString}`;
+    if(selectedSize.length === 0 && selectedCS.length === 0 && selectedID.length === 0){
+      let newUrl = url.replace(/(\?|&)SizeAS568=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)CrossSectionalDiameter=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)InsideDiameter=[^&]*/g, "");
+      setUrl(newUrl)
+    }
+    else{
+      let newUrl = url.replace(/(\?|&)SizeAS568=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)CrossSectionalDiameter=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)InsideDiameter=[^&]*/g, "");
+      setUrl(newUrl+apiUrl)
+    }
+    }
+    else  if (selectedCountry === "Japan") {
+
+      const selectedSizeString = selectedSize.join('$');
+      const selectedCSString = selectedCS.join('$');
+      const selectedIDString = selectedID.join('$');
+  
+      // Build the URL with selected values
+      const apiUrl = `&SizeJIS=${selectedSizeString}&CrossSectionalDiameter=${selectedCSString}&InsideDiameter=${selectedIDString}`;
+    if(selectedSize.length === 0 && selectedCS.length === 0 && selectedID.length === 0){
+      let newUrl = url.replace(/(\?|&)SizeAS568=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)CrossSectionalDiameter=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)InsideDiameter=[^&]*/g, "");
+      setUrl(newUrl)
+    }
+    else{
+      let newUrl = url.replace(/(\?|&)SizeAS568=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)CrossSectionalDiameter=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)InsideDiameter=[^&]*/g, "");
+      setUrl(newUrl+apiUrl)
+    }
+    }
+    // Similar logic for "Japan" country...
+  }, [selectedCountry, selectedSize, selectedCS, selectedID]);
+  
 
   return (
     <section className="sideBarMenuData">
@@ -135,72 +233,86 @@ const Standard = () => {
           <option key={country} value={country}>{country}</option>
         ))}
       </select>
-      <Grid container spacing={2} sx={{ mt: 0.4 }}>
-        <Grid item xs={1.9} sx={{ mt: 0.5, cursor: "pointer" }}>
-          {showTable&& !selectedCountry ? <AiFillCaretDown onClick={showTableHandler} /> : <AiFillCaretUp onClick={showTableHandler} />}
+      <Grid container spacing={0.3} sx={{ mt: 0.4 }}>
+        <Grid item xs={1.5} sx={{ mt: 0.5, cursor: "pointer" }}>
+          {showTable && !selectedCountry ? <AiFillCaretDown onClick={showTableHandler} /> : <AiFillCaretUp onClick={showTableHandler} />}
         </Grid>
-        <Grid item xs={3.3}><input type="text" placeholder="Size" className="borderInput" onChange={handlesizechange}/></Grid>
-        <Grid item xs={3.3}><input type="number" placeholder="CS" className="borderInput"onChange={handlecschange}/></Grid>
-        <Grid item xs={3.3}><input type="number" placeholder="ID" className="borderInput"onChange={handleidchange}/></Grid>
+        <Grid item xs={3}><input type="text" placeholder="Size" className="borderInput" onChange={handlesizechange} /></Grid>
+        <Grid item xs={3}><input type="number" placeholder="CS" className="borderInput" onChange={handlecschange} /></Grid>
+        <Grid item xs={3}><input type="number" placeholder="ID" className="borderInput" onChange={handleidchange} /></Grid>
       </Grid>
-      {
-        showTable? null : <div>
-          <table style={{ width: "100%", maxHeight: "1vh", overflow: 'scroll', border: '1px solid #858585', padding: "3px", borderRadius: "6px" }}>
-            <thead style={{ backgroundColor: "gray" }}>
-            </thead>
-            <tbody style={{}}>
-              {sizedata ? (
-                sizedata.map((i, index) => (
-                  <React.Fragment key={index}>
-                    <tr tabIndex={index}>
-                      <td>
-                        <input
-                          type="checkbox"
-                          style={{ width: '100%', transform: 'scale(1.3)', cursor: 'pointer' }}
-                          onChange={(e) => {
-                          
-    
-                            if (e.target.checked) {
-                              const isJapan = selectedCountry === "Japan";
-                              const isUsa = selectedCountry === "USA";
-                              if(isUsa){
-                                setUrl(`http://127.0.0.1:8000/api/products/?limit=${pageSize}&SizeAS568=${i.SizeAS568}&CrossSectionalDiameter=${i.CrossSectionalDiameter}&InsideDiameter=${i.InsideDiameter}&Online=Online`)
+      <div style={{ maxHeight: "150px", overflowY: 'scroll', }}>
+        {
+          showTable ? null : <div>
+            <table style={{ width: "100%", border: '1px solid #858585', padding: "3px", borderRadius: "6px" }}>
+              <thead style={{ backgroundColor: "gray" }}>
+              </thead>
+              <tbody style={{}}>
+                {sizedata && sizeBool ? (
+                  sizedata.map((i, index) => (
+                    <React.Fragment key={index}>
+                      {
+                        i[0] && i[1] && i[2] ?
+                          <tr tabIndex={index} style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between', paddingRight: "5px", alignItems: 'center' }}>
+                            <td>
+                              <input
+                                type="checkbox"
+                                checked={selectedSize.includes(i[0])} 
+                                style={{ width: '100%', transform: 'scale(1.3)', cursor: 'pointer' }}
+                                onChange={(e) => {
+                                  handleCheckboxChange(e, i[0], i[1], i[2]);
+                                }}
+                              />
+
+                            </td>
+
+                            <td style={{ fontSize: "11px" }}>{selectedCountry === "USA" ? i[0].replace('-', '') : i[0]}</td>
+                            <td style={{ fontSize: "11px" }}>{i[1]}</td>
+                            <td style={{ fontSize: "11px" }}>{i[2]}</td>
+                          </tr> : <></>
+                      }
+                    </React.Fragment>
+                  ))
+                ) : (
+                  <></>
+                )}
+                {sizedata && !sizeBool ? (
+                  filterData.map((i, index) => (
+                    <React.Fragment key={index}>
+                      {
+                        i[0] && i[1] && i[2] ?
+                          <tr tabIndex={index} style={{ display: "flex", flexDirection: 'row', justifyContent: 'space-between', paddingRight: "5px" }}>
+                            <td>
+                              <input
+                                type="checkbox"
+                                checked={selectedSize.includes(i[0])} 
+                                style={{ width: '100%', transform: 'scale(1.3)', cursor: 'pointer' }}
+                                onChange={(e) => {
+                                  handleCheckboxChange(e, i[0], i[1], i[2]);
+                                }
                                 
-                              }
-                              else if(isJapan){
-                                setUrl(`http://127.0.0.1:8000/api/products/?limit=${pageSize}&SizeAS568=${i.SizeJIS}&CrossSectionalDiameter=${i.CrossSectionalDiameter}&InsideDiameter=${i.InsideDiameter}&Online=Online`)
-                              }
-                            }
-                            else{
-                              setUrl(`http://127.0.0.1:8000/api/products/?limit=${pageSize}&Online=Online`)
+                                }
+                              />
+                            </td>
 
-                            }
-                          }
-                        
-                        }
-                        />
-                      </td>
-                      <td>{selectedCountry==="Japan"?i.SizeJIS:i.SizeAS568.replace("-","")}</td>
-                      <td>{i.CrossSectionalDiameter}</td>
-                      <td>{i.InsideDiameter}</td>
-                    </tr>
-                    <tr>
-                      <td colSpan="4">
-                        <Divider sx={{ width: '500%' }} />
-                      </td>
-                    </tr>
-                  </React.Fragment>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="4">Loading...</td>
-                </tr>
-              )}
-            </tbody>
+                            <td style={{ fontSize: "11px" }}>{selectedCountry === "USA" ? i[0].replace('-', '') : i[0]}</td>
+                            <td style={{ fontSize: "11px" }}>{i[1]}</td>
+                            <td style={{ fontSize: "11px" }}>{i[2]}</td>
 
-          </table>
-        </div>
-      }
+                          </tr> : <></>
+                      }
+
+                    </React.Fragment>
+                  ))
+                ) : (
+                  <></>
+                )}
+              </tbody>
+
+            </table>
+          </div>
+        }
+      </div>
     </section>
   );
 };

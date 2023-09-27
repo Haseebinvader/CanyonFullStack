@@ -7,9 +7,9 @@ const TopDetails = ({ color, AvailableQuantity, shipTime, row }) => {
     return (
         <section>
             <Box sx={{ py: 2 }}>
-                <Typography variant="body1" color="initial">Color: {color}</Typography>
+                <Typography variant="body1" color="initial" sx={{width:"100%",textAlign:'center', fontWeight:900}}>Color: {color}</Typography>
             </Box>
-            <Typography variant="h6" sx={{ fontWeight: 500 }}>
+            <Typography variant="body1" sx={{ fontWeight: 300 }}>
                 {row.SizeStandard?.split(" ")[0].concat(row.SizeAS568)}
                 <span></span> {row.CrossSectionalGeometry}
                 <span></span> made from <span></span>
@@ -29,15 +29,15 @@ const TopDetails = ({ color, AvailableQuantity, shipTime, row }) => {
             </Typography>
 
 
-            <Box sx={{ boxShadow: "0px 3px 4px #EDEDED", mt: 2, px: 3 }}>
-                <Box sx={{ width: '100%', display: 'flex', justifyContent: "space-between", py: 2 }}>
-                    <Typography variant="body1" color="initial" sx={{ fontWeight: 600 }}>Available Quantity</Typography>
-                    <Typography variant="body1" color="initial" sx={{ fontWeight: 600 }}>Lead Time to Ship</Typography>
+            <Box sx={{ boxShadow: "0px 3px 4px #EDEDED", mt:0.51, px: 3 }}>
+                <Box sx={{ width: '100%', display: 'flex', justifyContent: "space-between", py: 1 }}>
+                    <Typography variant="body2" color="initial" sx={{ fontWeight: 600 , color:'gray',fontSize:'11px'}}>Available Quantity</Typography>
+                    <Typography variant="body2" color="initial" sx={{ fontWeight: 600 , color:'gray',fontSize:'11px'}}>Lead Time to Ship</Typography>
                 </Box>
                 <Divider width="full"></Divider>
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: "space-between", py: 2 }}>
-                    <Typography variant="body1" color="initial">{AvailableQuantity}</Typography>
-                    <Typography variant="body1" color="initial">{shipTime} Day</Typography>
+                    <Typography variant="body1" color="initial" sx={{ fontWeight: 300 , color:'gray',fontSize:'11px'}}>{row.qnty}</Typography>
+                    <Typography variant="body1" color="initial" sx={{ fontWeight: 300 , color:'gray',fontSize:'11px'}}>{shipTime} Day</Typography>
                 </Box>
             </Box>
         </section>

@@ -19,17 +19,17 @@ const DetailPageContent = () => {
           <Box sx={{
             p:2, pt:8
           }}>
-            <img src='../../public/PNG/product.webp' alt="product" style={{scale: '0.8'}} />
+            <img src='../../public/PNG/product.webp' alt="product" style={{scale: '0.8',width:"110%"}} />
           </Box>
         </Grid>
 
         <Grid item xs={6}>
-          <Box sx={{ width: "100%", m: 'auto', py: 4 }}>
+          <Box sx={{ width: "100%", m: 'auto', py: 2}}>
             <Box sx={{ width: 1, backgroundColor: theme.palette.secondary.main }}>
-              <Typography variant="h4" sx={{ color: theme.palette.white[900], display: "flex", justifyContent: 'center', alignItems: "center", height: '50px', fontWeight: 600, }}>CP7823-OR-273</Typography>
+              <Typography variant="h5" sx={{ color: theme.palette.white[900], display: "flex", justifyContent: 'center', alignItems: "center", height: '40px', fontWeight: 600, }}>{row.SearchDescription}</Typography>
             </Box>
 
-            <TopDetails color={row.Color} shipTime={2} AvailableQuantity={row.qnty} row={row}/>
+            <TopDetails color={row.Color} shipTime={1} AvailableQuantity={row.qnty} row={row}/>
             <QuantityCheckHandler />
             <Description />
           </Box>

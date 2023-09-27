@@ -31,7 +31,7 @@ const Temperature = () => {
         aria-labelledby="temperature-slider"
         disableSwap
       />
-      <p style={{ margin:'auto', fontSize:"12px" }}>Range: {temperature[0]} {tempToggle?"°C":"°F"} - {temperature[1]} {tempToggle?"°C":"°F"}</p>
+      <p style={{ margin:'auto', fontSize:"12px" }}>Range: {temperature[0]} {tempToggle?"°C":"°F"} To {temperature[1]} {tempToggle?"°C":"°F"}</p>
     </div>
   );
 };

@@ -2,46 +2,64 @@ import React, { useContext, useEffect, useState } from 'react'
 import Grid from '@mui/material/Grid';
 import { complianceData } from '../../Data/SliderData';
 import { UserContext } from '../../UserContext/UserContext';
-
+import {Typography} from '@mui/material';
 const Compiance = () => {
   const { url, setUrl, pageSize ,selectedcompliance, setSelectedcompliance} = useContext(UserContext);
 
-  useEffect(() => {
-    let selectedMaterialsString = selectedcompliance.join('$');
-
-    if (selectedMaterialsString !== ''&&selectedcompliance!==null) {
-      let newUrl = url.replace(/(\?|&)FDACompliant=[^&]*/g, "");
-      newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
-      setUrl(newUrl + `&FDACompliant=${selectedMaterialsString}`);
-    }
-    else if (selectedMaterialsString === '') {
-      let newUrl = url.replace(/(\?|&)FDACompliant=[^&]*/g, "");
-      newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
-      setUrl(newUrl)
-    }
-
-  }, [selectedcompliance, setUrl, url]);
-
-  const handleCheckboxChange = async (event, material) => {
+  const handleCheckboxChange = (event, material) => {
     const isChecked = event.target.checked;
-
+    console.log(material);
     if (isChecked) {
-      setSelectedcompliance([...selectedcompliance, material]);
-    } else {
-      setSelectedcompliance(selectedcompliance.filter((item) => item !== material));
+      if (material === 'FDA Compliant'){
+        let newUrl = url.replace(/(\?|&)FDACompliant=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
+      setUrl(newUrl + `&FDACompliant=${material}`);
+      }
+      if (material === 'USP Class VI'){
+        let newUrl = url.replace(/(\?|&)USPClassVI=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
+      setUrl(newUrl + `&USPClassVI=${material}`);
+      }
+      if (material === 'NSF 61'){
+        let newUrl = url.replace(/(\?|&)NSF61=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
+      setUrl(newUrl + `&NSF61=${material}`);
+      }
+    }
+    else if(!isChecked) {
+      if (material === 'FDA Compliant'){
+        let newUrl = url.replace(/(\?|&)FDACompliant=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
+      setUrl(newUrl);
+      }
+      if (material === 'USP Class VI'){
+        let newUrl = url.replace(/(\?|&)USPClassVI=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
+      setUrl(newUrl);
+      }
+      if (material === 'NSF 61'){
+        let newUrl = url.replace(/(\?|&)NSF61=[^&]*/g, "");
+      newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
+      setUrl(newUrl);
+      }
     }
   };
 
   return (
     <section className='sideBarMenuData'>
         {complianceData.map((material, index) => (
-          <Grid key={index} container spacing={2} sx={{ width: "100%", display: "flex", alignItems: 'center' }}>
+          <Grid key={index}
+          container
+          spacing={0}
+          sx={{ width: '100%', display: 'flex', alignItems: 'start', flexDirection: "start" }}>
             <Grid item xs={1.5}>
-              <input checked={selectedcompliance.includes(material)} type="checkbox" style={{ scale: '1.3', cursor: 'pointer' }} onChange={(event) => handleCheckboxChange(event, material)} />
+              <input  type="checkbox" style={{ scale: '1.3', cursor: 'pointer' }} onChange={(event) => handleCheckboxChange(event, material)} />
             </Grid>
-            <Grid item xs={10.5}>
-              <p style={{ fontSize: "11px" }}>{material}</p>
-            </Grid>
+            <Grid item xs={10}>
+
+            <Typography varient='body2' sx={{ fontSize: { xs: "8px", md: "10px" }, ml: 1 }}>{material}</Typography>
+
+          </Grid>
           </Grid>
         ))}
       </section>

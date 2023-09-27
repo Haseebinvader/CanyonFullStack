@@ -2,29 +2,28 @@ import React, { useContext, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { materialTypeItems } from '../../Data/SliderData.js';
 import { UserContext } from '../../UserContext/UserContext.jsx';
-
+import {Typography} from '@mui/material';
 const BaseMaterial = () => {
   const {
     url,
     setUrl,
-    pageSize,
     selectedMaterials,
     setSelectedMaterials
   } = useContext(UserContext);
 
   useEffect(() => {
-      const selectedMaterialsString = selectedMaterials.join('$');
+    const selectedMaterialsString = selectedMaterials.join('$');
 
-      if (selectedMaterialsString !== '') {
-        let newUrl = url.replace(/(\?|&)Material=[^&]*/g, '');
-        newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
-        setUrl(newUrl+`&Material=${selectedMaterialsString}`);
-      } else {
-        let newUrl = url.replace(/(\?|&)Material=[^&]*/g, '');
-        newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
-        setUrl(newUrl);
-      }
-    
+    if (selectedMaterialsString !== '') {
+      let newUrl = url.replace(/(\?|&)Material=[^&]*/g, '');
+      newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
+      setUrl(newUrl + `&Material=${selectedMaterialsString}`);
+    } else {
+      let newUrl = url.replace(/(\?|&)Material=[^&]*/g, '');
+      newUrl = newUrl.replace(/(\?|&)offset=[^&]*/g, "");
+      setUrl(newUrl);
+    }
+
   }, [selectedMaterials, setUrl]);
 
   const handleCheckboxChange = (event, material) => {
@@ -43,10 +42,10 @@ const BaseMaterial = () => {
         <Grid
           key={index}
           container
-          spacing={2}
-          sx={{ width: '100%', display: 'flex', alignItems: 'center' }}
+          spacing={0}
+          sx={{ width: '100%', display: 'flex', alignItems: 'start', flexDirection: "start" }}
         >
-          <Grid item xs={1.5}>
+          <Grid item xs={1}>
             <input
               type='checkbox'
               checked={selectedMaterials.includes(material)}
@@ -54,8 +53,11 @@ const BaseMaterial = () => {
               onChange={(event) => handleCheckboxChange(event, material)}
             />
           </Grid>
-          <Grid item xs={10.5}>
-            <p style={{ fontSize: '11px' }}>{material}</p>
+
+          <Grid item xs={11}>
+
+            <Typography varient='body2' sx={{ fontSize: { xs: "8px", md: "10px" }, ml: 1 }}>{material}</Typography>
+
           </Grid>
         </Grid>
       ))}

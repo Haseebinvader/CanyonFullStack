@@ -3,6 +3,7 @@ import { Box, Button } from '@mui/material'
 import './Styles.css'
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -25,9 +26,11 @@ const Header = () => {
           }}>
             Login
           </Button>
+          <Link  onClick={()=> window.location.load('/addtocart')} to={'/addtocart'} >
           <Badge badgeContent={4} color="error" >
-            <ShoppingCartIcon sx={{ color: "#fff" }} />
+            <ShoppingCartIcon sx={{ color: "#fff" }}  />
           </Badge>
+          </Link>
         </Box>
       </Box>
     </section>

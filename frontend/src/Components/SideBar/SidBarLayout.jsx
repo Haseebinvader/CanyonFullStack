@@ -14,39 +14,55 @@ import "../Styles.css"
 import { UserContext } from '../../UserContext/UserContext.jsx'
 
 const SidBarLayout = () => {
-  const { setUrl, pageSize, setClearFilter,setSelectedbrand,clearFilter,setTemperature,setSelectedcolor,selectedMaterials, setSelectedhardness,setSelectedcompliance,setSelectedsubtype,setSelectedMaterials} = useContext(UserContext)
+  const { setUrl, pageSize, setClearFilter,setSelectedbrand, setSelectedSize,selectedCS, setSelectedCS,selectedID, setSelectedID,clearFilter,setTemperature,setSelectedcolor, setSelectedhardness,setSelectedcompliance,setSelectedsubtype,setSelectedMaterials, setSelectedJSSize, setSelectedUSASize, setSelectedUSACS, setSelectedUSAID, setSelectedJSCS, setSelectedJSID, showStandard, setShowStandard, showCompliance, setShowCompliance} = useContext(UserContext)
   const [showDimensions, setShowDimensions] = useState(false);
-  const [showStandard, setShowStandard] = useState(false);
   const [showTemp, setShowTemp] = useState(false);
   const [showtype, setShowtype] = useState(false);
   const [showSubType, setShowSubType] = useState(false);
-  const [showCompliance, setShowCompliance] = useState(false);
   const [showHardness, setShowHardness] = useState(false);
   const [showColor, setShowColor] = useState(false);
   const [showBrand, setShowBrand] = useState(false);
+  const [searchValue, setSearchValue] = useState('')
 
 
 
   return (
     <div style={{ padding: " 0 1rem 5rem 1rem", height: "100%", overflowY: 'scroll' }}>
-      <Button variant='contained' sx={{ width: 1, fontSize: "12px", height: '32px', backgroundColor: '#F4976C', '&:hover': { backgroundColor: '#F4976C' } }} onClick={() => {
-        setUrl(`http://127.0.0.1:8000/api/products/?limit=${pageSize}&Blocked=False&ordering=CompoundNumber&Online=Online`); 
+      <Button variant='contained' sx={{ width: 1, fontSize: "10px", height: '32px', backgroundColor: '#F4976C', '&:hover': { backgroundColor: '#F4976C' } }} onClick={() => {
+          setShowCompliance(false);
+          setShowStandard(false);
+          setSelectedID([])
+          setSelectedCS([])
+          setSelectedSize([])
+
+        setUrl(`http://127.0.0.1:8000/api/products/?Blocked=False&limit=${pageSize}&ordering=CompoundNumber&Online=Online`); 
         setSelectedMaterials([])
         setSelectedcompliance([])
         setSelectedsubtype([])
         setSelectedhardness([])
         setSelectedcolor([])
         setSelectedbrand([])
-        setTemperature([0, 70])
+        setTemperature([0, 80])
           setClearFilter(true);
+          setSearchValue('')
+          setSelectedUSASize([]);
+          setSelectedUSACS([]);
+          setSelectedUSAID([]);
+          setSelectedJSSize([]);
+          setSelectedJSCS([]);
+          setSelectedJSID([]);
         }} > Clear All Filters</Button>
-      <input type="text" placeholder='Search Here' className='sidebarSearchInput' onChange={(e) =>{
-      if(e.target.value){
+      <input type="text" placeholder='Search Here' value={clearFilter? "":searchValue} className='sidebarSearchInput' onChange={(e) =>{
+      setSearchValue(e.target.value)
+     
+                if(e.target.value){
+        
         setUrl(
 
           `http://127.0.0.1:8000/api/products/?Online=Online&Blocked=False&limit=${pageSize}&search=${e.target.value}`
 
-        )}
+        )
+      }
         else if(!e.target.value){
           setUrl(
 

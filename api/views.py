@@ -1,5 +1,5 @@
 import requests
-
+from rest_framework.decorators import api_view
 from django.http import JsonResponse
 import django_filters.rest_framework
 from django.views import View
@@ -10,11 +10,11 @@ from rest_framework.pagination import LimitOffsetPagination
 from .serializers import *
 from .models import Product
 from django.db.models import Count
-
 from django.db.models import Q
 from django.db.models import FloatField
 from django.db.models.functions import Cast
 from rest_framework import filters
+from django.core import serializers
 
 
 class GetAccessTokenView(View):
@@ -421,8 +421,6 @@ class DataFetchView(View):
 
         }
 
-
-
     
 class CustomFilterBackend(DjangoFilterBackend):
 
@@ -447,7 +445,7 @@ class CustomFilterBackend(DjangoFilterBackend):
 
                 query = query & (Q(LowTemperature__lte=low_temp) &
                                  Q(HighTemperature__gte=high_temp))
-            elif field_name in ['Color', 'Material', 'MaterialSubtype', 'FDACompliant', 'DurometerRange', 'Brand']:
+            elif field_name in ['Color', 'USPClassVI', 'NSF61', 'Material', 'MaterialSubtype', 'FDACompliant', 'DurometerRange', 'Brand', 'CrossSectionalDiameter', 'InsideDiameter']:
                 arr = values.split("$")
                 if field_name == 'Color':
                     key_query = Q(Color__in=arr)
@@ -456,11 +454,19 @@ class CustomFilterBackend(DjangoFilterBackend):
                 elif field_name == 'MaterialSubtype':
                     key_query = Q(MaterialSubtype__in=arr)
                 elif field_name == 'FDACompliant':
-                    key_query = Q(MaterialSubtype__in=arr)
+                    key_query = Q(FDACompliant__in=arr)
                 elif field_name == 'DurometerRange':
                     key_query = Q(DurometerRange__in=arr)
                 elif field_name == 'Brand':
                     key_query = Q(Brand__in=arr)
+                elif field_name == 'CrossSectionalDiameter':
+                    key_query = Q(CrossSectionalDiameter__in=arr)
+                elif field_name == 'InsideDiameter':
+                    key_query = Q(InsideDiameter__in=arr)
+                elif field_name == 'USPClassVI':
+                    key_query = Q(USPClassVI__in=arr)
+                elif field_name == 'NSF61':
+                    key_query = Q(NSF61__in=arr)
 
             elif field_name == 'ItemNo':
                 key_query = Q(ItemNo=values)
@@ -468,10 +474,9 @@ class CustomFilterBackend(DjangoFilterBackend):
 
             query = query & key_query
 
+
         queryset = Product.objects.filter(query)
-
         return queryset
-
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -483,8 +488,50 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_backends = [CustomFilterBackend, filters.OrderingFilter]
     ordering_fields = [
         'id', 'ItemNo', 'qnty', 'price', 'Description', 'Description2', 'SearchDescription', 'Blocked',
-        'CompoundNumber', 'Material', 'Durometer', 'DurometerScale', 'DurometerRange', 'Color',
+        'CompoundNumber', 'Material', 'Durometer', 'DurometerScale', 'DurometerRange', 'Color','HighTemperature',
         'LowTemperature', 'FDACompliant', 'MaterialSubtype', 'Brand', 'MaterialNotes',
         'CrossSectionalGeometry', 'CrossSectionalDiameter', 'InsideDiameter', 'SizeAS568', 'SizeMetric',
         'SizeJIS', 'SizeStandard', 'Online'
     ]
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)  # get the built-in response
+        queryset = self.filter_queryset(self.get_queryset())
+
+ 
+
+        # get the distinct values
+        distinct_colors = queryset.order_by().values_list('Color', flat=True).distinct()
+        distinct_Material = queryset.order_by().values_list('Material', flat=True).distinct()
+        distinct_MaterialSubtype = queryset.order_by().values_list('MaterialSubtype', flat=True).distinct()
+        distinct_DurometerRange = queryset.order_by().values_list('DurometerRange', flat=True).distinct()
+        distinct_Brand = queryset.order_by().values_list('Brand', flat=True).distinct()
+
+        print(distinct_colors)
+ 
+
+        # create a new dictionary for the response data
+        data = {
+            'results': response.data,
+            'distinct_colors': list(distinct_colors),
+            'distinct_Material': list(distinct_Material),
+            'distinct_MaterialSubtype': list(distinct_MaterialSubtype),
+            'distinct_DurometerRange': list(distinct_DurometerRange),
+            'distinct_Brand': list(distinct_Brand),
+        }
+
+        # create a new Response object with the new data
+        return Response(data)
+
+class GetUSASizeView(View):
+    filter_backends = [ filters.OrderingFilter]
+    ordering_fields ="__all__"
+    def get(self,request):
+      queryset=Product.objects.filter(Online='Online').order_by('SizeAS568').exclude(SizeAS568=None, CrossSectionalDiameter=None, InsideDiameter=None).values_list('SizeAS568', 'CrossSectionalDiameter','InsideDiameter').distinct()
+      serialized_data = list(queryset)
+      return JsonResponse({"data": serialized_data})
+
+class GetJSSizeView(View):
+    def get(self,request):
+      queryset=Product.objects.order_by('SizeJIS').values_list('SizeJIS', 'CrossSectionalDiameter','InsideDiameter').exclude(SizeJIS=None, CrossSectionalDiameter=None, InsideDiameter=None).distinct()
+      serialized_data = list(queryset)
+      return JsonResponse({"data": serialized_data})
